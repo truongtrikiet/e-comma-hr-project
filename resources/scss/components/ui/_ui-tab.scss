@@ -1,0 +1,27 @@
+@import "../../abstracts/variable";
+@import "../../abstracts/mixin";
+@import "../../abstracts/inheritance";
+
+.nav-pills {
+    .nav-link {
+    border-radius: 0px;
+  }
+}
+
+.default-tab{
+    .nav-link{
+        background: transparent;
+        border-radius: 0px;
+        font-weight: 500;
+    }
+}
+
+.custom-tab-1{
+    .nav-link{
+        background: transparent;
+        border-radius: 0px;
+        font-weight: 500;
+    }
+}
+
+

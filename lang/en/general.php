@@ -1,0 +1,228 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | General Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used during general use for various
+    | messages that we need to display to the user. You are free to modify
+    | these language lines according to your application's requirements.
+    |
+    */
+
+    'menu' => [
+        'dashboard' => 'Dashboard',
+
+        'role_management' => [
+            'title' => 'Manage Roles',
+            'role' => 'Roles',
+            'create_role' => 'Add Role',
+            'edit_role' => 'Edit Role',
+        ],
+        'user_management' => [
+            'title' => 'Manage Users',
+            'user' => 'User',
+            'create_user' => 'Add User',
+            'edit_user' => 'Edit User',
+        ],
+        'candidate_management' => [
+            'title' => 'Candidates',
+            'candidate' => 'Manage Candidates',
+            'create_candidate' => 'Add Candidate',
+            'edit_candidate' => 'Edit Candidate',
+        ],
+        'contract_type_management' => [
+            'title' => 'Contract Types',
+            'contract_type' => 'Manage Contract Types',
+            'create_contract_type' => 'Add Contract Type',
+            'edit_contract_type' => 'Edit Contract Type',
+        ],
+        'contract_management' => [
+            'title' => 'Contract Types',
+            'contract' => 'Manage Contract',
+            'create_contract' => 'Add Contract',
+            'edit_contract' => 'Edit Contract',
+        ],
+        'contract_attribute_management' => [
+            'create_contract_attribute' => 'Add Contract Attribute',
+        ],
+        'template_management' => [
+            'title' => 'Templates',
+            'template' => 'Manage Template',
+            'create_template' => 'Add Template',
+            'edit_template' => 'Edit Template',
+        ],
+        'api-docs' => 'Api Documentations',
+        'surveys_management' => [
+            'title' => 'Surveys',
+            'survey_management' => [
+                'title' => 'Survey Questions',
+                'manage_survey' => 'Manage Survey Questions',
+                'create_survey' => 'Create New Survey Questions',
+                'list_survey' => 'Survey Questions List',
+                'error' => 'This survey has been deleted or does not exist.',
+            ],
+            'exam_management' => [
+                'title' => 'Survey Exams',
+                'manage_exam' => 'Manage Survey Exams',
+                'create_exam' => 'Create New Survey Exam',
+                'list_exam' => 'Survey Exam List',
+                'edit_exam' => 'Edit Survey Exam',
+            ],
+        ],
+    ],
+    'dashboard' => [
+        'title' => 'Dashboard',
+        'menu_title' => 'Dashboard',
+        'subtitle' => 'Here is a quote to inspire your day'
+    ],
+    'blocked' => [
+        'title' => 'Access Blocked',
+        'description' => 'This account is not allowed to log in to the system because it is not an administrator or employee.<br>If you believe this is a mistake, please contact the administrator for assistance.',
+        'logout_btn' => 'Logout and back to login',
+    ],
+
+    'common' => [
+        'back' => 'Back',
+        'confirm' => 'Confirm',
+        'content' => 'Content',
+        'create' => 'Create',
+        'delete' => 'Delete',
+        'dismiss' => 'Dismiss',
+        'edit' => 'Edit',
+        'complete' => 'Complete',
+        'contract_type' => 'Contract type',
+        'contract_attribute' => 'Contract attribute',
+        'email_attribute' => 'Email attribute',
+        'cancel' => 'Cancel',
+        'empty_table_message' => 'No data available in table',
+        'group_key' => 'Group Key',
+        'heading' => 'Heading',
+        'link' => 'Link',
+        'is_enable' => 'Enable',
+        'is_not_enable' => 'Disable',
+        'name' => 'Name',
+        'new' => 'New',
+        'order' => 'Order',
+        'none' => 'None',
+        'result' => 'Results',
+        'search' => 'Search',
+        'section' => 'Section',
+        'show' => 'Show',
+        'showing_page' => 'Showing page :page of :pages',
+        'sub_heading' => 'Sub heading',
+        'avatar' => 'Avatar',
+        'quantity_person' => 'Number of member',
+        'position' => 'Position',
+        'number_step' => 'Development process step',
+        'image' => 'Image',
+        'description' => 'Description',
+        'action_confirmation' => 'Are you sure?',
+        'action_confirmation_description' => 'You will not be able to revert this!',
+        'thumbnail_image' => 'Thumbnail image',
+        'detail_images' => 'Detail images',
+        'logo_image' => 'Client logo image',
+        'permission' => 'Permission',
+        'role' => 'Role',
+        'have_permissions' => 'Role have permissions',
+        'user_name' => 'User name',
+        'email' => 'Email',
+        'password' => 'Password',
+        'password_confirmation' => 'Password confirmation',
+        'first_name' => 'User first name',
+        'last_name' => 'User last name',
+        'name' => 'Name',
+        'identification_number' => 'Identification number',
+        'bank_name' => 'Bank name',
+        'bank_number' => 'Bank number',
+        'personal_income_tax' => 'Personal income tax',
+        'insurance_number' => 'Insurance number',
+        'relative_name' => 'Relative name',
+        'relative_number' => 'Relative number',
+        'phone' => 'Phone number',
+        'phone_number' => 'Phone number',
+        'action' => 'Action',
+        'title' => 'Title',
+        'cover_color' => 'Cover color',
+        'fixed_key' => 'Fixed key',
+        'tag' => 'Tags',
+        'client' => 'Client',
+        'yes' => 'Yes',
+        'no' => 'No',
+        'choose' => 'Choose',
+        'status' => 'Status',
+        'company' => 'Company name',
+        'project_budget' => 'Estimate project budget',
+        'message' => 'Message',
+        'contact_interest' => 'Contact interest',
+        'normal' => 'Normal',
+        'featured' => 'Featured',
+        'key' => 'key',
+        'contract_attribute_key' => 'Contract attribute key',
+        'contract_attribute_name' => 'Contract attribute name',
+        'customer' => 'Customer',
+        'user' => 'User',
+        'object' => 'Object',
+        'object_type' => 'Object type',
+        'signed_at' => 'Singed at',
+        'expired_at' => 'Expired at',
+        'field' => 'Field',
+        'no_results_found' => 'No results found',
+        'create_by' => 'Created By',
+        'title_survey' => 'Title',
+        'description_survey' => 'Description',
+        'questions' => 'Questions',
+        'add_question' => 'Add Question',
+        'survey_user' => 'Send to Survey Participants',
+        'start_date' => 'Start Date',
+        'end_date' => 'End Date',
+        'avatar_project' => 'Project avatar',
+        'project_participants' => 'Project participants',
+        'detail_project' => 'Detail project',
+        'mention_comment' => 'has mentioned you in a comment',
+        'create_project_employee_role' => 'has added you in a project',
+        'reject' => 'Reject',
+        'add_to_meeting_title' => 'You have just been added to the meeting schedule',
+        'add_to_meeting_body' => 'You have been successfully added to the meeting schedule',
+        'login_at' => 'Last login at',
+        'logout_at' => 'Last logout at',
+    ],
+
+    'selected_item' => [
+        'delete' => 'Delete selected item',
+        'delete_ask_confirm' => 'Are you sure you want to delete this item?'
+    ],
+    'user' => [
+        'address' => 'Temporary Residence Address',
+    ],
+    'fcm' => [
+        'post_comment' => [
+            'title' => 'There are new comments on your post',
+            'body' => ':user commented on your post.',
+        ],
+        'furlough' => [
+            'furlough_created' => [
+                'title' => 'New furlough application',
+                'body' => 'Your new furlough request has been successfully created.',
+            ],
+            'furlough_approver' => [
+                'title' => 'New furlough request needs approval',
+                'body' => ':name just created a new furlough application.',
+            ],
+            'furlough_feedback_staff' => [
+                'title' => 'Furlough request response',
+                'body' => 'Your latest furlough request have been :status.',
+            ],
+        ],
+        'holiday_upcoming' => [
+            'title' => 'Upcoming holiday notice.',
+            'body' => 'The holiday :name will start on :date.',
+        ],
+        'holiday_schedule_created' => [
+            'title' => 'New holiday schedule announcement.',
+            'body' => 'You have just received a new holiday schedule notice, please check!',
+        ],
+    ]
+];

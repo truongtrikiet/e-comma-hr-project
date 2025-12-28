@@ -1,0 +1,743 @@
+/*--------------------------------
+
+avasta Web Font
+Generated using nucleoapp.com
+
+-------------------------------- */
+@font-face {
+  font-family: 'avasta';
+  src: url('/public/icons/avasta/fonts/avasta.eot');
+  src: url('/public/icons/avasta/fonts/avasta.eot') format('embedded-opentype'), url('/public/icons/avasta/fonts/avasta.woff2') format('woff2'), url('/public/icons/avasta/fonts/avasta.woff') format('woff'), url('/public/icons/avasta/fonts/avasta.ttf') format('truetype'), url('/public/icons/avasta/fonts/avasta.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/*------------------------
+	base class definition
+-------------------------*/
+.icon {
+  display: inline-block;
+  font: normal normal normal 1em/1 'avasta';
+  speak: none;
+  text-transform: none;
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/*------------------------
+  change icon size
+-------------------------*/
+/* relative units */
+.icon-sm {
+  font-size: 0.8em;
+}
+.icon-lg {
+  font-size: 1.2em;
+}
+/* absolute units */
+.icon-16 {
+  font-size: 16px;
+}
+.icon-32 {
+  font-size: 32px;
+}
+/*----------------------------------
+  add a square/circle background
+-----------------------------------*/
+.icon-bg-square,
+.icon-bg-circle {
+  padding: 0.35em;
+  background-color: #eee;
+}
+.icon-bg-circle {
+  border-radius: 50%;
+}
+/*------------------------------------
+  use icons as list item markers
+-------------------------------------*/
+.icon-ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+.icon-ul > li {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+.icon-ul > li > .icon {
+  margin-right: 0.4em;
+  line-height: inherit;
+}
+/*------------------------
+  spinning icons
+-------------------------*/
+.icon-is-spinning {
+  -webkit-animation: icon-spin 2s infinite linear;
+  -moz-animation: icon-spin 2s infinite linear;
+  animation: icon-spin 2s infinite linear;
+}
+@-webkit-keyframes icon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes icon-spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@keyframes icon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+/*------------------------
+  rotated/flipped icons
+-------------------------*/
+.icon-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.icon-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.icon-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.icon-flip-y {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+  -webkit-transform: scale(-1, 1);
+  -moz-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.icon-flip-x {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: scale(1, -1);
+  -moz-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  -o-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+/*------------------------
+	icons
+-------------------------*/
+
+
+/* cloud download */
+.icon-cloud-download-95::before {
+  content: "\ea02";
+}
+
+
+/* minimal home */
+.icon-home-minimal::before {
+  content: "\ea03";
+}
+
+
+/* user single */
+.icon-single-04::before {
+  content: "\ea04";
+}
+
+
+/* users group */
+.icon-users-mm::before {
+  content: "\ea05";
+}
+
+
+/* webpage */
+.icon-webpage::before {
+  content: "\ea06";
+}
+
+
+/* layout */
+.icon-layout-25::before {
+  content: "\ea07";
+}
+
+
+/* analytics */
+.icon-analytics::before {
+  content: "\ea08";
+}
+
+
+/* pie chart */
+.icon-chart-pie-36::before {
+  content: "\ea09";
+}
+
+
+/* bar chart */
+.icon-chart-bar-33::before {
+  content: "\ea0a";
+}
+
+
+/* single copy */
+.icon-single-copy-06::before {
+  content: "\ea0b";
+}
+
+
+/* home */
+.icon-home::before {
+  content: "\ea0c";
+}
+
+
+/* single content */
+.icon-single-content-03::before {
+  content: "\ea0d";
+}
+
+
+/* bell/notification */
+.icon-bell-53::before {
+  content: "\ea0e";
+}
+
+
+/* email */
+.icon-email-84::before {
+  content: "\ea0f";
+}
+
+
+/* send */
+.icon-send::before {
+  content: "\ea10";
+}
+
+
+/* at sign (@) */
+.icon-at-sign::before {
+  content: "\ea11";
+}
+
+
+/* attach */
+.icon-attach-87::before {
+  content: "\ea12";
+}
+
+
+/* edit */
+.icon-edit-72::before {
+  content: "\ea13";
+}
+
+
+/* arrow tail right */
+.icon-tail-right::before {
+  content: "\ea14";
+}
+
+
+/* minimal arrow right */
+.icon-minimal-right::before {
+  content: "\ea15";
+}
+
+
+/* arrow tail left */
+.icon-tail-left::before {
+  content: "\ea16";
+}
+
+
+/* minimal arrow left */
+.icon-minimal-left::before {
+  content: "\ea17";
+}
+
+
+/* arrow tail up */
+.icon-tail-up::before {
+  content: "\ea18";
+}
+
+
+/* minimal arrow up */
+.icon-minimal-up::before {
+  content: "\ea19";
+}
+
+
+/* minimal arrow down */
+.icon-minimal-down::before {
+  content: "\ea1a";
+}
+
+
+/* arrow tail down */
+.icon-tail-down::before {
+  content: "\ea1b";
+}
+
+
+/* settings gear */
+.icon-settings-gear-64::before {
+  content: "\ea1c";
+}
+
+
+/* settings */
+.icon-settings::before {
+  content: "\ea1d";
+}
+
+
+/* menu dots */
+.icon-menu-dots::before {
+  content: "\ea1e";
+}
+
+
+/* menu left */
+.icon-menu-left::before {
+  content: "\ea1f";
+}
+
+
+/* funnel */
+.icon-funnel-40::before {
+  content: "\ea20";
+}
+
+
+/* filter */
+.icon-filter::before {
+  content: "\ea21";
+}
+
+
+/* preferences circle */
+.icon-preferences-circle::before {
+  content: "\ea22";
+}
+
+
+/* check */
+.icon-check-2::before {
+  content: "\ea23";
+}
+
+
+/* cart simple */
+.icon-cart-simple::before {
+  content: "\ea24";
+}
+
+
+/* cart */
+.icon-cart-9::before {
+  content: "\ea25";
+}
+
+
+/* card update */
+.icon-card-update::before {
+  content: "\ea26";
+}
+
+
+/* basket */
+.icon-basket::before {
+  content: "\ea27";
+}
+
+
+/* check circle */
+.icon-check-circle-07::before {
+  content: "\ea28";
+}
+
+
+/* simple remove */
+.icon-simple-remove::before {
+  content: "\ea29";
+}
+
+
+/* circle remove */
+.icon-circle-remove::before {
+  content: "\ea2a";
+}
+
+
+/* alert circle/exclamation */
+.icon-alert-circle-exc::before {
+  content: "\ea2b";
+}
+
+
+/* bug */
+.icon-bug::before {
+  content: "\ea2c";
+}
+
+
+/* share */
+.icon-share-66::before {
+  content: "\ea2d";
+}
+
+
+/* time */
+.icon-time-3::before {
+  content: "\ea2e";
+}
+
+
+/* time */
+.icon-time::before {
+  content: "\ea2f";
+}
+
+
+/* coffee */
+.icon-coffee::before {
+  content: "\ea30";
+}
+
+
+/* smile */
+.icon-smile::before {
+  content: "\ea31";
+}
+
+
+/* sad */
+.icon-sad::before {
+  content: "\ea32";
+}
+
+
+/* broken heart */
+.icon-broken-heart::before {
+  content: "\ea33";
+}
+
+
+/* heart */
+.icon-heart-2::before {
+  content: "\ea34";
+}
+
+
+/* pin */
+.icon-pin-3::before {
+  content: "\ea35";
+}
+
+
+/* marker */
+.icon-marker-3::before {
+  content: "\ea36";
+}
+
+
+/* globe */
+.icon-globe-2::before {
+  content: "\ea37";
+}
+
+
+/* world */
+.icon-world-2::before {
+  content: "\ea38";
+}
+
+
+/* phone */
+.icon-phone-2::before {
+  content: "\ea39";
+}
+
+
+/* check square */
+.icon-check-square-11::before {
+  content: "\ea3a";
+}
+
+
+/* wallet */
+.icon-wallet-90::before {
+  content: "\ea3b";
+}
+
+
+/* credit card */
+.icon-credit-card::before {
+  content: "\ea3c";
+}
+
+
+/* payment */
+.icon-payment::before {
+  content: "\ea3d";
+}
+
+
+/* tag */
+.icon-tag::before {
+  content: "\ea3e";
+}
+
+
+/* tag cut */
+.icon-tag-cut::before {
+  content: "\ea3f";
+}
+
+
+/* tag content */
+.icon-tag-content::before {
+  content: "\ea40";
+}
+
+
+/* flag diagonal */
+.icon-flag-diagonal-33::before {
+  content: "\ea41";
+}
+
+
+/* triangle right */
+.icon-triangle-right-17::before {
+  content: "\ea47";
+}
+
+
+/* puzzle */
+.icon-puzzle-10::before {
+  content: "\ea48";
+}
+
+
+/* triangle right 2 */
+.icon-triangle-right-17-2::before {
+  content: "\ea49";
+}
+
+
+/* button play */
+.icon-btn-play::before {
+  content: "\ea4a";
+}
+
+
+/* button play 2 */
+.icon-btn-play-2::before {
+  content: "\ea4b";
+}
+
+
+/* menu 34 */
+.icon-menu-34::before {
+  content: "\ea4c";
+}
+
+
+/* menu left 2 */
+.icon-menu-left-2::before {
+  content: "\ea4d";
+}
+
+
+/* heart 2 */
+.icon-heart-2-2::before {
+  content: "\ea4e";
+}
+
+
+/* user single 2 */
+.icon-single-04-2::before {
+  content: "\ea4f";
+}
+
+
+/* users group 2 */
+.icon-users-mm-2::before {
+  content: "\ea50";
+}
+
+
+/* settings l */
+.icon-l-settings::before {
+  content: "\ea51";
+}
+
+
+/* book open */
+.icon-book-open-2::before {
+  content: "\ea52";
+}
+
+
+/* layers */
+.icon-layers-3::before {
+  content: "\ea53";
+}
+
+
+/* facebook logo */
+.icon-logo-fb-simple::before {
+  content: "\ea55";
+}
+
+
+/* twitter logo */
+.icon-logo-twitter::before {
+  content: "\ea56";
+}
+
+
+/* google logo */
+.icon-google::before {
+  content: "\ea57";
+}
+
+
+/* pinterest logo */
+.icon-logo-pinterest::before {
+  content: "\ea58";
+}
+
+
+/* instagram logo */
+.icon-logo-instagram::before {
+  content: "\ea59";
+}
+
+
+/* dribbble logo */
+.icon-logo-dribbble::before {
+  content: "\ea5a";
+}
+
+
+/* tablet/mobile */
+.icon-tablet-mobile::before {
+  content: "\ea5b";
+}
+
+
+/* house search engine */
+.icon-house-search-engine::before {
+  content: "\ea5c";
+}
+
+
+/* house pricing */
+.icon-house-pricing::before {
+  content: "\ea5d";
+}
+
+
+/* pulse chart */
+.icon-pulse-chart::before {
+  content: "\ea5e";
+}
+
+
+/* plug */
+.icon-plug::before {
+  content: "\ea5f";
+}
+
+
+/* app store */
+.icon-app-store::before {
+  content: "\ea60";
+}
+
+
+/* power level */
+.icon-power-level::before {
+  content: "\ea61";
+}
+
+
+/* window add */
+.icon-window-add::before {
+  content: "\ea62";
+}
+
+
+/* form */
+.icon-form::before {
+  content: "\ea63";
+}
+
+
+/* folder */
+.icon-folder-15::before {
+  content: "\ea64";
+}
+
+
+/* lock */
+.icon-lock::before {
+  content: "\ea65";
+}
+
+
+/* unlocked */
+.icon-unlocked::before {
+  content: "\ea66";
+}
+
+
+/* e-reader */
+.icon-e-reader::before {
+  content: "\ea67";
+}
+
+
+/* layout grid */
+.icon-layout-grid::before {
+  content: "\ea68";
+}
+
+
+/* single copies */
+.icon-single-copies::before {
+  content: "\ea69";
+}
