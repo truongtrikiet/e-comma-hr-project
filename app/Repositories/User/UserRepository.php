@@ -86,12 +86,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     /**
      * Get list user by status.
      *
-     * @param $status
      * @return Collection
      */
-    public function getDataByStatus(UserStatus $status): Collection
+    public function getDataByStatus(): Collection
     {
-        return $this->model->where('status', $status)->get();
+        return $this->model->where('status', UserStatus::ACTIVE)->get();
     }
 
     /**

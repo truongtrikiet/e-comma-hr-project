@@ -5,8 +5,8 @@
     <input
         type="{{ $type ?? 'text' }}"
         name="{{ $name }}"
-        id="{{ $id }}"
-        class="form-control @error($oldName ?: $name) is-invalid @enderror input-rounded"
+        id="{{ $id ?? $name }}"
+        class="datepicker-default form-control @error($oldName ?: $name) is-invalid @enderror input-rounded"
         placeholder="{{ $placeholder }}"
         value="{{ old($oldName ?: $name, $value) }}"
         {{ $attributes }}
@@ -21,8 +21,9 @@
 @push('scripts')
 <script src="{{ asset('vendor/pickadate/picker.js') }}"></script>
 <script src="{{ asset('vendor/pickadate/picker.date.js') }}"></script>
-<script src="{{ asset('vendor/pickadate/picker.time.js') }}"></script>
-<script>
+<!-- Pickadate init (targets .datepicker-default) -->
+<script src="{{ asset('js/plugins-init/pickadate-init.js') }}"></script>
+<!-- <script>
     $(function(){
         console.log('datepicker');
         $('#{{ $id ?? $name }}').pickadate({
@@ -31,5 +32,5 @@
             selectYears: true
         });
     });
-</script>
+</script> -->
 @endpush

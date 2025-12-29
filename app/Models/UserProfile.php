@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Enum\RelativeRole;
+use App\Enum\EmployeeStatus;
+use App\Enum\GenderEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -21,24 +22,12 @@ class UserProfile extends Model
      */
     protected $fillable = [
         'user_id',
-        'identification_number',
-        'bank_name',
-        'bank_number',
-        'personal_income_tax',
-        'insurance_number',
-        'relative_name',
-        'relative_number',
-        'birth_place',
-        'company_entry_date',
-        'education_level',
-        'birth',
+        'employee_code',
+        'date_of_birth',
         'gender',
-        'identification_date',
-        'identification_place',
-        'relative_role',
-        'school_name',
-        'field',
-        'about',
+        'position',
+        'entry_date',
+        'employment_status',
     ];
 
     /**
@@ -47,13 +36,15 @@ class UserProfile extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'company_entry_date' => 'datetime',
-        'birth_date' => 'datetime',
-        'identification_date' => 'datetime',
-        'birth' => 'datetime',
-        'relative_role' => RelativeRole::class,
+        'date_of_birth' => 'date',
+        'gender' => GenderEnum::class,
+        'entry_date' => 'date',
+        'employment_status' => EmployeeStatus::class,
     ];
 
+    /**
+     * Get the user that owns the profile.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

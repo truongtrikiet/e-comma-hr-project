@@ -5,8 +5,7 @@
     <div class="nav-header">
         <a href="index.html" class="brand-logo">
             <img class="logo-abbr" src="{{ asset('images/acomma-logo/logo-3.png') }}" alt="">
-            <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt="">
-            <img class="brand-title" src="{{ asset('images/logo-text.png') }}" alt="">
+            <span class="brand-title" style="color: white; font-size: 16px; font-weight: bold;">A-Comma</span>
         </a>
 
         <div class="nav-control">

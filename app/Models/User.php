@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * App\Models\User
@@ -31,6 +33,17 @@ class User extends Authenticatable implements HasMedia, Auditable
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes, InteractsWithMedia, HasOneAddress;
     use Contractable, EmailNotifiable;
     use AuditingTrait;
+
+    const USER_AVATAR_COLLECTION = 'user_avatar';
+
+    const USER_AVATAR_RESIZE_NAME = 'avatar_resize';
+
+    const BACKGROUND_COLLECTION = 'background';
+
+    const CONVERSION_SIZE = [
+        'width' => '650',
+        'height' => '415',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -73,6 +86,44 @@ class User extends Authenticatable implements HasMedia, Auditable
             'password' => 'hashed',
             'status' => UserStatus::class,
         ];
+    }
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['avatar_url'];
+
+    protected $with = ['media'];
+
+    /**
+     * Get the user avatar url
+     *
+     * @return string
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if (!$this->relationLoaded('media')) {
+            $this->load('media');
+        }
+
+        $mediaUrl = $this->getFirstMediaUrl(self::USER_AVATAR_COLLECTION);
+
+        return $mediaUrl ?: Vite::asset('resources/images/profile/profile.png');
+    }
+
+    /**
+     * Get the user background url.
+     *
+     * @return Attribute
+     */
+
+    public function background(): Attribute
+    {
+        return Attribute::make(
+            fn($value) => $this->getFirstMediaUrl(self::BACKGROUND_COLLECTION) ?: Vite::asset('resources/images/no-image.jpg')
+        );
     }
 
     /**

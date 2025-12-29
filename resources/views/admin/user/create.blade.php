@@ -3,16 +3,18 @@
         {{ __('general.menu.user_management.user') }}
     </x-slot:pageTitle>
     <x-slot:headerFiles>
-        <!-- Datepicker CSS -->
-        <link href="{{ asset('plugins/vendor/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('plugins/vendor/clockpicker/css/bootstrap-clockpicker.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('plugins/vendor/jquery-asColorPicker/css/asColorPicker.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('plugins/vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
-
+        <link href="{{ asset('vendor/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+        <!-- Clockpicker -->
+        <link href="{{ asset('vendor/clockpicker/css/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
+        <!-- asColorpicker -->
+        <link href="{{ asset('vendor/jquery-asColorPicker/css/asColorPicker.min.css') }}" rel="stylesheet">
+        <!-- Material color picker -->
+        <link href="{{ asset('vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}" rel="stylesheet">
         <!-- Pick date -->
-        <link rel="stylesheet" href="{{ asset('plugins/vendor/pickadate/themes/default.css') }}">
-        <link rel="stylesheet" href="{{ asset('plugins/vendor/pickadate/themes/default.date.css') }}">
-        <link rel="stylesheet" href="{{ asset('plugins/vendor/pickadate/themes/default.time.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/pickadate/themes/default.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/pickadate/themes/default.date.css') }}">
+        <!-- Custom Stylesheet -->
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     </x-slot:headerFiles>
 

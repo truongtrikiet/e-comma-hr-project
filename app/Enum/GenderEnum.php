@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Enum;
+
+use App\Traits\EnumOptions;
+use App\Traits\EnumValues;
+
+enum GenderEnum: int
+{
+    use EnumOptions, EnumValues;
+
+    case MALE = 1;
+    case FEMALE = 2;
+
+    /**
+     * Get the display name of a gender based on its string value.
+     *
+     * @param string $value
+     * @return string|null
+     */
+    public static function getNameByValue(string $value): ?string
+    {
+        $case = self::from($value);
+        return match ($case) {
+            self::MALE => __('Nam'),
+            self::FEMALE => __('Nữ'),
+            default => null,
+        };
+    }
+}

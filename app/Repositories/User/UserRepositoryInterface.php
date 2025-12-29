@@ -24,10 +24,9 @@ interface UserRepositoryInterface extends RepositoryInterface
     /**
      * Get list user by status.
      *
-     * @param $status
      * @return Collection
      */
-    public function getDataByStatus(UserStatus $status): Collection;
+    public function getDataByStatus(): Collection;
 
     /**
      * Get data for scroll pagination in send email manual.
