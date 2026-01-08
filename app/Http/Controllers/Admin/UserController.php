@@ -6,6 +6,7 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class UserController extends Controller
     public function __construct(
         protected UserRepositoryInterface $userRepository,
         protected UserService $userService,
+        protected RoleRepositoryInterface $roleRepository,
     ) {
         $this->middleware('permission: ' . Acl::PERMISSION_USER_LIST)->only('index');
         $this->middleware('permission: ' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
@@ -42,7 +44,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        $roles = $this->roleRepository->all();
+
+        return view('admin.user.create', compact('roles'));
     }
 
     /**

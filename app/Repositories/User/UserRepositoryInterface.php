@@ -67,67 +67,6 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function getAdminsAndSuperAdmins(): Collection;
 
     /**
-     * Get all users with the role staff only.
-     *
-     * @return Collection
-     */
-    public function getStaffsByTitle(array $titleIds);
-
-    /**
-     * Get experiences for profile.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getExperiencesForProfile(User $user): Collection;
-
-    /**
-     * Get educations for profile.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getEducationsForProfile(User $user): Collection;
-
-    /**
-     * Get skills for profile.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getSkillsForProfile(User $user): Collection;
-
-    /**
-     * Get birthday of staffs.
-     *
-     * @return Collection
-     */
-    public function getBirthdayForStaff();
-
-    /**
-     * Get habits for profile.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getHabitsForProfile(User $user): Collection;
-
-    /**
-     * Get anniversary day of users.
-     *
-     * @return Collection
-     */
-    public function getAnniversaryDayForStaff();
-
-    /**
-     * Get all users with the role super admin only.
-     *
-     * @return Collection
-     */
-    
-    public function updateNotificationSetting(User $user, bool $enabled): User;
-
-    /**
      * Get all users with the role of staff.
      *
      * @return Collection
