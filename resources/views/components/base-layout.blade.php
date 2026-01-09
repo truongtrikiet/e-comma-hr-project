@@ -16,6 +16,10 @@
             'resources/scss/_preloader.scss',
             'resources/css/style.css'
         ])
+
+        @isset($headerFiles)
+            {!! $headerFiles !!}
+        @endisset
     </head>
     <body>
         <!-- BEGIN LOADER -->

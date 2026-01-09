@@ -61,28 +61,14 @@
                 :isRequired="true"
             />
 
-            <!-- <x-form.date-picker 
+            <x-form.date-picker 
                 :id="'sDateOfBirth'"
-                :name="'birth'"
+                :name="'datepicker'"
                 :label="__('general.common.birth')"
                 :placeholder="__('general.common.birth')"
                 :isRequired="true"
                 :type="'text'"
-            /> -->
-
-            <x-form.form-input
-                :id="'datepicker'"
-                :name="'birth'"
-                :label="__('general.common.birth')"
-                :placeholder="__('general.common.birth')"
-                :isRequired="false"
-                :type="'text'"
             />
-
-            <!-- <div class="card-body">
-                <p class="mb-1">Default picker</p>
-                <input name="datepicker" class="datepicker-default form-control" id="datepicker">
-            </div> -->
 
             <div class="col-sm-10">
                 <x-buttons.submit

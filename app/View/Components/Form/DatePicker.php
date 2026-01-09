@@ -2,51 +2,53 @@
 
 namespace App\View\Components\Form;
 
-use Closure;
-use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class DatePicker extends Component
 {
-    public $id;
     public $name;
-    public $value;
     public $label;
+    public $id;
     public $placeholder;
-    public $class;
-    public $isRequired;
-    public $disabled;
+    public $value;
     public $oldName;
+    public $type;
+    public $isRequired;
+    public $inputRounded;
 
     /**
      * Create a new component instance.
+     *
+     * @return void
      */
     public function __construct(
-        $id = null,
-        $name = null,
-        $value = null,
+        $name,
         $label = null,
-        $placeholder = null,
-        $class = null,
-        $isRequired = null,
-        $disabled = null,
-        $oldName = null
+        $id = null,
+        $placeholder = '',
+        $value = null,
+        $oldName = null,
+        $type = 'text',
+        $isRequired = false,
+        $inputRounded = true
     ) {
-        $this->id = $id;
         $this->name = $name;
-        $this->value = $value;
         $this->label = $label;
+        $this->id = $id ?: $name;
         $this->placeholder = $placeholder;
-        $this->class = $class;
-        $this->isRequired = $isRequired;
-        $this->disabled = $disabled;
+        $this->value = $value;
         $this->oldName = $oldName;
+        $this->type = $type;
+        $this->isRequired = (bool) $isRequired;
+        $this->inputRounded = (bool) $inputRounded;
     }
 
     /**
      * Get the view / contents that represent the component.
+     *
+     * @return \Illuminate\Contracts\View\View|string
      */
-    public function render(): View|Closure|string
+    public function render()
     {
         return view('components.form.date-picker');
     }
