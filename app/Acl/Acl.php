@@ -57,6 +57,14 @@ final class Acl
 
     const PERMISSION_USER_VIEW = 'xem chi tiết người dùng';
 
+    const PERMISSION_SCHOOL_LIST = 'danh sách trường học';
+
+    const PERMISSION_SCHOOL_ADD = 'thêm mới trường học';
+
+    const PERMISSION_SCHOOL_EDIT = 'chỉnh sửa trường học';
+
+    const PERMISSION_SCHOOL_DELETE = 'xóa trường học';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

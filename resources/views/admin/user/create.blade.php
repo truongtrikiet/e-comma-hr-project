@@ -70,6 +70,18 @@
                 :type="'text'"
             />
 
+            <x-form.form-select
+                :id="'sGendersSelect'"
+                :label="__('general.common.gender')"
+                :name="'gender'"
+                :data-values="App\Enum\GenderEnum::options(true)"
+                :select-value-attribute="'value'"
+                :select-value-label="'label'"
+                :multiple="false"
+                :placeholder="__('general.common.gender')"
+                :isRequired="'true'"
+            />
+
             <div class="col-sm-10">
                 <x-buttons.submit
                     :label="__('general.common.confirm')"
