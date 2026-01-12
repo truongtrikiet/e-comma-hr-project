@@ -56,6 +56,10 @@
         <script src="{{ asset('js/quixnav-init.js') }}"></script>
         <script src="{{ asset('js/custom.min.js') }}"></script>
 
+        @isset($footerFiles)
+            {!! $footerFiles !!}
+        @endisset
+
         @stack('scripts')
     </body>
 </html>

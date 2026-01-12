@@ -48,83 +48,22 @@ class StoreUserRequest extends FormRequest
             'roles' => 'required',
             'phone_number' => ['required', 'unique:users,phone_number', new PhoneNumber],
             'user_avatar' => ['nullable'],
-            'id_front' => ['nullable'],
-            'id_back' => ['nullable'],
-            'notification_email' => ['nullable'],
-            'identification_number' => ['required', 'numeric', 'digits_between:1,14', 'unique:user_profiles,identification_number'],
-            'bank_name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'bank_number' => ['required', 'numeric', 'digits_between:1,14', 'unique:user_profiles,bank_number'],
-            'relative_name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'relative_number' => ['required', new PhoneNumber, 'different:phone_number', 'unique:user_profiles,relative_number'],
             'address' => [
                 'required',
                 'string',
                 'max:255',
                 new CheckEmojiRule,
             ],
-            'birth_place' => [
-                'required',
-                'string',
-                'max:255',
-            ],
             'birth' => [
                 'required',
                 'before_or_equal:' . now()->subYears(16)->format('Y-m-d'),
-            ],
-            'education_level' => ['required'],
-            'relative_role' => ['required'],
-            'gender' => ['required'],
-            'identification_date' => ['required'],
-            'identification_place' => [
-                'required',
-                'string',
-                'max:255',
             ],
             'status' => [
                 'required',
                 new Enum(UserStatus::class),
             ],
             'departments' => ['required',],
-            'titles' => ['required',],
-            'employee_type_id' => [
-                'required',
-                'exists:employee_types,id',
-            ],
-            'company_entry_date' => [
-                'nullable',
-                'date',
-            ],
-            'school_name' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
-            'field' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
         ];
-
-        if ($this->personal_income_tax) {
-            $rules['personal_income_tax'] = [
-                'numeric',
-                'digits_between:1,12',
-                'unique:user_profiles,personal_income_tax',
-            ];
-        }
-
-        if ($this->insurance_number) {
-            $rules['insurance_number'] = 'string|max:30';
-        }
 
         return $rules;
     }

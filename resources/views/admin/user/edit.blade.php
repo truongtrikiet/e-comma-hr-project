@@ -26,15 +26,15 @@
     <x-custom.breadcrumb
         :breadcrumb-items="[
             __('general.menu.user_management.user') => route('admin.user.index'),
-            __('general.menu.user_management.create_user') => '',
+            __('general.menu.user_management.edit_user') => '',
         ]"
     />
 
     <x-form.form-layout
         :form-id="'general-settings'"
-        :form-url="route('admin.user.store')"
-        :form-method="'POST'"
-        :card-title="__('general.menu.user_management.create_user')"
+        :form-url="route('admin.user.update', $user->id)"
+        :form-method="'PUT'"
+        :card-title="__('general.menu.user_management.edit_user')"
         :custom-col="'col-lg-12'"
         enctype="multipart/form-data"
     >
@@ -50,6 +50,7 @@
                                 :name="'last_name'"
                                 :placeholder="__('general.common.last_name')"
                                 :isRequired="true"
+                                :value="$user->last_name"
                             />
                         </div>
                         <div class="col-md-6">
@@ -59,6 +60,7 @@
                                 :name="'first_name'"
                                 :placeholder="__('general.common.first_name')"
                                 :isRequired="true"
+                                :value="$user->first_name"
                             />
                         </div>
                     </div>
@@ -72,6 +74,7 @@
                                 :placeholder="__('general.common.email')"
                                 :type="'email'"
                                 :isRequired="true"
+                                :value="$user->email"
                             />
                         </div>
                         <div class="col-md-6">
@@ -82,6 +85,7 @@
                                 :placeholder="__('general.common.phone_number')"
                                 :type="'number'"
                                 :isRequired="true"
+                                :value="$user->phone_number"
                             />
                         </div>
                     </div>
@@ -98,6 +102,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.role')"
                                 :isRequired="true"
+                                :selected="$user->roles->pluck('id')->first()"
                             />
                         </div>
                     </div>
@@ -114,6 +119,7 @@
                                 :placeholder="__('general.common.birth')"
                                 :isRequired="false"
                                 :type="'text'"
+                                :value="isset($user->birth) ? $user->birth->format('Y-m-d') : null"
                             />
                         </div>
                         <div class="col-md-6">

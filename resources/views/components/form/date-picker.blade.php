@@ -1,4 +1,4 @@
-<div class="form-group col-md-6">
+<div class="form-group col-md-12">
     @if(!empty($label))
         <label for="{{ $id ?? $name }}">{{ $label }}@if($isRequired) <strong class="text-danger">*</strong> @endif</label>
     @endif

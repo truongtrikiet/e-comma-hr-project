@@ -103,26 +103,33 @@ class UserService
         }
     }
 
-    // public function updateAvatar(User $user, $avatarData)
-    // {
-    //     try {
-    //         DB::beginTransaction();
+    public function updateAvatar(User $user, $avatarData)
+    {
+        try {
+            DB::beginTransaction();
 
-    //         $user->clearMediaCollection(USER_AVATAR_COLLECTION);
-    //         $file = json_decode($avatarData, true);
+            $user->clearMediaCollection(USER_AVATAR_COLLECTION);
+            $file = is_array($avatarData) ? $avatarData : json_decode($avatarData, true);
 
-    //         if (isset($file['data']) && isset($file['name'])) {
-    //             $user->addMediaFromBase64($file['data'])
-    //                 ->usingFileName($file['name'])
-    //                 ->toMediaCollection(USER_AVATAR_COLLECTION);
-    //         }
+            $data = $file['data'] ?? null;
+            $name = $file['name'] ?? null;
 
-    //         DB::commit();
+            if ($data && $name) {
+                if (preg_match('/^data:.*;base64,/', $data)) {
+                    $data = substr($data, strpos($data, ',') + 1);
+                }
 
-    //         return $user;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return $e->getMessage();
-    //     }
-    // }
+                $user->addMediaFromBase64($data)
+                    ->usingFileName($name)
+                    ->toMediaCollection(USER_AVATAR_COLLECTION);
+            }
+
+            DB::commit();
+
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
 }

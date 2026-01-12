@@ -1,6 +1,6 @@
 <div class="basic-form">
     <form>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
             @if($label)
                 <label for="{{ $id }}">{{ $label }}@if($isRequired) <strong class="text-danger">*</strong> @endif</label>
             @endif

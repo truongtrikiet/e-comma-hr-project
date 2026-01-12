@@ -280,6 +280,8 @@ return [
         'is_enable' => 'Cho phép',
         'is_not_enable' => 'Không cho phép',
         'information' => 'Thông tin cơ bản',
+        'personal_information' => 'Thông tin cá nhân',
+        'security_information' => 'Thông tin bảo mật',
         'link' => 'Đường dẫn',
         'birth' => 'Năm sinh',
         'birth_place' => 'Nơi sinh',

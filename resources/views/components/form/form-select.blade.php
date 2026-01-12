@@ -1,5 +1,5 @@
 <div class="basic-form">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
         @php
             $isMultiple = isset($multiple) && ($multiple === true || $multiple === 'true');
             $selectName = $name . ($isMultiple ? '[]' : '');
@@ -13,7 +13,7 @@
         @endif
         <select name="{{ $selectName }}" id="{{ $id }}" {{ $isMultiple ? 'multiple' : '' }} {!! $attributes->merge(['class' => 'form-control input-rounded ' . ($errors->has($oldName ?: $name) ? 'is-invalid' : '')]) !!}>
             @if(!empty($placeholder))
-                <option value="" disabled {{ empty($current) && !$isMultiple ? 'selected' : '' }}>{{ $placeholder }}@if(!empty($isRequired)) <strong class="text-danger">*</strong> @endif</option>
+                <option value="" disabled {{ empty($current) && !$isMultiple ? 'selected' : '' }}>{{ $placeholder }}</option>
             @endif
 
             @if(isset($dataValues) && is_iterable($dataValues))

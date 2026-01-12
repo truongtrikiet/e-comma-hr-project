@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Acl\Acl;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateProfileRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Repositories\Role\RoleRepositoryInterface;
@@ -52,7 +55,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $this->userService->create($request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.user.store'))
@@ -74,13 +77,15 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $roles = $this->roleRepository->all();
+
+        return view('admin.user.edit', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $this->userService->update($user, $request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.user.update'))
@@ -92,7 +97,7 @@ class UserController extends Controller
     /**
      * Update the profile of the logged-in user.
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateProfileRequest $request)
     {
         $this->userRepository->update(Auth::user(), $request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.user.update'))
@@ -113,5 +118,14 @@ class UserController extends Controller
         return response()->json([
             'message' => __('error.delete'),
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $this->userService->updateAvatar(Auth::user(), $request->file('avatar')) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.user.update_avatar'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.user.update_avatar'));
+
+        return redirect()->back();
     }
 }
