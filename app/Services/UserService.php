@@ -25,13 +25,11 @@ class UserService
             DB::beginTransaction();
 
             $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
-            $data['password'] = Hash::make($data['password']);
+            $data['password'] = Hash::make($data['password']) ?? Hash::make('Abcd@123');
 
             $user = $this->userRepository->create($data);
 
-            // $user->address()->create(['address' => $data['address']]);
-
-            $user->userProfile()->create($data);
+            // $user->userProfile()->create($data);
 
             // if (isset($data['user_avatar']) && $data['user_avatar']) {
             //     $file = json_decode($data['user_avatar'], true);
@@ -40,7 +38,7 @@ class UserService
             //         ->toMediaCollection(USER_AVATAR_COLLECTION);
             // }
 
-            $user->syncRoles(Arr::map($data['roles'], fn($role) => (int)$role));
+            // $user->syncRoles(Arr::map($data['roles'], fn($role) => (int)$role));
 
             DB::commit();
 

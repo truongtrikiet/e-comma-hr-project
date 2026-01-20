@@ -21,7 +21,6 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'status' => $this->status,
             'status_name' => __(Str::title($this->status->name)),
-            'roles' => $this->whenLoaded('roles', $this->roles),
             'login_at' => $this->login_at?->format('d/m/Y H:i:s'),
             'created_at' => $this->created_at?->format('d/m/Y H:i:s'),
             'updated_at' => $this->updated_at?->format('d/m/Y H:i:s'),

@@ -191,6 +191,9 @@ return [
         'add_to_meeting_body' => 'You have been successfully added to the meeting schedule',
         'login_at' => 'Last login at',
         'logout_at' => 'Last logout at',
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+        'locked' => 'Locked',
     ],
 
     'selected_item' => [

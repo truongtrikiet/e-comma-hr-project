@@ -19,7 +19,7 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @param $searchParams
      * @return LengthAwarePaginator
      */
-    public function serverPaginationFilteringForAdmin(array $searchParams): LengthAwarePaginator|Collection;
+    public function serverPaginationFiltering(array $searchParams): LengthAwarePaginator|Collection;
 
     /**
      * Get list user by status.

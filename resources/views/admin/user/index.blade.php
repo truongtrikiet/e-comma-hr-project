@@ -43,7 +43,6 @@
                     <th style="width:4%">ID</th>
                     <th style="width:18%">{{ __('general.common.name') }}</th>
                     <th style="width:18%">{{ __('general.common.email') }}</th>
-                    <th style="width:10%">{{ __('general.common.role') }}</th>
                     <th style="width:20%">{{ __('general.common.login_at') }}</th>
                     <th style="width:20%">{{ __('general.common.created_at') }}</th>
                     <th style="width:10%">{{ __('general.common.status') }}</th>
@@ -81,24 +80,6 @@
                     {
                         "data": "email",
                         "orderable": false
-                    },
-                    {
-                        "data": "roles",
-                        "orderable": false,
-                        "class": "block-td",
-                        "render": function (data, type, full) {
-                            let roles = data;
-                            let roleBadges = `<strong class="d-none">Vai trò: </strong>`;
-
-                            for (let i = 0; i < roles.length; i++) {
-                                roleBadges += `
-                                    <span class="badge badge-secondary">
-                                        ${roles[i].name}
-                                    </span>
-                                `;
-                            }
-                            return roleBadges;
-                        }
                     },
                     {
                         "data": "login_at",

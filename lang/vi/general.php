@@ -515,6 +515,9 @@ return [
         'add_to_meeting_body' => 'Bạn được thêm vào lịch họp thành công',
         'login_at' => 'Lần đăng nhập gần nhất',
         'logout_at' => 'Lần đăng xuất gần nhất',
+        'active' => 'Hoạt động',
+        'inactive' => 'Không hoạt động',
+        'locked' => 'Đã khoá',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

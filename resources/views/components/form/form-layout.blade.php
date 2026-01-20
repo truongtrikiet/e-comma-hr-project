@@ -1,17 +1,28 @@
 <div
     @class([
-       'col-lg-6 col-xxl-12' => !($customCol),
-       $customCol
+        'col-lg-6 col-xxl-12' => empty($customCol),
+        $customCol
     ])
 >
     <div class="card">
-        <div class="card-header">
-            {{ $cardTitle ?? '' }}
-        </div>
+        @if(!empty($cardTitle))
+            <div class="card-header">
+                {{ $cardTitle }}
+            </div>
+        @endif
+
         <div class="card-body">
-            <form id="{{ $formId }}" {{ $attributes }} method="POST" action="{{ $formUrl }}">
+            <form
+                id="{{ $formId ?? '' }}"
+                method="POST"
+                action="{{ $formUrl }}"
+                {{ $attributes }}
+            >
                 @csrf
-                @method($formMethod)
+
+                @if(!empty($formMethod) && strtoupper($formMethod) !== 'POST')
+                    @method($formMethod)
+                @endif
 
                 {{ $slot }}
             </form>

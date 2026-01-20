@@ -31,7 +31,7 @@ class Authenticate extends Middleware
     {
         $this->authenticate($request, $guards);
 
-        if (auth()->user()->status === UserStatus::DISABLED) {
+        if (auth()->user()->status === UserStatus::LOCKED) {
             auth()->logout();
             return redirect()->route('auth.login');
         }

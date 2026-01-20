@@ -18,19 +18,13 @@ class Submit extends Component
      */
     public $type;
 
-     /**
-     * @var string
-     */
-    public $id;
-
     /**
      * Create a new component instance.
      */
-    public function __construct($label = 'Submit', $type = 'primary', $id = '')
+    public function __construct($label = 'Submit', $type = 'primary')
     {
         $this->label = $label;
         $this->type = $type;
-        $this->id = $id;
     }
 
     /**
