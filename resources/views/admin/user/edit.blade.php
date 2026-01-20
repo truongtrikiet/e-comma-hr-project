@@ -16,7 +16,7 @@
         <!-- Custom Stylesheet -->
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
-        <link rel="stylesheet" type="text/css" href="{{asset('plugins/tomSelect/tom-select.default.min.css')}}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.default.min.css">
         <link rel="stylesheet" type="text/css" href="{{asset('plugins/filepond/filepond.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('plugins/filepond/FilePondPluginImagePreview.min.css')}}">
 
@@ -36,7 +36,6 @@
         :form-method="'PUT'"
         :card-title="__('general.menu.user_management.edit_user')"
         :custom-col="'col-lg-12'"
-        enctype="multipart/form-data"
     >
         <div class="row">
             <div class="col-lg-8">
@@ -45,19 +44,19 @@
                     <div class="row">
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'sLastName'"
-                                :label="__('general.common.last_name')"
+                                :id="'last_name'"
                                 :name="'last_name'"
-                                :placeholder="__('general.common.last_name')"
+                                :label="__('general.common.last_name') "
+                                :placeholder="__('general.common.last_name') "
                                 :isRequired="true"
                                 :value="$user->last_name"
                             />
                         </div>
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'sFirstName'"
-                                :label="__('general.common.first_name')"
+                                :id="'first_name'"
                                 :name="'first_name'"
+                                :label="__('general.common.first_name')"
                                 :placeholder="__('general.common.first_name')"
                                 :isRequired="true"
                                 :value="$user->first_name"
@@ -65,89 +64,43 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mt-2">
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'sEmail'"
-                                :label="__('general.common.email')"
+                                :id="'email'"
                                 :name="'email'"
+                                type="email"
+                                :label="__('general.common.email')"
                                 :placeholder="__('general.common.email')"
-                                :type="'email'"
                                 :isRequired="true"
                                 :value="$user->email"
                             />
                         </div>
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'sPhoneNumber'"
-                                :label="__('general.common.phone_number')"
+                                :id="'phone_number'"
                                 :name="'phone_number'"
+                                type="text"
+                                :label="__('general.common.phone_number')"
                                 :placeholder="__('general.common.phone_number')"
-                                :type="'number'"
                                 :isRequired="true"
                                 :value="$user->phone_number"
                             />
                         </div>
-                    </div>
-
-                    <div class="row mt-2">
                         <div class="col-md-6">
                             <x-form.form-select
-                                :id="'sRolesSelect'"
-                                :label="__('general.common.role')"
-                                :name="'roles'"
-                                :data-values="$roles"
-                                :select-value-attribute="'id'"
-                                :select-value-label="'name'"
-                                :multiple="false"
-                                :placeholder="__('general.common.role')"
-                                :isRequired="true"
-                                :selected="$user->roles->pluck('id')->first()"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <h5 class="mb-2">{{ __('general.common.personal_information') }}</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <x-form.date-picker 
-                                :id="'sDateOfBirth'"
-                                :name="'birth'"
-                                :label="__('general.common.birth')"
-                                :placeholder="__('general.common.birth')"
-                                :isRequired="false"
-                                :type="'text'"
-                                :value="isset($user->birth) ? $user->birth->format('Y-m-d') : null"
-                            />
-                        </div>
-                        <div class="col-md-6">
-                            <x-form.form-select
-                                :id="'sGendersSelect'"
-                                :label="__('general.common.gender')"
-                                :name="'gender'"
-                                :data-values="App\Enum\GenderEnum::options(true)"
-                                :select-value-attribute="'id'"
+                                :id="'sStatusSelect'"
+                                :label="__('general.common.status')"
+                                :data-values="$statuses"
+                                :name="'status'"
+                                :select-value-attribute="'value'"
                                 :select-value-label="'label'"
-                                :multiple="false"
-                                :placeholder="__('general.common.gender')"
-                                :isRequired="false"
+                                :placeholder="__('general.common.status')"
+                                :isRequired="true"
+                                :selected="old('status', $user->status->value)"
                             />
                         </div>
                     </div>
-
-                    <!-- <div class="row mt-2">
-                        <div class="col-12">
-                            <x-form.form-input
-                                :id="'sAddress'"
-                                :label="__('general.common.address')"
-                                :name="'address'"
-                                :placeholder="__('general.common.address')"
-                                :isRequired="false"
-                            />
-                        </div>
-                    </div> -->
                 </div>
 
                 <div class="mb-3">
@@ -155,12 +108,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'sPassword'"
-                                :label="__('general.common.password')"
+                                :id="'password'"
                                 :name="'password'"
-                                :placeholder="__('general.common.password')"
                                 :type="'password'"
+                                :label="__('general.common.password')"
+                                :placeholder="__('general.common.password')"
                                 :isRequired="false"
+                                :value="$user->password"
                             />
                         </div>
                     </div>
@@ -170,24 +124,19 @@
             <div class="col-lg-4">
                 <div class="mb-3 text-center">
                     <h5 class="mb-2">{{ __('general.common.avatar') }}</h5>
-                    <!-- <div class="mb-2">
-                        <img id="avatarPreviewImg" src="{{ asset('images/default-avatar.png') }}" alt="avatar preview" class="img-fluid rounded-circle" style="max-width:180px; max-height:180px;" />
-                    </div> -->
-                    <x-form.form-upload 
-                        :id="'sProfilePicture'"
-                        :label="''"
-                        :name="'profile_picture'"
-                        :placeholder="__('general.common.choose')"
-                        :isRequired="false"
+                    <x-form.form-upload
+                        :id="'user_avatar'"
+                        :name="'user_avatar'"
+                        :label="__('general.common.avatar')"
                         accept="image/*"
                     />
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-3">
-            <div class="col-12 text-end">
-                <x-buttons.submit :label="__('general.common.confirm')" />
+            <div class="col-lg-8">
+                <div class="mb-3">
+                    <x-buttons.submit :label="__('general.common.complete')"/>
+                </div>
             </div>
         </div>
     </x-form.form-layout>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Acl\Acl;
+use App\Enum\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateProfileRequest;
@@ -34,7 +35,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = $this->userRepository->serverPaginationFilteringForAdmin($request->all());
+            $users = $this->userRepository->serverPaginationFiltering($request->all());
+            dd($users);
 
             return UserResource::collection($users);
         }
@@ -48,8 +50,9 @@ class UserController extends Controller
     public function create()
     {
         $roles = $this->roleRepository->all();
+        $statuses = UserStatus::options(true);
 
-        return view('admin.user.create', compact('roles'));
+        return view('admin.user.create', compact('roles', 'statuses'));
     }
 
     /**
@@ -57,6 +60,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        \Log::info($request->all());
         $this->userService->create($request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.user.store'))
             : session()->flash(NOTIFICATION_ERROR, __('error.user.store'));

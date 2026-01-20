@@ -31,40 +31,39 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'first_name' => ['required', 'string', 'max:30', new AlphaSpaces],
-            'last_name' => ['required', 'string', 'max:30', new AlphaSpaces],
-            'email' => ['required', 'max:100', 'email:rfc,dns', 'unique:users', new ValidEmail],
+        return [
+            'first_name' => [
+                'nullable', 
+                'string', 
+                'max:30', 
+                new AlphaSpaces
+            ],
+            'last_name' => [
+                'nullable', 
+                'string', 
+                'max:30', 
+                new AlphaSpaces
+            ],
+            'email' => [
+                'nullable', 
+                'email:rfc,dns', 
+                'unique:users', 
+                new ValidEmail
+            ],
             'password' => [
-                'required',
-                'confirmed',
-                'max:20',
-                Password::min(8)->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
+                'nullable',
             ],
-            'password_confirmation' => ['required'],
-            'roles' => 'required',
-            'phone_number' => ['required', 'unique:users,phone_number', new PhoneNumber],
-            'user_avatar' => ['nullable'],
-            'address' => [
-                'required',
-                'string',
-                'max:255',
-                new CheckEmojiRule,
+            'phone_number' => [
+                'nullable', 
+                'unique:users,phone_number', 
+                new PhoneNumber
             ],
-            'birth' => [
-                'required',
-                'before_or_equal:' . now()->subYears(16)->format('Y-m-d'),
+            'user_avatar' => [
+                'nullable'
             ],
             'status' => [
-                'required',
                 new Enum(UserStatus::class),
             ],
-            'departments' => ['required',],
         ];
-
-        return $rules;
     }
 }

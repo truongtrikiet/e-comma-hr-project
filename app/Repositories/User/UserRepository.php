@@ -46,21 +46,21 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      * @param $searchParams
      * @return LengthAwarePaginator
      */
-    public function serverPaginationFilteringForAdmin($searchParams): LengthAwarePaginator|Collection
+    public function serverPaginationFiltering($searchParams): LengthAwarePaginator|Collection
     {
         $limit = Arr::get($searchParams, 'limit', self::PER_PAGE);
         $keyword = Arr::get($searchParams, 'search', '');
-        $roles = Arr::get($searchParams, 'role_id', null);
+        // $roles = Arr::get($searchParams, 'role_id', null);
         $status = Arr::get($searchParams, 'status', null);
 
         $query = $this->model->query()->with(['roles']);
 
-        if ($roles) {
-            $rolesArray = explode(',', $roles);
-            $query->whereHas('roles', function ($q) use ($rolesArray) {
-                $q->whereIn('id', $rolesArray);
-            });
-        }
+        // if ($roles) {
+        //     $rolesArray = explode(',', $roles);
+        //     $query->whereHas('roles', function ($q) use ($rolesArray) {
+        //         $q->whereIn('id', $rolesArray);
+        //     });
+        // }
 
         if ($keyword) {
             if (is_array($keyword)) {

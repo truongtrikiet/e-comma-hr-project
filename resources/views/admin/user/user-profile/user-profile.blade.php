@@ -43,19 +43,19 @@
                     <div class="row">
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'last_name'"
-                                :name="'last_name'"
-                                :label="__('general.common.last_name') "
-                                :placeholder="__('general.common.last_name') "
+                                id="last_name"
+                                name="last_name"
+                                label="{{ __('general.common.last_name') }}"
+                                placeholder="{{ __('general.common.last_name') }}"
                                 :isRequired="true"
                             />
                         </div>
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'first_name'"
-                                :name="'first_name'"
-                                :label="__('general.common.first_name')"
-                                :placeholder="__('general.common.first_name')"
+                                id="first_name"
+                                name="first_name"
+                                label="{{ __('general.common.first_name') }}"
+                                placeholder="{{ __('general.common.first_name') }}"
                                 :isRequired="true"
                             />
                         </div>
@@ -64,33 +64,75 @@
                     <div class="row mt-2">
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'email'"
-                                :name="'email'"
+                                id="email"
+                                name="email"
                                 type="email"
-                                :label="__('general.common.email')"
-                                :placeholder="__('general.common.email')"
+                                label="{{ __('general.common.email') }}"
+                                placeholder="{{ __('general.common.email') }}"
                                 :isRequired="true"
                             />
                         </div>
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'phone_number'"
-                                :name="'phone_number'"
+                                id="phone_number"
+                                name="phone_number"
                                 type="text"
-                                :label="__('general.common.phone_number')"
-                                :placeholder="__('general.common.phone_number')"
+                                label="{{ __('general.common.phone_number') }}"
+                                placeholder="{{ __('general.common.phone_number') }}"
                                 :isRequired="true"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                id="roles"
+                                name="roles"
+                                label="{{ __('general.common.role') }}"
+                                :data-values="$roles"
+                                select-value-attribute="id"
+                                select-value-label="name"
+                                :multiple="false"
+                                :isRequired="true"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="mb-2">{{ __('general.common.personal_information') }}</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <x-form.date-picker
+                                id="date_of_birth"
+                                name="date_of_birth"
+                                label="{{ __('general.common.birth') }}"
+                                placeholder="dd-mm-yyyy"
+                                :isRequired="false"
                             />
                         </div>
                         <div class="col-md-6">
                             <x-form.form-select
-                                :id="'sStatusSelect'"
-                                :label="__('general.common.status')"
-                                :data-values="$statuses"
-                                :name="'status'"
-                                :select-value-attribute="'value'"
-                                :select-value-label="'label'"
-                                :placeholder="__('general.common.status')"
+                                id="gender"
+                                name="gender"
+                                label="{{ __('general.common.gender') }}"
+                                :data-values="App\Enum\GenderEnum::options(true)"
+                                select-value-attribute="id"
+                                select-value-label="label"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                id="status"
+                                name="status"
+                                label="{{ __('general.common.status') }}"
+                                :data-values="App\Enum\UserStatus::options(true)"
+                                select-value-attribute="id"
+                                select-value-label="label"
                                 :isRequired="true"
                             />
                         </div>
@@ -102,11 +144,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <x-form.form-input
-                                :id="'password'"
-                                :name="'password'"
-                                :type="'password'"
-                                :label="__('general.common.password')"
-                                :placeholder="__('general.common.password')"
+                                id="password"
+                                name="password"
+                                type="password"
+                                label="{{ __('general.common.password') }}"
+                                placeholder="{{ __('general.common.password') }}"
                             />
                         </div>
                     </div>
@@ -117,20 +159,16 @@
                 <div class="mb-3 text-center">
                     <h5 class="mb-2">{{ __('general.common.avatar') }}</h5>
                     <x-form.form-upload
-                        :id="'user_avatar'"
-                        :name="'user_avatar'"
-                        :label="__('general.common.avatar')"
+                        id="user_avatar"
+                        name="user_avatar"
+                        label="{{ __('general.common.avatar') }}"
                         accept="image/*"
                     />
                 </div>
             </div>
-
-            <div class="col-lg-8">
-                <div class="mb-3">
-                    <x-buttons.submit :label="__('general.common.complete')"/>
-                </div>
-            </div>
         </div>
+
+        <x-buttons.submit :label="__('general.common.complete')"/>
     </x-form.form-layout>
 
     <x-slot:footerFiles>
@@ -220,13 +258,27 @@
                 }
             });
 
-            ('[data-enhanced="select"]').select2({
-                width: '100%',
-                placeholder: function () {
-                    return $(this).find('option[value=""]').text() || 'Choose';
-                },
-                allowClear: true,
-                closeOnSelect: !$(this).data('multiple')
+            document.addEventListener('DOMContentLoaded', function () {
+                const submitBtn = document.getElementById('submit-button');
+                const form = document.getElementById('general-settings');
+                if (!submitBtn || !form) return;
+
+                submitBtn.addEventListener('click', function (e) {
+                    if (submitBtn.dataset.submitting === '1') {
+                        e.preventDefault();
+                        return;
+                    }
+
+                    e.preventDefault();
+                    submitBtn.dataset.submitting = '1';
+                    submitBtn.disabled = true;
+
+                    if (typeof form.requestSubmit === 'function') {
+                        form.requestSubmit();
+                    } else {
+                        form.submit();
+                    }
+                }, false);
             });
         </script>
 

@@ -23,6 +23,8 @@ final class Acl
 
     const ROLE_STUDENT = 'sinh viên';
 
+    const PERMISSION_ASSIGNEE = 'gán vai trò';
+
     const PERMISSION_VIEW_MENU_DASHBOARD = 'xem menu bảng điều khiển';
 
     const PERMISSION_VIEW_MENU_SUPER_ADMIN = 'xem menu super admin';
@@ -64,6 +66,30 @@ final class Acl
     const PERMISSION_SCHOOL_EDIT = 'chỉnh sửa trường học';
 
     const PERMISSION_SCHOOL_DELETE = 'xóa trường học';
+
+    const PERMISSION_DEPARTMENT_LIST = 'danh sách phòng ban';
+
+    const PERMISSION_DEPARTMENT_ADD = 'thêm mới phòng ban';
+
+    const PERMISSION_DEPARTMENT_EDIT = 'chỉnh sửa phòng ban';
+
+    const PERMISSION_DEPARTMENT_DELETE = 'xóa phòng ban';
+
+    const PERMISISON_SUBJECT_LIST = 'danh sách môn học';
+
+    const PERMISISON_SUBJECT_ADD = 'thêm mới môn học';
+
+    const PERMISISON_SUBJECT_EDIT = 'chỉnh sửa môn học';
+
+    const PERMISISON_SUBJECT_DELETE = 'xóa môn học';
+
+    const PERMISSON_POSITION_LIST = 'danh sách chức vụ';
+
+    const PERMISSON_POSITION_ADD = 'thêm mới chức vụ';
+
+    const PERMISSON_POSITION_EDIT = 'chỉnh sửa chức vụ';
+
+    const PERMISSON_POSITION_DELETE = 'xóa chức vụ';
 
     /**
      * @param  array  $exclusives Exclude some permissions from the list

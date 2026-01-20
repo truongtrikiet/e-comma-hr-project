@@ -74,6 +74,16 @@ class User extends Authenticatable implements HasMedia, Auditable
     ];
 
     /**
+     * Auditable events.
+     *
+     * @var array
+     */
+    protected $auditEvents = [
+        'sync',
+        'attach',
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
