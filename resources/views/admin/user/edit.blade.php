@@ -114,7 +114,6 @@
                                 :label="__('general.common.password')"
                                 :placeholder="__('general.common.password')"
                                 :isRequired="false"
-                                :value="$user->password"
                             />
                         </div>
                     </div>

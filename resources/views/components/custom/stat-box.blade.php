@@ -1,25 +1,27 @@
 <div class="row layout-top-spacing">
     <div id="{{ $boxId }}"
         @class([
-           'col-xl-8 col-12' => !($customCol),
-           $customCol,
-           'layout-spacing',
+            'col-lg-6 col-xxl-12' => empty($customCol),
+            $customCol,
+            'layout-spacing',
         ])
     >
-        <div class="statbox widget box box-shadow">
-            @if(isset($boxTitle))
-                <div class="widget-header">
-                    <div class="row">
-                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>{{ $boxTitle }}</h4>
-                        </div>
-                    </div>
+        <div class="card">
+            @if(!empty($boxTitle))
+                <div class="card-header">
+                    {{ $boxTitle }}
                 </div>
             @endif
-            <div class="widget-content widget-content-area">
+
+            @php
+                $bodyClass = isset($box_of_datatable) && $box_of_datatable ? 'card-body p-0' : 'card-body';
+            @endphp
+
+            <div class="{{ $bodyClass }}">
                 @if(isset($action))
-                    {{ $action }}
+                    <div class="mb-2">{!! $action !!}</div>
                 @endif
+
                 {{ $slot }}
             </div>
         </div>

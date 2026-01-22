@@ -13,83 +13,83 @@ use Illuminate\Support\Str;
 
 final class Acl
 {
-    const ROLE_SUPER_ADMIN = 'super admin';
+    const ROLE_SUPER_ADMIN = 'Super Admin';
 
-    const ROLE_ADMIN = 'admin';
+    const ROLE_ADMIN = 'Admin';
 
-    const ROLE_TEACHER = 'giáo viên';
+    const ROLE_TEACHER = 'Teacher';
 
-    const ROLE_STAFF = 'nhân viên';
+    const ROLE_STAFF = 'Staff';
 
-    const ROLE_STUDENT = 'sinh viên';
+    const ROLE_STUDENT = 'Student';
 
-    const PERMISSION_ASSIGNEE = 'gán vai trò';
+    const PERMISSION_ASSIGNEE = 'Assign Role';
 
-    const PERMISSION_VIEW_MENU_DASHBOARD = 'xem menu bảng điều khiển';
+    const PERMISSION_VIEW_MENU_DASHBOARD = 'View Dashboard Menu';
 
-    const PERMISSION_VIEW_MENU_SUPER_ADMIN = 'xem menu super admin';
+    const PERMISSION_VIEW_MENU_SUPER_ADMIN = 'View Super Admin Menu';
 
-    const PERMISSION_VIEW_MENU_ADMIN = 'xem menu quản trị';
+    const PERMISSION_VIEW_MENU_ADMIN = 'View Admin Menu';
 
-    const PERMISSION_VIEW_MENU_STAFF = 'xem menu nhân viên';
+    const PERMISSION_VIEW_MENU_STAFF = 'View Staff Menu';
 
-    const PERMISSION_VIEW_MENU_TEACHER = 'xem menu giáo viên';
+    const PERMISSION_VIEW_MENU_TEACHER = 'View Teacher Menu';
 
-    const PERMISSION_PERMISSION_MANAGE = 'quản lý quyền';
+    const PERMISSION_PERMISSION_MANAGE = 'Manage Permissions';
 
-    const PERMISSION_VIEW_MENU_ACCOUNT = 'Xem Menu Tài Khoản';
+    const PERMISSION_VIEW_MENU_ACCOUNT = 'View Account Menu';
 
-    const PERMISSION_ROLE_LIST = 'danh sách vai trò';
+    const PERMISSION_ROLE_LIST = 'Role List';
 
-    const PERMISSION_ROLE_ADD = 'thêm mới vai trò';
+    const PERMISSION_ROLE_ADD = 'Add Role';
 
-    const PERMISSION_ROLE_EDIT = 'chỉnh sửa vai trò';
+    const PERMISSION_ROLE_EDIT = 'Edit Role';
 
-    const PERMISSION_ROLE_DELETE = 'xóa vai trò';
+    const PERMISSION_ROLE_DELETE = 'Delete Role';
 
-    const PERMISSION_USER_MANAGE = 'quản lý người dùng';
+    const PERMISSION_USER_MANAGE = 'Manage Users';
 
-    const PERMISSION_USER_LIST = 'danh sách người dùng';
+    const PERMISSION_USER_LIST = 'User List';
 
-    const PERMISSION_USER_ADD = 'thêm mới người dùng';
+    const PERMISSION_USER_ADD = 'Add User';
 
-    const PERMISSION_USER_EDIT = 'chỉnh sửa người dùng';
+    const PERMISSION_USER_EDIT = 'Edit User';
 
-    const PERMISSION_USER_DELETE = 'xóa người dùng';
+    const PERMISSION_USER_DELETE = 'Delete User';
 
-    const PERMISSION_USER_VIEW = 'xem chi tiết người dùng';
+    const PERMISSION_USER_VIEW = 'View User';
 
-    const PERMISSION_SCHOOL_LIST = 'danh sách trường học';
+    const PERMISSION_SCHOOL_LIST = 'School List';
 
-    const PERMISSION_SCHOOL_ADD = 'thêm mới trường học';
+    const PERMISSION_SCHOOL_ADD = 'Add School';
 
-    const PERMISSION_SCHOOL_EDIT = 'chỉnh sửa trường học';
+    const PERMISSION_SCHOOL_EDIT = 'Edit School';
 
-    const PERMISSION_SCHOOL_DELETE = 'xóa trường học';
+    const PERMISSION_SCHOOL_DELETE = 'Delete School';
 
-    const PERMISSION_DEPARTMENT_LIST = 'danh sách phòng ban';
+    const PERMISSION_DEPARTMENT_LIST = 'Department List';
 
-    const PERMISSION_DEPARTMENT_ADD = 'thêm mới phòng ban';
+    const PERMISSION_DEPARTMENT_ADD = 'Add Department';
 
-    const PERMISSION_DEPARTMENT_EDIT = 'chỉnh sửa phòng ban';
+    const PERMISSION_DEPARTMENT_EDIT = 'Edit Department';
 
-    const PERMISSION_DEPARTMENT_DELETE = 'xóa phòng ban';
+    const PERMISSION_DEPARTMENT_DELETE = 'Delete Department';
 
-    const PERMISISON_SUBJECT_LIST = 'danh sách môn học';
+    const PERMISSION_SUBJECT_LIST = 'Subject List';
 
-    const PERMISISON_SUBJECT_ADD = 'thêm mới môn học';
+    const PERMISSION_SUBJECT_ADD = 'Add Subject';
 
-    const PERMISISON_SUBJECT_EDIT = 'chỉnh sửa môn học';
+    const PERMISSION_SUBJECT_EDIT = 'Edit Subject';
 
-    const PERMISISON_SUBJECT_DELETE = 'xóa môn học';
+    const PERMISSION_SUBJECT_DELETE = 'Delete Subject';
 
-    const PERMISSON_POSITION_LIST = 'danh sách chức vụ';
+    const PERMISSION_POSITION_LIST = 'Position List';
 
-    const PERMISSON_POSITION_ADD = 'thêm mới chức vụ';
+    const PERMISSION_POSITION_ADD = 'Add Position';
 
-    const PERMISSON_POSITION_EDIT = 'chỉnh sửa chức vụ';
+    const PERMISSION_POSITION_EDIT = 'Edit Position';
 
-    const PERMISSON_POSITION_DELETE = 'xóa chức vụ';
+    const PERMISSION_POSITION_DELETE = 'Delete Position';
 
     /**
      * @param  array  $exclusives Exclude some permissions from the list

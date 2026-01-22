@@ -11,8 +11,15 @@ class Datatable extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        public string $id = 'datatable-id',
+        public string $title = '',
+        public string $tableClass = 'display',
+        public string $tableStyle = 'min-width: 845px',
+        public array $menuLength = [7, 10, 20, 50],
+        public int $pageLength = 50,
+        public ?string $customScript = null
+    ) {
         //
     }
 

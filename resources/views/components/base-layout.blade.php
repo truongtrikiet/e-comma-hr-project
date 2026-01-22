@@ -20,6 +20,7 @@
         @isset($headerFiles)
             {!! $headerFiles !!}
         @endisset
+        @stack('headerFiles')
     </head>
     <body>
         <!-- BEGIN LOADER -->
@@ -59,6 +60,8 @@
         @isset($footerFiles)
             {!! $footerFiles !!}
         @endisset
+
+        @stack('footerFiles')
 
         @stack('scripts')
     </body>
