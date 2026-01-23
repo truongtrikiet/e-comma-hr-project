@@ -13,27 +13,27 @@
         ]"
     />
 
+    <div class="align-items-center justify-content-between mb-3">
+        <x-slot:boxTitle>
+            {{ __('general.menu.user_management.user') }}
+        </x-slot:boxTitle>
+        <div></div>
+
+        <div>
+            @can(Acl::PERMISSION_USER_ADD)
+                <x-buttons.button-link
+                    :label="__('general.menu.user_management.create_user')"
+                    :url="route('admin.user.create')"
+                />
+            @endcan
+        </div>
+    </div>
+
     <x-custom.stat-box
         :boxId="'users-box'"
         :custom-col="'col-lg-12'"
         :box_of_datatable="true"
     >
-        <div class="d-flex align-items-center justify-content-between mb-3">
-            <x-slot:boxTitle>
-                {{ __('general.menu.user_management.user') }}
-            </x-slot:boxTitle>
-            <div></div>
-
-            <div>
-                @can(Acl::PERMISSION_USER_ADD)
-                    <x-buttons.button-link
-                        :label="__('general.menu.user_management.create_user')"
-                        :url="route('admin.user.create')"
-                    />
-                @endcan
-            </div>
-        </div>
-    
         <x-table.datatable 
             :id="'sUserTable'"
             :title="__('User List')"
@@ -75,10 +75,12 @@
                     },
                     { 
                         "data": "name",
+                        "class": "text-center",
                         "orderable": false
                     },
                     {
                         "data": "email",
+                        "class": "text-center",
                         "orderable": false
                     },
                     {

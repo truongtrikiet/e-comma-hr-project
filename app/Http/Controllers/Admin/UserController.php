@@ -36,7 +36,6 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $users = $this->userRepository->serverPaginationFiltering($request->all());
-            dd($users);
 
             return UserResource::collection($users);
         }
@@ -60,7 +59,6 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        \Log::info($request->all());
         $this->userService->create($request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.user.store'))
             : session()->flash(NOTIFICATION_ERROR, __('error.user.store'));
@@ -73,7 +71,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('admin.user.show', compact('user'));
     }
 
     /**
@@ -82,8 +80,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = $this->roleRepository->all();
+        $statuses = UserStatus::options(true);
 
-        return view('admin.user.edit', compact('user', 'roles'));
+        return view('admin.user.edit', compact('user', 'roles', 'statuses'));
     }
 
     /**

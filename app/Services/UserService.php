@@ -8,8 +8,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Repositories\Title\TitleRepositoryInterface;
-use Spatie\Permission\Models\Role;
 
 class UserService
 {
@@ -29,7 +27,7 @@ class UserService
 
             $user = $this->userRepository->create($data);
 
-            // $user->userProfile()->create($data);
+            $user->userProfile()->create($data);
 
             // if (isset($data['user_avatar']) && $data['user_avatar']) {
             //     $file = json_decode($data['user_avatar'], true);
@@ -54,7 +52,13 @@ class UserService
         try {
             DB::beginTransaction();
 
-            if (isset($data['password'])) {
+            // if (isset($data['password'])) {
+            //     $data['password'] = Hash::make($data['password']);
+            // }
+
+            if (empty($data['password'])) {
+                unset($data['password']);
+            } else {
                 $data['password'] = Hash::make($data['password']);
             }
 
@@ -62,14 +66,10 @@ class UserService
                 $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
             }
 
-            $user->update($data);
+            $user = $this->userRepository->update($user, $data);
 
-            if ($user->userProfile) {
-                $user->userProfile->update($data);
-            }
-
-            // if (isset($data['address']) && $data['address']) {
-            //     $user->address()->update(['address' => $data['address']]);
+            // if ($user->userProfile) {
+            //     $user->userProfile->update($data);
             // }
 
             // if (isset($data['user_avatar']) && $data['user_avatar']) {
@@ -78,14 +78,6 @@ class UserService
 
             // if (isset($data['departments']) && $data['departments']) {
             //     $user->departments()->sync($data['departments']);
-            // }
-
-            // if (isset($data['titles']) && $data['titles']) {
-            //     $this->handleAudit($user, $data);
-            // }
-
-            // if (isset($data['employee_types']) && $data['employee_types']) {
-            //     $user->employeeType()->sync($data['employee_types']);
             // }
 
             // if (isset($data['roles']) && checkPermission(Acl::PERMISSION_ASSIGNEE)) {

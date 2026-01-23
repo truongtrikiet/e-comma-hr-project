@@ -2,7 +2,7 @@
     $items = $breadcrumbItems ?? [];
     $lastKey = array_key_last($items);
 @endphp
-<div class="row page-titles mx-0">
+<div class="row page-titles mx-0 mb-3">
     <div class="col-sm-6 p-md-0">
         <div class="welcome-text">
             <h4>{{ $title ?? 'Hi, welcome back!' }}</h4>

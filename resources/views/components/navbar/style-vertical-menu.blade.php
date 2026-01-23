@@ -112,7 +112,10 @@
                                     <i class="icon-envelope-open"></i>
                                     <span class="ml-2">Inbox </span>
                                 </a>
-                                <a href="./page-login.html" class="dropdown-item">
+                                <form id="logout-form-navbar" action="{{ route('auth.logout') }}" method="POST" style="display:none;">
+                                    @csrf
+                                </form>
+                                <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form-navbar').submit();">
                                     <i class="icon-key"></i>
                                     <span class="ml-2">Logout </span>
                                 </a>
