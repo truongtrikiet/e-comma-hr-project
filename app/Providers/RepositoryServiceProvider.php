@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Department\DepartmentRepository;
+use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\School\SchoolRepository;
@@ -24,5 +26,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(SettingRepositoryInterface::class, SettingRepository::class);
         $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
         $this->app->singleton(SchoolRepositoryInterface::class, SchoolRepository::class);
+        $this->app->singleton(DepartmentRepositoryInterface::class, DepartmentRepository::class);
     }
 }

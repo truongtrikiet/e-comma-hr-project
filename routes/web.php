@@ -15,6 +15,7 @@ use App\Acl\Acl;
 */
 
 Route::group(['middleware' => 'web'], function () {
+    Route::get('/locale/{locale}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
     Route::domain(config('app.url'))->group(function () {
         Route::get('/', function () {
             if (!auth()->check()) {

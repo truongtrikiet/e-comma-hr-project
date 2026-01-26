@@ -3,7 +3,7 @@
         Nav header start
     ***********************************-->
     <div class="nav-header">
-        <a href="index.html" class="brand-logo">
+        <a href="{{ route('auth.index') }}" class="brand-logo">
             <img class="logo-abbr" src="{{ asset('images/acomma-logo/logo-3.png') }}" alt="">
             <span class="brand-title" style="color: white; font-size: 16px; font-weight: bold;">E-Comma</span>
         </a>
@@ -39,6 +39,15 @@
                     </div>
 
                     <ul class="navbar-nav header-right">
+                        <li class="nav-item dropdown language_dropdown">
+                            <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                <i class="mdi mdi-translate"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{{ route('locale.switch', ['locale' => 'en', 'redirect_to' => request()->fullUrl()]) }}">English</a>
+                                <a class="dropdown-item" href="{{ route('locale.switch', ['locale' => 'vi', 'redirect_to' => request()->fullUrl()]) }}">Tiếng Việt</a>
+                            </div>
+                        </li>
                         <li class="nav-item dropdown notification_dropdown">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                 <i class="mdi mdi-bell"></i>

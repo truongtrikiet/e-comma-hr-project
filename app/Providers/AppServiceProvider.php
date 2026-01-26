@@ -23,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (session()->has('app_locale')) {
+              if (!app()->runningInConsole() && session()->has('app_locale')) {
+                 app()->setLocale(session('app_locale'));
+              }
+        }
+        
         Route::macro('isWith', function (...$parameters) {
             foreach ($parameters as $parameter) {
                 if (url()->current() == (!is_array($parameter)

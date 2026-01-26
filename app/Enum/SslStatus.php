@@ -13,12 +13,38 @@ enum SslStatus: int
 
     case ACTIVE = 1;
 
-    public static function getBadge($status): string
+    public function getBadge()
     {
-        return match ($status) {
-            self::DISABLED => 'danger',
+        return match ($this) {
             self::ACTIVE => 'success',
-            default => ''
+            self::DISABLED => 'danger',
+            default => '',
         };
+    }
+
+    /**
+     * Get the display name of a status based on its string value.
+     *
+     * @param string $value
+     * @return string|null
+     */
+    public static function getNameByValue(string $value): ?string
+    {
+        $case = self::from($value);
+        return match ($case) {
+            self::ACTIVE => __('general.common.active'),
+            self::DISABLED => __('general.common.disabled'),
+            default => null,
+        };
+    }
+
+    public static function options(): array
+    {
+        return array_map(function ($case) {
+            return [
+                'value' => $case->value,
+                'label' => self::getNameByValue($case->value),
+            ];
+        }, self::cases());
     }
 }

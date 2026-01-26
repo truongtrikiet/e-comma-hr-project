@@ -15,7 +15,7 @@ class Datatable extends Component
         public string $id = 'datatable-id',
         public string $title = '',
         public string $tableClass = 'display',
-        public string $tableStyle = 'min-width: 845px',
+        public string $tableStyle = 'width: 100%;',
         public array $menuLength = [7, 10, 20, 50],
         public int $pageLength = 50,
         public ?string $customScript = null

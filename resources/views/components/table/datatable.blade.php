@@ -1,23 +1,29 @@
 @push('headerFiles')
     <link href="{{ asset('assets/css/lib/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/lib/themify-icons.css') }}" rel="stylesheet">
-    <!-- <link href="{{ asset('assets/css/lib/bootstrap.min.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('assets/css/lib/helper.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
     <style>
     .header { 
         margin-left: 0 !important; 
-        z-index: auto !important; 
+        z-index: 1 !important; 
     };
     .body {
         color: #868e96;
     };
     </style>
 @endpush
+<style>
+    #{{ $id ?? 'datatable' }} td,
+    #{{ $id ?? 'datatable' }} th,
+    #{{ $id ?? 'datatable' }} .badge {
+        color: #1b1b1b !important;
+    }
+</style>
 
 <div class="table-responsive">
-    <table id="{{ $id ?? 'datatable' }}" class="{{ $tableClass ?? 'display' }}" style="{{ $tableStyle ?? 'min-width: 845px' }}">
+    <table id="{{ $id ?? 'datatable' }}" class="{{ $tableClass ?? 'display' }}" style="{{ $tableStyle ?? 'width: 100%;' }}">
         <thead>
             {{ $tableHeader }}
         </thead>
@@ -66,6 +72,7 @@
                 stripeClasses: [],
                 lengthMenu: {!! json_encode($menuLength) !!},
                 pageLength: {{ $pageLength }},
+                autoWidth: false,
             };
 
             let customOptions = {};
@@ -87,6 +94,12 @@
             console.log('init datatable {{ $id }}', finalOptions);
 
             const c1 = $('#{{ $id }}').DataTable(finalOptions);
+
+            try {
+                setTimeout(function() { c1.columns.adjust(); }, 0);
+            } catch (e) {
+                console.warn('columns.adjust() failed', e);
+            }
 
             if (typeof multiCheck === 'function') {
                 try { multiCheck(c1); } catch (e) { console.warn('multiCheck error', e); }

@@ -104,15 +104,6 @@ return [
             'customer_history' => 'Lịch sử liên hệ khách hàng',
             'empty_history' => 'Không tồn tại liên hệ!',
         ],
-        'department_management' => [
-            'title' => 'Phòng ban',
-            'department' => 'Quản lý phòng ban',
-            'create_department' => 'Thêm mới phòng ban',
-            'edit_department' => 'Chỉnh sửa phòng ban',
-            'show_department' => 'Chi tiết phòng ban',
-            'empty_history' => 'Không có dữ liệu',
-            'diagram' => 'Sơ đồ công ty',
-        ],
         'title_management' => [
             'title' => 'Vị trí',
             'manage_title' => 'Quản lý vị trí',
@@ -246,7 +237,22 @@ return [
                 'edit_exam' => 'Chỉnh sửa đề thi',
             ],
         ],
-
+        'department_management' => [
+            'title' => 'Phòng ban',
+            'department' => 'Quản lý phòng ban',
+            'create_department' => 'Thêm mới phòng ban',
+            'edit_department' => 'Chỉnh sửa phòng ban',
+            'show_department' => 'Chi tiết phòng ban',
+            'empty_history' => 'Không có dữ liệu',
+            'diagram' => 'Sơ đồ công ty',
+        ],
+        'school_management' => [
+            'title' => 'Quản lý trường học',
+            'school' => 'Quản lý trường học',
+            'create_school' => 'Thêm mới trường học',
+            'edit_school' => 'Chỉnh sửa trường học',
+            'domain_school' => 'Mã miền trường',
+        ],
     ],
 
     'dashboard' => [
@@ -518,6 +524,13 @@ return [
         'active' => 'Hoạt động',
         'inactive' => 'Không hoạt động',
         'locked' => 'Đã khoá',
+        'updated_at' => 'Thời gian cập nhật',
+        'academic' => 'Chuyên môn',
+        'administrative' => 'Hành chính',
+        'support' => 'Hỗ trợ',
+        'enabled' => 'Bật',
+        'disabled' => 'Tắt',
+        'setting' => 'Cài đặt',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
