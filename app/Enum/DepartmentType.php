@@ -5,21 +5,13 @@ namespace App\Enum;
 use App\Traits\EnumOptions;
 use App\Traits\EnumValues;
 
-enum SettingStatus: int
+enum DepartmentType: int
 {
-    use EnumValues, EnumOptions;
+    use EnumOptions, EnumValues;
 
-    case ENABLED = 1;
-    case DISABLED = 0;
-
-    public function getBadge()
-    {
-        return match ($this) {
-            self::ENABLED => 'success',
-            self::DISABLED => 'danger',
-            default => '',
-        };
-    }
+    case ACADEMIC = 1;
+    case ADMINISTRATIVE = 2;
+    case SUPPORT = 3;
 
     /**
      * Get the display name of a status based on its string value.
@@ -31,8 +23,9 @@ enum SettingStatus: int
     {
         $case = self::from($value);
         return match ($case) {
-            self::ENABLED => __('general.common.enabled'),
-            self::DISABLED => __('general.common.disabled'),
+            self::ACADEMIC => __('general.common.academic'),
+            self::ADMINISTRATIVE => __('general.common.administrative'),
+            self::SUPPORT => __('general.common.support'),
             default => null,
         };
     }

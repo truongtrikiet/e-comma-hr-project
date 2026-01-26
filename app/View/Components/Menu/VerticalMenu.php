@@ -35,12 +35,9 @@ class VerticalMenu extends Component
     {
         $this->setProperties();
         $this->buildMenuDashboard();
-        $this->buildMenuSettings();
-        // $this->buildMenuProduct();
-        // $this->buildClientMenu();
-        // $this->buildMenuCampaign();
+        $this->buildMainMenu();
         // $this->buildMenuAddress();
-        // $this->buildMenuOrder();
+        $this->buildSchoolSetting();
     }
 
     private function buildMenuDashboard(): void
@@ -51,8 +48,8 @@ class VerticalMenu extends Component
                 'title' => __('general.menu.system_management'),
             ],
             [
-                'title' => __('general.menu.dashboard'),
-                'icon' => 'icon icon-house-pricing',
+                'title' => __('general.menu.system_management'),
+                'icon' => 'icon icon-home',
                 'type' => 'dropdown',
                 'child' => [
                     [
@@ -61,12 +58,18 @@ class VerticalMenu extends Component
                         'active' => Route::is(['admin.dashboard']),
                         'show' => checkPermissions([Acl::PERMISSION_VIEW_MENU_DASHBOARD]),
                     ],
+                    [
+                        'title' => __('general.menu.school_management.school'),
+                        'url' => route('admin.school.index'),
+                        'active' => Route::is(['admin.school.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_SCHOOL_LIST]),
+                    ]
                 ],
             ],
         ]);
     }
 
-    private function buildMenuSettings(): void
+    private function buildMainMenu(): void
     {
         $this->menuItems = array_merge($this->menuItems, [
             [
@@ -74,8 +77,9 @@ class VerticalMenu extends Component
                 'title' => __('general.menu.hr_management'),
             ],
             [
-                'title' => __('general.common.user'),
+                'title' => __('general.menu.user_management.title'),
                 'icon' => 'icon icon-single-04-2',
+                'type' => 'dropdown',
                 'child' => [
                     [
                         'title' => __('general.menu.user_management.user'),
@@ -85,80 +89,43 @@ class VerticalMenu extends Component
                     ],
                 ],
             ],
+            [
+                'title' => __('general.menu.department_management.title'),
+                'icon' => 'icon icon-tag-content',
+                'type' => 'dropdown',
+                'child' => [
+                    [
+                        'title' => __('general.menu.department_management.department'),
+                        'url' => route('admin.department.index'),
+                        'active' => Route::is(['admin.department.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_DEPARTMENT_LIST]),
+                    ],
+                ],
+            ],
         ]);
     }
 
-//    private function buildMenuProduct(): void
-//    {
-//        $this->menuItems = array_merge($this->menuItems, [
-//            [
-//                'type' => 'label',
-//                'title' => __('Sản phẩm'),
-//            ],
-//            [
-//                'title' => __('general.menu.lucky_draw.title'),
-//                'url' => route('admin.lucky-draw.index'),
-//                'icon' => 'aperture',
-//                'active' => Route::is(['admin.lucky-draw.*']),
-//                'show' => checkPermissions([Acl::PERMISSION_LUCKY_DRAW_LIST]),
-//                'child' => [],
-//            ],
-//        ]);
-//    }
-
-//    private function buildMenuOrder(): void
-//    {
-//        $this->menuItems = array_merge($this->menuItems, [
-//            [
-//                'type' => 'label',
-//                'title' => __('Đơn hàng'),
-//            ],
-//            [
-//                'title' => __('general.menu.order_management.title'),
-//                'url' => route('admin.order-management.order.index'),
-//                'icon' => 'shopping-cart',
-//                'active' => Route::is(['admin.order-management.order.*']),
-//                'show' => checkPermissions([Acl::PERMISSION_ORDER_LIST]),
-//                'child' => [],
-//            ],
-//        ]);
-//    }
-
-//    private function buildClientMenu(): void
-//    {
-//        $this->menuItems = array_merge($this->menuItems, [
-//            [
-//                'title' => __('Khách hàng'),
-//                'is_show_title_menu' => checkPermissions([Acl::PERMISSION_CLIENT_LIST]),
-//            ],
-//            [
-//                'title' => __('Khách hàng'),
-//                'url' => route('admin.client-management.client.index'),
-//                'icon' => 'tag',
-//                'active' => Route::is(['admin.client-management.client.*']),
-//                'show' => checkPermissions([Acl::PERMISSION_CLIENT_LIST]),
-//                'child' => [],
-//            ],
-//        ]);
-//    }
-
-//    private function buildMenuCampaign(): void
-//    {
-//        $this->menuItems = array_merge($this->menuItems, [
-//            [
-//                'title' => __('Chiến Dịch'),
-//                'is_show_title_menu' => checkPermissions([Acl::PERMISSION_CAMPAIGN_LIST]),
-//            ],
-//            [
-//                'title' => __('Chiến Dịch'),
-//                'url' => route('admin.campaign-management.campaign.index'),
-//                'icon' => 'calendar',
-//                'active' => Route::is(['admin.campaign-management.campaign.*', 'admin.campaign-schedule-management.schedule.*', 'admin.campaign-management.*']),
-//                'show' => checkPermissions([Acl::PERMISSION_CAMPAIGN_LIST]),
-//                'child' => [],
-//            ],
-//        ]);
-//    }
+   private function buildSchoolSetting(): void
+   {
+       $this->menuItems = array_merge($this->menuItems, [
+           [
+               'type' => 'label',
+               'title' => __('general.common.setting'),
+           ],
+        //    [
+        //        'title' => __('general.menu.school_management.title'),
+        //        'icon' => 'icon icon-house-pricing',
+        //        'child' => [
+        //             [
+        //                 'title' => __('general.menu.school_management.school'),
+        //                 'url' => route('admin.school.index'),
+        //                 'active' => Route::is(['admin.school.*']),
+        //                 'show' => checkPermissions([Acl::PERMISSION_SCHOOL_LIST]),
+        //             ],
+        //        ],
+        //    ],
+       ]);
+   }
 
 //    private function buildMenuAddress(): void
 //    {

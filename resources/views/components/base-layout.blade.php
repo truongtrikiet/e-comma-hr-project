@@ -21,7 +21,9 @@
             {!! $headerFiles !!}
         @endisset
         @stack('headerFiles')
+
     </head>
+    
     <body>
         <!-- BEGIN LOADER -->
             <x-layout-loader />
@@ -53,6 +55,10 @@
             <!-- END FOOTER -->
         </div>
 
+        <script src="{{ asset('assets/js/lib/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/js/lib/jquery.nanoscroller.min.js') }}"></script>
+        <script src="{{ asset('assets/js/lib/menubar/sidebar.js') }}"></script>
+        <script src="{{ asset('assets/js/lib/preloader/pace.min.js') }}"></script>
         <script src="{{ asset('vendor/global/global.min.js') }}"></script>
         <script src="{{ asset('js/quixnav-init.js') }}"></script>
         <script src="{{ asset('js/custom.min.js') }}"></script>

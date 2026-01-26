@@ -14,6 +14,10 @@ return [
 
     'menu' => [
         'dashboard' => 'Dashboard',
+        'hr_management' => 'HR Management',
+        'content_management' => 'Content Management',
+        'system_management' => 'System Management',
+        'general_config' => 'General Configuration',
 
         'role_management' => [
             'title' => 'Manage Roles',
@@ -23,7 +27,7 @@ return [
         ],
         'user_management' => [
             'title' => 'Manage Users',
-            'user' => 'User',
+            'user' => 'User Management',
             'create_user' => 'Add User',
             'edit_user' => 'Edit User',
         ],
@@ -71,6 +75,19 @@ return [
                 'list_exam' => 'Survey Exam List',
                 'edit_exam' => 'Edit Survey Exam',
             ],
+        ],
+        'department_management' => [
+            'title' => 'Manage Departments',
+            'department' => 'Department Management',
+            'create_department' => 'Add Department',
+            'edit_department' => 'Edit Department',
+        ],
+        'school_management' => [
+            'title' => 'School Management',
+            'school' => 'Manage Schools',
+            'create_school' => 'Add School',
+            'edit_school' => 'Edit School',
+            'domain_school' => 'School Domain',
         ],
     ],
     'dashboard' => [
@@ -194,6 +211,15 @@ return [
         'active' => 'Active',
         'inactive' => 'Inactive',
         'locked' => 'Locked',
+        'updated_at' => 'Updated at',
+        'created_at' => 'Created at',
+        'academic' => 'Academic',
+        'administrative' => 'Administrative',
+        'support' => 'Support',
+        'enabled' => 'Enabled',
+        'disabled' => 'Disabled',
+        'type' => 'Type',
+        'setting' => 'Setting',
     ],
 
     'selected_item' => [

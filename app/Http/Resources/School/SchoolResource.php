@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\School;
 
+use App\Enum\SslStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
@@ -20,7 +21,7 @@ class SchoolResource extends JsonResource
             'name' => $this->name,
             'sub_domain' => $this->sub_domain,
             'ssl_status' => $this->ssl_status,
-            'ssl_status_name' => __(Str::title($this->ssl_status->name)),
+            'ssl_status_name' => SslStatus::getNameByValue($this->ssl_status->value) ?? 'N/A',
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
