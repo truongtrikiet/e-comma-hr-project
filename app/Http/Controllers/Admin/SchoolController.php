@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Repositories\School\SchoolRepositoryInterface;
 use App\Acl\Acl;
 use App\Enum\SslStatus;
+use App\Http\Requests\School\StoreSchoolRequest;
+use App\Http\Requests\School\UpdateSchoolRequest;
 use App\Http\Resources\School\SchoolResource;
 use App\Models\School;
 
@@ -48,7 +50,7 @@ class SchoolController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSchoolRequest $request)
     {
         $this->schoolRepository->create($request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.school.create')) 
@@ -60,7 +62,7 @@ class SchoolController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(School $school)
     {
         //
     }
@@ -78,7 +80,7 @@ class SchoolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, School $school)
+    public function update(UpdateSchoolRequest $request, School $school)
     {
         $this->schoolRepository->update($school, $request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.school.update')) 

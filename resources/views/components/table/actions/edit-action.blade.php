@@ -1,6 +1,6 @@
 @can($permission)
     <li>
-        <a href="{{ $url }}" data-bs-toggle="tooltip" data-bs-placement="top"
+        <a href="{{ $url }}" role="button" data-bs-toggle="tooltip" data-bs-placement="top"
            title="{{ __('general.common.edit') }}" data-bs-original-title="{{ __('general.common.edit') }}"
                 {{ $attributes->merge(['class' => 'bs-tooltip']) }}
         >

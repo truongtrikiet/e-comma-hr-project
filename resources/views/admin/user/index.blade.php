@@ -41,10 +41,12 @@
             <x-slot:tableHeader>
                 <tr>
                     <th style="width:4%">ID</th>
-                    <th style="width:18%">{{ __('general.common.name') }}</th>
-                    <th style="width:18%">{{ __('general.common.email') }}</th>
-                    <th style="width:20%">{{ __('general.common.login_at') }}</th>
-                    <th style="width:20%">{{ __('general.common.created_at') }}</th>
+                    <th style="width:20%">{{ __('general.common.name') }}</th>
+                    <th style="width:20%">{{ __('general.common.email') }}</th>
+                    <th style="width:12%">{{ __('general.common.role') }}</th>
+                    <th style="width:14%">{{ __('general.common.school') }}</th>
+                    <th style="width:10%">{{ __('general.common.login_at') }}</th>
+                    <th style="width:10%">{{ __('general.common.created_at') }}</th>
                     <th style="width:10%">{{ __('general.common.status') }}</th>
                     <th style="width:10%">{{ __('general.common.action') }}</th>
                 </tr>
@@ -52,6 +54,7 @@
             <x-slot:customScript>
                 "processing": true,
                 "serverSide": true,
+                "orderable": false,
                 "ajax": {
                     "url": "{{ route('admin.user.index') }}",
                         "data": function(d) {
@@ -84,6 +87,23 @@
                         "orderable": false
                     },
                     {
+                        "data": "role",
+                        "class": "text-center",
+                        "orderable": false,
+                        "render": function(data, type, full) {
+                            let roles = data.map(role => `<span class="badge badge-info">${role.name}</span>`).join(' ');
+                            return roles || '<span class="badge badge-light">N/A</span>';
+                        }
+                    },
+                    {
+                        "data": "school",
+                        "orderable": false,
+                        "class": "text-center action two-icons",
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-light">${data?.name ?? 'N/A'}</span>`;
+                        }
+                    },
+                    {
                         "data": "login_at",
                         "orderable": false,
                         "class": "text-center",
@@ -112,11 +132,11 @@
 
                             return `
                                 <ul class="table-controls d-flex justify-content-center">
-                                    <x-table.actions.show-action
+                                    <!-- <x-table.actions.show-action
                                         :permission="Acl::PERMISSION_USER_VIEW"
                                         :url="'${urlShow}'"
                                         :dataTableId="'sUserTable'"
-                                    />
+                                    /> -->
                                     <x-table.actions.edit-action
                                         :permission="Acl::PERMISSION_USER_EDIT"
                                         :url="'${urlEdit}'"

@@ -31,8 +31,8 @@
                                     <i class="mdi mdi-magnify"></i>
                                 </span>
                             <div class="dropdown-menu p-0 m-0">
-                                <form>
-                                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                <form class="form-inline search-full form-inline search" role="search">
+                                    <input class="form-control search-form-control" type="search" placeholder="Search" aria-label="Search">
                                 </form>
                             </div>
                         </div>

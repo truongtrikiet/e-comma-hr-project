@@ -50,17 +50,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $limit = Arr::get($searchParams, 'limit', self::PER_PAGE);
         $keyword = Arr::get($searchParams, 'search', '');
-        // $roles = Arr::get($searchParams, 'role_id', null);
+        $roles = Arr::get($searchParams, 'role_id', null);
         $status = Arr::get($searchParams, 'status', null);
 
-        $query = $this->model->query()->with(['roles']);
-
-        // if ($roles) {
-        //     $rolesArray = explode(',', $roles);
-        //     $query->whereHas('roles', function ($q) use ($rolesArray) {
-        //         $q->whereIn('id', $rolesArray);
-        //     });
-        // }
+        $query = $this->model->query()->with(['roles', 'school']);
 
         if ($keyword) {
             if (is_array($keyword)) {
@@ -71,6 +64,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                 $q->where('name', 'LIKE', '%' . $keyword . '%')
                     ->orWhere('email', 'LIKE', '%' . $keyword . '%')
                     ->orWhere('id', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        if ($roles) {
+            $rolesArray = explode(',', $roles);
+            $query->whereHas('roles', function ($q) use ($rolesArray) {
+                $q->whereIn('id', $rolesArray);
             });
         }
 
@@ -121,31 +121,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function getTotalUser()
     {
         return $this->model->count();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function destroy($model)
-    {
-        try {
-            DB::beginTransaction();
-
-            $model->furloughs()->delete();
-
-            $model->salary()->delete();
-
-            $model->departments()->detach();
-
-            $model->delete();
-
-            DB::commit();
-
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return false;
-        }
     }
 
     /**

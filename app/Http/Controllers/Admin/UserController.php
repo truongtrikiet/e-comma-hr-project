@@ -11,6 +11,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\School\SchoolRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class UserController extends Controller
         protected UserRepositoryInterface $userRepository,
         protected UserService $userService,
         protected RoleRepositoryInterface $roleRepository,
+        protected SchoolRepositoryInterface $schoolRepository,
     ) {
         $this->middleware('permission: ' . Acl::PERMISSION_USER_LIST)->only('index');
         $this->middleware('permission: ' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
@@ -40,7 +42,9 @@ class UserController extends Controller
             return UserResource::collection($users);
         }
 
-        return view('admin.user.index');
+        $schools = $this->schoolRepository->getSchoolActive();
+
+        return view('admin.user.index', compact('schools'));
     }
 
     /**
@@ -49,9 +53,14 @@ class UserController extends Controller
     public function create()
     {
         $roles = $this->roleRepository->all();
-        $statuses = UserStatus::options(true);
+        $statuses = UserStatus::options();
+        $schools = $this->schoolRepository->getSchoolActive();
 
-        return view('admin.user.create', compact('roles', 'statuses'));
+        return view('admin.user.create', compact(
+            'roles', 
+            'statuses',
+            'schools'
+        ));
     }
 
     /**
@@ -80,9 +89,17 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = $this->roleRepository->all();
-        $statuses = UserStatus::options(true);
+        $userRoles = $user->roles->pluck('id')->toArray();
+        $statuses = UserStatus::options();
+        $schools = $this->schoolRepository->getSchoolActive();
 
-        return view('admin.user.edit', compact('user', 'roles', 'statuses'));
+        return view('admin.user.edit', compact(
+            'user', 
+            'roles',
+            'userRoles',
+            'statuses', 
+            'schools'
+        ));
     }
 
     /**

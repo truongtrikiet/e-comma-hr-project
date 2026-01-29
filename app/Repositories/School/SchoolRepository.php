@@ -2,6 +2,7 @@
 
 namespace App\Repositories\School;
 
+use App\Enum\SslStatus;
 use App\Models\School;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Arr;
@@ -59,5 +60,13 @@ class SchoolRepository extends BaseRepository implements SchoolRepositoryInterfa
         $query->latest();
 
         return $query->paginate($limit);
+    }
+
+    /**
+     * Get all active schools.
+     */
+    public function getSchoolActive()
+    {
+        return $this->model->where('ssl_status', SslStatus::ACTIVE)->get();
     }
 }

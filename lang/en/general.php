@@ -123,6 +123,7 @@ return [
         'information' => 'Basic Information',
         'personal_information' => 'Personal Information',
         'security_information' => 'Security Information',
+        'work_information' => 'Work Information',
         'name' => 'Name',
         'new' => 'New',
         'order' => 'Order',
@@ -151,9 +152,8 @@ return [
         'email' => 'Email',
         'password' => 'Password',
         'password_confirmation' => 'Password confirmation',
-        'first_name' => 'User first name',
-        'last_name' => 'User last name',
-        'name' => 'Name',
+        'first_name' => 'First name',
+        'last_name' => 'Last name',
         'identification_number' => 'Identification number',
         'bank_name' => 'Bank name',
         'bank_number' => 'Bank number',
@@ -220,6 +220,7 @@ return [
         'disabled' => 'Disabled',
         'type' => 'Type',
         'setting' => 'Setting',
+        'school' => 'School',
     ],
 
     'selected_item' => [
@@ -256,5 +257,10 @@ return [
             'title' => 'New holiday schedule announcement.',
             'body' => 'You have just received a new holiday schedule notice, please check!',
         ],
+    ],
+    'popup_message' => [
+        'confirm_delete' => 'Are you sure you want to delete this?',
+        'delete_failed' => 'Delete failed!',
+        'delete_success' => 'Delete successful!',
     ]
 ];
