@@ -58,6 +58,14 @@ class UpdateUserRequest extends FormRequest
             'status' => [
                 new Enum(UserStatus::class),
             ],
+            'roles' => [
+                'required',
+            ],
+            'school_id' => [
+                'nullable',
+                'integer',
+                'exists:schools,id'
+            ],
         ];
     }
 }

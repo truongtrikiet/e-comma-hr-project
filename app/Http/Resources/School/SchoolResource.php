@@ -22,6 +22,7 @@ class SchoolResource extends JsonResource
             'sub_domain' => $this->sub_domain,
             'ssl_status' => $this->ssl_status,
             'ssl_status_name' => SslStatus::getNameByValue($this->ssl_status->value) ?? 'N/A',
+            'ssl_status_badge_name' => $this->ssl_status?->getBadge(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

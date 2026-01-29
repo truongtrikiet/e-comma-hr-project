@@ -43,11 +43,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            if (!window.jQuery || !jQuery().DataTable) {
-                console.warn('jQuery or DataTables not loaded yet.');
-                return;
-            }
-
             let drawDT = 0;
 
             const baseOptions = {
@@ -105,13 +100,89 @@
                 try { multiCheck(c1); } catch (e) { console.warn('multiCheck error', e); }
             }
 
-            $(document).on('keyup', '.search-bar .search-form-control', function() {
+            $(document).on('keyup', '.search_bar .search-form-control', function() {
                 c1.search(this.value).draw();
             });
 
             $('.search-bar .search-close').on('click', function(e) {
                 c1.search('').draw();
             });
+
+            // handle destroy
+            (function () {
+                const meta = document.querySelector('meta[name="csrf-token"]');
+                const CSRF_TOKEN = meta ? meta.content : @json(csrf_token());
+
+                if ($ && $.ajaxSetup) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': CSRF_TOKEN,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                }
+
+                function normalizeSelector(sel) {
+                    if (!sel) return null;
+                    if (typeof sel !== 'string') return sel;
+                    return (sel.startsWith('#') || sel.startsWith('.')) ? sel : ('#' + sel);
+                }
+
+                function showSuccess(message) {
+                    if (window.Snackbar && typeof Snackbar.show === 'function') {
+                        Snackbar.show({ text: message, textColor: '#ddf5f0', backgroundColor: '#00ab55', actionText: '{{ __('Bỏ qua') }}', actionTextColor: '#3b3f5c' });
+                    } else {
+                        alert(message);
+                    }
+                }
+
+                function showError(message) {
+                    if (window.Snackbar && typeof Snackbar.show === 'function') {
+                        Snackbar.show({ text: message, textColor: '#fbeced', backgroundColor: '#e7515a', actionText: '{{ __('Bỏ qua') }}', actionTextColor: '#3b3f5c' });
+                    } else {
+                        alert(message);
+                    }
+                }
+
+                function performDelete(dataTableId, url) {
+                    const selector = normalizeSelector(dataTableId);
+                    $.post(url, { _method: 'DELETE' })
+                        .done(function (response) {
+                            showSuccess(response.message || '{{ __('success.delete') }}');
+                            try {
+                                if (selector && $.fn.DataTable) {
+                                    $(selector).DataTable().ajax.reload(null, false);
+                                } else {
+                                    location.reload();
+                                }
+                            } catch (err) {
+                                console.error('Error reloading datatable:', err);
+                                location.reload();
+                            }
+                        })
+                        .fail(function (jqXHR) {
+                            console.error('Delete request failed', { status: jqXHR.status, responseText: jqXHR.responseText });
+                            showError('{{ __('Xóa lựa chọn thất bại.') }}');
+                        });
+                }
+
+                $(document).on('click', 'a.delete', function (e) {
+                    e.preventDefault();
+                    const url = $(this).data('url');
+                    const dataTableId = $(this).data('datatable-id');
+
+                    const confirmTitle = "{{ __('general.popup_message.confirm_delete') }}";
+                    const confirmText = "{{ __('Bạn sẽ không thể hoàn lại thao tác này!') }}";
+
+                    if (window.Swal && typeof Swal.fire === 'function') {
+                        Swal.fire({ title: confirmTitle, text: confirmText, icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: "{{ __('Xác nhận') }}", cancelButtonText: "{{ __('Hủy bỏ') }}", reverseButtons: true })
+                            .then(function (result) { if (result.isConfirmed) performDelete(dataTableId, url); })
+                            .catch(function (err) { console.error('Swal error:', err); if (confirm(confirmTitle)) performDelete(dataTableId, url); });
+                    } else {
+                        if (confirm(confirmTitle)) performDelete(dataTableId, url);
+                    }
+                });
+            })();
         });
     </script>
 @endpush

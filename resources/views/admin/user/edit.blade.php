@@ -32,7 +32,7 @@
 
     <x-form.form-layout
         :form-id="'general-settings'"
-        :form-url="route('admin.user.update', $user->id)"
+        :form-url="route('admin.user.update', $user)"
         :form-method="'PUT'"
         :card-title="__('general.menu.user_management.edit_user')"
         :custom-col="'col-lg-12'"
@@ -87,6 +87,44 @@
                                 :value="$user->phone_number"
                             />
                         </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="mb-2">{{ __('general.common.work_information') }}</h5>
+                    <div class="row">
+                        @if (session('school_name') === config('subdomain.system_main'))
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sSchoolSelect'"
+                                :label="__('general.common.school')"
+                                :data-values="$schools"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :name="'school_id'"
+                                :multiple="false"
+                                :placeholder="__('general.common.school')"
+                                :isRequired="false"
+                                :selected="old('schools', $user?->school_id)"
+                            />
+                        </div>
+                        @else
+                            <input type="hidden" name="school_id" value="{{ session('school_id') }}">
+                        @endif
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sRoleSelect'"
+                                :label="__('general.common.role')"
+                                :data-values="$roles"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :name="'roles'"
+                                :multiple="false"
+                                :placeholder="__('general.common.role')"
+                                :isRequired="true"
+                                :selected="old('roles', $user->roles->pluck('id')->toArray())"
+                            />
+                        </div>
                         <div class="col-md-6">
                             <x-form.form-select
                                 :id="'sStatusSelect'"
@@ -128,6 +166,7 @@
                         :name="'user_avatar'"
                         :label="__('general.common.avatar')"
                         accept="image/*"
+                        :value="old('user_avatar', $user->avatar_url)"
                     />
                 </div>
             </div>
@@ -161,67 +200,75 @@
                 FilePondPluginFileValidateType
             );
 
+            @if($user->avatar_url)
+                userAvatar.addFile('{{ $user->avatar_url }}');
+            @endif
+
             document.addEventListener('DOMContentLoaded', () => {
-            let userInteracted = false;
+                let userInteracted = false;
 
-            document.addEventListener('click', () => { userInteracted = true; });
+                document.addEventListener('click', () => { userInteracted = true; });
 
-            const avatarEl = document.querySelector('#sProfilePicture') || document.querySelector('#sAvatar');
-            if (avatarEl) {
-                const userAvatar = FilePond.create(avatarEl, {
-                acceptedFileTypes: ['image/*'],
-                fileValidateTypeLabelExpectedTypes: 'phải là hình ảnh',
-                labelFileTypeNotAllowed: 'sai định dạng',
-                maxFileSize: '5MB',
-                labelMaxFileSizeExceeded: 'Tệp quá lớn',
-                labelMaxFileSize: 'Kích thước ảnh tối đa 5MB',
-                stylePanelLayout: 'compact circle',
-                labelIdle: 'Kéo & thả hoặc <span class=\"filepond--label-action\">chọn từ thiết bị</span>',
-                server: {
-                    process: '/laravel-filepond/process',
-                    revert: '/laravel-filepond/revert',
-                    restore: '/laravel-filepond/restore/',
-                    load: '/laravel-filepond/load/',
-                }
-                });
-
-                userAvatar.on('addfile', (error, file) => {
-                const previewImg = document.querySelector('#avatarPreviewImg');
-                if (file && file.file && previewImg) {
-                    previewImg.src = URL.createObjectURL(file.file);
-                }
-
-                if (userInteracted && file && !file.file.type.startsWith('image/')) {
-                    if (window.Swal) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi định dạng file!',
-                        text: 'Chỉ chấp nhận file hình ảnh (JPG, PNG, GIF, etc.).',
-                        confirmButtonText: 'Đã hiểu'
+                const avatarEl = document.querySelector('#user_avatar') || document.querySelector('#sProfilePicture') || document.querySelector('#sAvatar');
+                if (avatarEl) {
+                    const userAvatar = FilePond.create(avatarEl, {
+                        acceptedFileTypes: ['image/*'],
+                        fileValidateTypeLabelExpectedTypes: 'phải là hình ảnh',
+                        labelFileTypeNotAllowed: 'sai định dạng',
+                        maxFileSize: '5MB',
+                        labelMaxFileSizeExceeded: 'Tệp quá lớn',
+                        labelMaxFileSize: 'Kích thước ảnh tối đa 5MB',
+                        stylePanelLayout: 'compact',
+                        labelIdle: 'Kéo & thả hoặc <span class="filepond--label-action">chọn từ thiết bị</span>',
+                        server: {
+                            process: '/laravel-filepond/process',
+                            revert: '/laravel-filepond/revert',
+                            restore: '/laravel-filepond/restore/',
+                            load: '/laravel-filepond/load/',
+                        }
                     });
-                    }
-                    setTimeout(() => userAvatar.removeFile(file), 100);
-                }
-                });
 
-                userAvatar.on('removefile', () => {
+                    @if($user->avatar_url)
+                        userAvatar.addFile('{{ $user->avatar_url }}');
+                    @endif
+
+                    userAvatar.on('addfile', (error, file) => {
                     const previewImg = document.querySelector('#avatarPreviewImg');
-                    if (previewImg) {
-                        previewImg.src = "{{ asset('images/default-avatar.png') }}";
+                    if (file && file.file && previewImg) {
+                        previewImg.src = URL.createObjectURL(file.file);
                     }
-                });
 
-                userAvatar.on('error', (err, file, status) => {
-                if (userInteracted && status === 'file-type-not-allowed' && window.Swal) {
-                    Swal.fire({
-                    icon: 'warning',
-                    title: 'Định dạng file không hợp lệ!',
-                    text: 'Vui lòng chọn file hình ảnh.',
-                    confirmButtonText: 'Đã hiểu'
+                    if (userInteracted && file && !file.file.type.startsWith('image/')) {
+                        if (window.Swal) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi định dạng file!',
+                            text: 'Chỉ chấp nhận file hình ảnh (JPG, PNG, GIF, etc.).',
+                            confirmButtonText: 'Đã hiểu'
+                        });
+                        }
+                        setTimeout(() => userAvatar.removeFile(file), 100);
+                    }
+                    });
+
+                    userAvatar.on('removefile', () => {
+                        const previewImg = document.querySelector('#avatarPreviewImg');
+                        if (previewImg) {
+                            previewImg.src = "{{ asset('images/default-avatar.png') }}";
+                        }
+                    });
+
+                    userAvatar.on('error', (err, file, status) => {
+                    if (userInteracted && status === 'file-type-not-allowed' && window.Swal) {
+                        Swal.fire({
+                        icon: 'warning',
+                        title: 'Định dạng file không hợp lệ!',
+                        text: 'Vui lòng chọn file hình ảnh.',
+                        confirmButtonText: 'Đã hiểu'
+                        });
+                    }
                     });
                 }
-                });
-            }
             });
         </script>
 

@@ -17,4 +17,9 @@ interface SchoolRepositoryInterface extends RepositoryInterface
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function serverPaginationFilteringForAdmin($searchParams): LengthAwarePaginator;
+
+    /**
+     * Get all active schools.
+     */
+    public function getSchoolActive();
 }

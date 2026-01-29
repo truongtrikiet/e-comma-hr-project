@@ -14,6 +14,14 @@
         ]"
     />
 
+    <x-custom.stat-box :id="'campaign-schedule-management-filter'" :custom-col="'col-lg-12'">
+        <x-slot:boxTitle>
+            {{ __('Bộ lọc') }}
+        </x-slot:boxTitle>
+
+        @include('admin.school.filters.index')
+    </x-custom.stat-box>
+
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
             {{ __('general.menu.school_management.school') }}
@@ -51,6 +59,7 @@
             <x-slot:customScript>
                 "processing": true,
                 "serverSide": true,
+                "ordering": false,
                 "ajax": {
                     "url": "{{ route('admin.school.index') }}",
                         "data": function(d) {
@@ -58,6 +67,7 @@
                             drawDT = d.draw;
                             d.limit = d.length;
                             d.page = d.start / d.length + 1;
+                            d.ssl_status = $('#sSslStatus').val() || searchParams.get('ssl_status');
                         },
                         "dataSrc": function(res) {
                             res.draw = drawDT;
@@ -80,14 +90,17 @@
                     { 
                         "data": "sub_domain",
                         "class": "text-center",
-                        "orderable": false
+                        "orderable": false,
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-info">${full.sub_domain}</span>`;
+                        }
                     },
                     {
                         "data": "ssl_status",
                         "orderable": false,
                         "class": "text-center",
                         "render": function(data, type, full) {
-                            return `<span class="badge badge-${full.badge_name}">${full.ssl_status_name}</span>`;
+                            return `<span class="badge badge-${full.ssl_status_badge_name}">${full.ssl_status_name}</span>`;
                         }
                     },
                     {

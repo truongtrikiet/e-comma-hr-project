@@ -62,7 +62,7 @@
                                 :id="'sStatusSelect'"
                                 :label="__('general.common.status')"
                                 :data-values="$statuses"
-                                :name="'status'"
+                                :name="'ssl_status'"
                                 :select-value-attribute="'value'"
                                 :select-value-label="'label'"
                                 :placeholder="__('general.common.status')"
@@ -72,7 +72,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="col-lg-8">
                 <div class="mb-3">

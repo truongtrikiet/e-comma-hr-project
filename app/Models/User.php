@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\User
@@ -61,6 +62,7 @@ class User extends Authenticatable implements HasMedia, Auditable
         'login_at',
         'email_verified_at',
         'remember_token',
+        'school_id',
     ];
 
     /**
@@ -137,6 +139,25 @@ class User extends Authenticatable implements HasMedia, Auditable
     }
 
     /**
+     * Boot the model and apply the global scope.
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('school', function (Builder $builder) {
+            $sessionSchoolName = session('school_name');
+            $envSchoolName = config('subdomain.system_main');
+
+            if (is_null($sessionSchoolName) || is_null($envSchoolName)) {
+                return;
+            }
+
+            if ($sessionSchoolName !== $envSchoolName) {
+                $builder->where('school_id', session('school_id'));
+            }
+        });
+    }
+
+    /**
      * Define a one-to-one relationship with the UserProfile model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -144,5 +165,15 @@ class User extends Authenticatable implements HasMedia, Auditable
     public function userProfile()
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    /**
+     * Define a many-to-many relationship with the School model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class);
     }
 }

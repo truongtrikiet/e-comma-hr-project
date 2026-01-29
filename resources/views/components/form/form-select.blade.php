@@ -7,8 +7,18 @@
             $valueKey = $selectValueAttribute ?? 'value';
             $labelKey = $selectValueLabel ?? 'label';
 
-            if ($isMultiple && is_string($current)) {
-                $current = explode(',', $current);
+            if ($isMultiple) {
+                if (is_null($current)) {
+                    $current = [];
+                } elseif (is_string($current)) {
+                    $current = $current === '' ? [] : explode(',', $current);
+                } elseif (!is_array($current)) {
+                    $current = (array) $current;
+                }
+            } else {
+                if (is_array($current)) {
+                    $current = count($current) ? reset($current) : null;
+                }
             }
         @endphp
 

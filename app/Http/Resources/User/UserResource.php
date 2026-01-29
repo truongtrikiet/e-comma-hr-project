@@ -25,6 +25,8 @@ class UserResource extends JsonResource
             'login_at' => $this->login_at?->format('d/m/Y H:i:s'),
             'created_at' => $this->created_at?->format('d/m/Y H:i:s'),
             'updated_at' => $this->updated_at?->format('d/m/Y H:i:s'),
+            'school' => $this->whenLoaded('school'),
+            'role' => $this->whenLoaded('roles'),
         ];
     }
 }

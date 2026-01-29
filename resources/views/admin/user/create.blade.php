@@ -82,6 +82,38 @@
                                 :isRequired="true"
                             />
                         </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="mb-2">{{ __('general.common.work_information') }}</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sSchoolSelect'"
+                                :label="__('general.common.school')"
+                                :data-values="$schools"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :name="'school_id'"
+                                :multiple="false"
+                                :placeholder="__('general.common.school')"
+                                :isRequired="false"
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sRoleSelect'"
+                                :label="__('general.common.role')"
+                                :data-values="$roles"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :name="'roles'"
+                                :multiple="false"
+                                :placeholder="__('general.common.role')"
+                                :isRequired="true"
+                            />
+                        </div>
                         <div class="col-md-6">
                             <x-form.form-select
                                 :id="'sStatusSelect'"
@@ -220,13 +252,20 @@
                 }
             });
 
-            ('[data-enhanced="select"]').select2({
-                width: '100%',
-                placeholder: function () {
-                    return $(this).find('option[value=""]').text() || 'Choose';
-                },
-                allowClear: true,
-                closeOnSelect: !$(this).data('multiple')
+            document.addEventListener('DOMContentLoaded', function () {
+                if (window.jQuery && jQuery().select2) {
+                    $('[data-enhanced="true"]').each(function () {
+                        const $el = $(this);
+                        $el.select2({
+                            width: '100%',
+                            placeholder: function () {
+                                return $el.find('option[value=""]').text() || 'Choose';
+                            },
+                            allowClear: true,
+                            closeOnSelect: !$el.data('multiple')
+                        });
+                    });
+                }
             });
         </script>
 

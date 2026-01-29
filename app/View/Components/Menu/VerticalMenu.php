@@ -33,6 +33,7 @@ class VerticalMenu extends Component
 
     private function generateMenu(): void
     {
+        $this->isMainAgency = session('school_name') === config('subdomain.agency_main');
         $this->setProperties();
         $this->buildMenuDashboard();
         $this->buildMainMenu();

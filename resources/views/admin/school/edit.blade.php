@@ -65,12 +65,12 @@
                                 :id="'sStatusSelect'"
                                 :label="__('general.common.status')"
                                 :data-values="$statuses"
-                                :name="'status'"
+                                :name="'ssl_status'"
                                 :select-value-attribute="'value'"
                                 :select-value-label="'label'"
                                 :placeholder="__('general.common.status')"
                                 :isRequired="true"
-                                :selected="old('status', $school->status->value)"
+                                :selected="old('status', $school->ssl_status->value)"
                             />
                         </div>
                     </div>

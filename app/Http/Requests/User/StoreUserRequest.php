@@ -64,6 +64,13 @@ class StoreUserRequest extends FormRequest
             'status' => [
                 new Enum(UserStatus::class),
             ],
+            'roles' => [
+                'required',
+            ],
+            'school_id' => [
+                'required',
+                'integer',
+            ],
         ];
     }
 }
