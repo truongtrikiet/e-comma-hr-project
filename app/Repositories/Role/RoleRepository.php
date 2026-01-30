@@ -62,8 +62,14 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
         try {
             DB::beginTransaction();
 
-            $role = $this->model->findOrCreate($data['name']);
-            $role->syncPermissions($data['permissions']);
+            $role = $model;
+            if (isset($data['name']) && $data['name']) {
+                $role->name = $data['name'];
+                $role->save();
+            }
+
+            $permissions = $data['permissions'] ?? [];
+            $role->syncPermissions($permissions);
 
             DB::commit();
 

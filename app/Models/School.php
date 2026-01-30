@@ -20,4 +20,9 @@ class School extends Model
     protected $casts = [
         'ssl_status' => SslStatus::class,
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

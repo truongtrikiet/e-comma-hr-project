@@ -38,7 +38,7 @@ class VerticalMenu extends Component
         $this->buildMenuDashboard();
         $this->buildMainMenu();
         // $this->buildMenuAddress();
-        $this->buildSchoolSetting();
+        $this->buildSystemSetting();
     }
 
     private function buildMenuDashboard(): void
@@ -57,13 +57,13 @@ class VerticalMenu extends Component
                         'title' => __('Dashboard'),
                         'url' => route('admin.dashboard'),
                         'active' => Route::is(['admin.dashboard']),
-                        'show' => checkPermissions([Acl::PERMISSION_VIEW_MENU_DASHBOARD]),
+                        'show' => checkPermission(Acl::PERMISSION_VIEW_MENU_DASHBOARD),
                     ],
                     [
                         'title' => __('general.menu.school_management.school'),
                         'url' => route('admin.school.index'),
                         'active' => Route::is(['admin.school.*']),
-                        'show' => checkPermissions([Acl::PERMISSION_SCHOOL_LIST]),
+                        'show' => checkPermission(Acl::PERMISSION_SCHOOL_LIST),
                     ]
                 ],
             ],
@@ -106,25 +106,25 @@ class VerticalMenu extends Component
         ]);
     }
 
-   private function buildSchoolSetting(): void
+   private function buildSystemSetting(): void
    {
        $this->menuItems = array_merge($this->menuItems, [
            [
                'type' => 'label',
                'title' => __('general.common.setting'),
            ],
-        //    [
-        //        'title' => __('general.menu.school_management.title'),
-        //        'icon' => 'icon icon-house-pricing',
-        //        'child' => [
-        //             [
-        //                 'title' => __('general.menu.school_management.school'),
-        //                 'url' => route('admin.school.index'),
-        //                 'active' => Route::is(['admin.school.*']),
-        //                 'show' => checkPermissions([Acl::PERMISSION_SCHOOL_LIST]),
-        //             ],
-        //        ],
-        //    ],
+           [
+               'title' => __('general.menu.setting_management.title'),
+               'icon' => 'icon icon-house-pricing',
+               'child' => [
+                    [
+                        'title' => __('general.menu.role_management.role'),
+                        'url' => route('admin.role.index'),
+                        'active' => Route::is(['admin.role.*']),
+                        'show' => checkPermission(Acl::PERMISSION_PERMISSION_MANAGE),
+                    ],
+               ],
+           ],
        ]);
    }
 

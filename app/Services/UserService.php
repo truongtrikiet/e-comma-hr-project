@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Acl\Acl;
+use App\Models\School;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,8 @@ class UserService
             //     $this->updateAvatar($user, $data['user_avatar']);
             // }
 
-            $data['school_id'] = $data['school_id'] ?? null;
+            $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
+            $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? null);
 
             if (isset($data['roles']) && checkPermission(Acl::PERMISSION_ASSIGNEE)) {
                 $rolesInput = $data['roles'];
@@ -73,7 +75,8 @@ class UserService
                 $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
             }
 
-            $data['school_id'] = $data['school_id'] ?? $user->school_id;
+            $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
+            $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? $user->school_id);
 
             $user = $this->userRepository->update($user, $data);
 
