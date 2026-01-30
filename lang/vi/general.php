@@ -253,6 +253,11 @@ return [
             'edit_school' => 'Chỉnh sửa trường học',
             'domain_school' => 'Mã miền trường',
         ],
+        'setting_management' => [
+            'title' => 'Cài đặt hệ thống',
+            'role' => 'Quản lý vai trò',
+            'role_edit' => 'Chỉnh sửa vai trò',
+        ]
     ],
 
     'dashboard' => [
@@ -593,5 +598,5 @@ return [
         'confirm_delete' => 'Bạn có chắc chắn muốn xóa không?',
         'delete_failed' => 'Xóa không thành công!',
         'delete_success' => 'Xóa thành công!',
-    ]
+    ],
 ];

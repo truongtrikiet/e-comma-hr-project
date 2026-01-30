@@ -26,10 +26,10 @@ class UserController extends Controller
         protected RoleRepositoryInterface $roleRepository,
         protected SchoolRepositoryInterface $schoolRepository,
     ) {
-        $this->middleware('permission: ' . Acl::PERMISSION_USER_LIST)->only('index');
-        $this->middleware('permission: ' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
-        $this->middleware('permission: ' . Acl::PERMISSION_USER_EDIT)->only(['edit', 'update']);
-        $this->middleware('permission: ' . Acl::PERMISSION_USER_DELETE)->only('destroy');
+        $this->middleware('permission:' . Acl::PERMISSION_USER_LIST)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_EDIT)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_DELETE)->only('destroy');
     }
     /**
      * Display a listing of the resource.

@@ -89,6 +89,11 @@ return [
             'edit_school' => 'Edit School',
             'domain_school' => 'School Domain',
         ],
+        'setting_management' => [
+            'title' => 'System Settings',
+            'role' => 'Role Management',
+            'role_edit' => 'Edit Role',
+        ]
     ],
     'dashboard' => [
         'title' => 'Dashboard',
