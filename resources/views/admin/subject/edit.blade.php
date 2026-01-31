@@ -1,6 +1,6 @@
 <x-base-layout :scrollspy="false">
     <x-slot:pageTitle>
-        {{ __('general.menu.department_management.department') }}
+        {{ __('general.menu.subject_management.subject') }}
     </x-slot:pageTitle>
     <x-slot:headerFiles>
         <link href="{{ asset('vendor/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
@@ -25,16 +25,16 @@
     <!-- Breadcrumb -->
     <x-custom.breadcrumb
         :breadcrumb-items="[
-            __('general.menu.department_management.department') => route('admin.department.index'),
-            __('general.menu.department_management.edit_department') => '',
+            __('general.menu.subject_management.subject') => route('admin.subject.index'),
+            __('general.menu.subject_management.edit_subject') => '',
         ]"
     />
 
     <x-form.form-layout
         :form-id="'general-settings'"
-        :form-url="route('admin.department.update', $department->id)"
+        :form-url="route('admin.subject.update', $subject->id)"
         :form-method="'PUT'"
-        :card-title="__('general.menu.department_management.edit_department')"
+        :card-title="__('general.menu.subject_management.edit_subject')"
         :custom-col="'col-lg-12'"
     >
         <div class="row">
@@ -43,24 +43,18 @@
                     <h5 class="mb-2">{{ __('general.common.information') }}</h5>
                     <div class="row">
                         <div class="col-md-12">
-                            <x-form.form-input
+                            <x-custom.locale-tab
                                 :id="'name'"
-                                :name="'name'"
-                                :label="__('general.common.name') "
-                                :placeholder="__('general.common.name') "
-                                :isRequired="true"
-                                :value="$department->name"
-                            />
-
-                            <x-form.form-select
-                                :id="'sParentDepartmentSelect'"
-                                :label="__('general.common.parent_department')"
-                                :data-values="$departments"
-                                :name="'parent_id'"
-                                :select-value-attribute="'id'"
-                                :select-value-label="'name'"
-                                :placeholder="__('general.common.parent_department')"
-                                :selected="old('parent_id', $department->parent_id)"
+                                :fields="[
+                                    [
+                                        'type' => 'input',
+                                        'name' => 'name',
+                                        'label' => __('general.common.name'),
+                                        'placeholder' => __('general.common.name'),
+                                        'value' => $subject->getTranslations('name'),
+                                        'isRequired' => true,
+                                    ],
+                                ]"
                             />
 
                             @if (session('school_name') === config('subdomain.system_main'))
@@ -74,32 +68,11 @@
                                     :multiple="false"
                                     :placeholder="__('general.common.school')"
                                     :isRequired="false"
-                                    :selected="old('school_id', $department?->school_id)"
+                                    :selected="old('school_id', $subject?->school_id)"
                                 />
                             @else
                                 <input type="hidden" name="school_id" value="{{ session('school_id') }}">
                             @endif
-
-                            <x-form.form-textarea
-                                :id="'description'"
-                                :name="'description'"
-                                :label="__('general.common.description')"
-                                :placeholder="__('general.common.description')"
-                                :rows="4"
-                                :value="$department->description"
-                            />
-
-                            <x-form.form-select
-                                :id="'sTypeDepartmentSelect'"
-                                :label="__('general.common.type')"
-                                :data-values="$types"
-                                :name="'type'"
-                                :select-value-attribute="'value'"
-                                :select-value-label="'label'"
-                                :placeholder="__('general.common.type')"
-                                :isRequired="true"
-                                :selected="old('type', $department->type->value)"
-                            />
 
                             <x-form.form-select
                                 :id="'sStatusSelect'"
@@ -110,13 +83,12 @@
                                 :select-value-label="'label'"
                                 :placeholder="__('general.common.status')"
                                 :isRequired="true"
-                                :selected="old('status', $department->status->value)"
+                                :selected="old('status', $subject->status->value)"
                             />
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div class="col-lg-8">
                 <div class="mb-3">
@@ -127,6 +99,6 @@
     </x-form.form-layout>
 
     <x-slot:footerFiles>
-
+        
     </x-slot:footerFiles>
 </x-base-layout>

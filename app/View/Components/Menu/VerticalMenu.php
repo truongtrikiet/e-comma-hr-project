@@ -103,6 +103,19 @@ class VerticalMenu extends Component
                     ],
                 ],
             ],
+            [
+                'title' => __('general.menu.subject_management.title'),
+                'icon' => 'icon icon-book-open-2',
+                'type' => 'dropdown',
+                'child' => [
+                    [
+                        'title' => __('general.menu.subject_management.subject'),
+                        'url' => route('admin.subject.index'),
+                        'active' => Route::is(['admin.subject.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_SUBJECT_LIST]),
+                    ],
+                ],
+            ],
         ]);
     }
 

@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Department;
+namespace App\Http\Resources\Subject;
 
-use App\Enum\DepartmentType;
+use App\Enum\SettingStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
-use App\Enum\SettingStatus;
 
-class DepartmentResource extends JsonResource
+class SubjectResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,13 +19,11 @@ class DepartmentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'type' => $this->type,
-            'type_name' => DepartmentType::getNameByValue($this->type->value) ?? 'N/A',
+            'locale_name' => $this->locale_name ?? null,
+            'school' => $this->whenLoaded('school'),
             'status' => $this->status,
             'status_name' => SettingStatus::getNameByValue($this->status->value) ?? 'N/A',
             'badge_name' => $this->status?->getBadge(),
-            'description' => $this->description,
-            'school' => $this->whenLoaded('school'),
             'created_at' => $this->created_at?->format('d/m/Y H:i:s'),
             'updated_at' => $this->updated_at?->format('d/m/Y H:i:s'),
         ];

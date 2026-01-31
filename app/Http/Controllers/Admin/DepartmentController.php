@@ -11,12 +11,16 @@ use App\Http\Requests\Department\UpdateDepartmentRequest;
 use App\Http\Resources\Department\DepartmentResource;
 use App\Models\Department;
 use App\Repositories\Department\DepartmentRepositoryInterface;
+use App\Repositories\School\SchoolRepositoryInterface;
+use App\Services\DepartmentService;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
     public function __construct(
         protected DepartmentRepositoryInterface $departmentRepository,
+        protected SchoolRepositoryInterface $schoolRepository,
+        protected DepartmentService $departmentService,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_LIST)->only(['index', 'show']);
         $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_ADD)->only(['create', 'store']);
@@ -42,10 +46,17 @@ class DepartmentController extends Controller
      */
     public function create()
     {
+        $departments = $this->departmentRepository->all();
         $types = DepartmentType::options();
         $statuses = SettingStatus::options();
+        $schools = $this->schoolRepository->getSchoolActive();
 
-        return view('admin.department.create', compact('types', 'statuses'));
+        return view('admin.department.create', compact(
+            'departments', 
+            'types', 
+            'statuses',
+            'schools'
+        ));
     }
 
     /**
@@ -53,8 +64,8 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        $this->departmentRepository->create($request->validated()) ? 
-        session()->flash(NOTIFICATION_SUCCESS, __('success.department.create'))
+        $this->departmentService->create($request->validated()) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.department.create'))
             : session()->flash(NOTIFICATION_ERROR, __('error.department.create'));
 
         return to_route('admin.department.index');
@@ -73,10 +84,18 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
+        $departments = $this->departmentRepository->all();
         $types = DepartmentType::options();
         $statuses = SettingStatus::options();
+        $schools = $this->schoolRepository->getSchoolActive();
 
-        return view('admin.department.edit', compact('department', 'types', 'statuses'));
+        return view('admin.department.edit', compact(
+            'department', 
+            'departments', 
+            'types', 
+            'statuses',
+            'schools'
+        ));
     }
 
     /**
@@ -84,7 +103,7 @@ class DepartmentController extends Controller
      */
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        $this->departmentRepository->update($department, $request->validated()) ?
+        $this->departmentService->update($department, $request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.department.update'))
             : session()->flash(NOTIFICATION_ERROR, __('error.department.update'));
 

@@ -95,4 +95,6 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
     {
         return $this->model->whereIn('name', [Acl::ROLE_TEACHER])->get();
     }
+
+    
 }

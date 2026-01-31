@@ -50,6 +50,32 @@
                                 :isRequired="true"
                             />
 
+                            <x-form.form-select
+                                :id="'sParentDepartmentSelect'"
+                                :label="__('general.common.parent_department')"
+                                :data-values="$departments"
+                                :name="'parent_id'"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :placeholder="__('general.common.parent_department')"
+                            />
+
+                            @if (session('school_name') === config('subdomain.system_main'))
+                                <x-form.form-select
+                                    :id="'sSchoolSelect'"
+                                    :label="__('general.common.school')"
+                                    :data-values="$schools"
+                                    :select-value-attribute="'id'"
+                                    :select-value-label="'name'"
+                                    :name="'school_id'"
+                                    :multiple="false"
+                                    :placeholder="__('general.common.school')"
+                                    :isRequired="false"
+                                />
+                            @else
+                                <input type="hidden" name="school_id" value="{{ session('school_id') }}">
+                            @endif
+
                             <x-form.form-textarea
                                 :id="'description'"
                                 :name="'description'"

@@ -26,7 +26,8 @@
         "opcodesio/log-viewer": "^3.17",
         "owen-it/laravel-auditing": "^13.5",
         "spatie/laravel-medialibrary": "^11.17",
-        "spatie/laravel-permission": "^6.0"
+        "spatie/laravel-permission": "^6.0",
+        "spatie/laravel-translatable": "^6.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

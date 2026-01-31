@@ -51,6 +51,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $limit = Arr::get($searchParams, 'limit', self::PER_PAGE);
         $keyword = Arr::get($searchParams, 'search', '');
         $roles = Arr::get($searchParams, 'role_id', null);
+        $school_id = Arr::get($searchParams, 'school_id', null);
         $status = Arr::get($searchParams, 'status', null);
 
         $query = $this->model->query()->with(['roles', 'school']);
@@ -74,6 +75,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             });
         }
 
+        if (!is_null($school_id)) {
+            $query->where('school_id', $school_id);
+        }
+
         if (!is_null($status)) {
             $query->where('status', $status);
         }
@@ -91,26 +96,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function getDataByStatus(): Collection
     {
         return $this->model->where('status', UserStatus::ACTIVE)->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fetchDataScrollPagination(): LengthAwarePaginator
-    {
-        return $this->model->active()->paginate(self::PER_PAGE);
-    }
-
-    /**
-     * Retrieve table data where the values of a specified field are in the given array
-     *
-     * @param string $field
-     * @param array $values
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getDataInArray(string $field = 'id', array $values = []): Collection
-    {
-        return $this->model->whereIn($field, $values)->get();
     }
 
     /**

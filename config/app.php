@@ -109,6 +109,21 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Available Locales
+    |--------------------------------------------------------------------------
+    |
+    | The available locales that the application supports and the translation works
+    | coherently with. You may add another language to this locale.
+    |
+    */
+
+    'locales' => [
+        'vi',
+        'en'
+    ],
+
     'faker_locale' => 'vi_VN',
 
     /*
