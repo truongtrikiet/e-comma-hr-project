@@ -8,4 +8,5 @@ Route::prefix('')->group(function () {
     include 'admin/department.php';
     include 'admin/school.php';
     include 'admin/role.php';
+    include 'admin/subject.php';
 });

@@ -9,15 +9,15 @@
                 :select-value-label="'label'"
                 :name="'ssl_status'"
                 :multiple="false"
-                :placeholder="__('Chọn trạng thái')"
+                :placeholder="__('general.common.status')"
                 :is-filter="true"
             />
         </div>
     </div>
     <hr>
     <div class="filter-header d-flex justify-content-end align-items-center">
-        <button type="button" class="btn btn-primary mx-1" id="filter-btn">{{ __('Lọc') }}</button>
-        <button type="button" class="btn btn-default" id="remove-filter-btn">{{ __('Xoá bộ lọc') }}</button>
+        <button type="button" class="btn btn-primary mx-1" id="filter-btn">{{ __('general.filter.sort') }}</button>
+        <button type="button" class="btn btn-default" id="remove-filter-btn">{{ __('general.filter.remove_filter') }}</button>
     </div>
 </div>
 

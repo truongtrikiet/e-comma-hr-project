@@ -21,6 +21,7 @@
     "main": "index.js",
     "license": "MIT",
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^44.3.0",
         "filepond": "^4.32.11",
         "filepond-plugin-file-validate-type": "^1.2.9",
         "filepond-plugin-image-preview": "^4.6.12"

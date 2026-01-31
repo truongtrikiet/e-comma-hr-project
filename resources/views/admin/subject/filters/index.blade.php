@@ -18,12 +18,12 @@
         @else
             <input type="hidden" name="school_id" value="{{ session('school_id') }}">
         @endif
-        
+
         <div class="col-md-6">
             <x-form.form-select
                 :id="'sStatus'"
                 :label="__('general.common.status')"
-                :data-values="App\Enum\UserStatus::options(true)"
+                :data-values="App\Enum\SettingStatus::options(true)"
                 :select-value-attribute="'value'"
                 :select-value-label="'label'"
                 :name="'status'"
@@ -43,13 +43,13 @@
 @push('footerFiles')
     <script>
         $('#filter-btn').on('click', function () {
-            $('#sUserTable').DataTable().ajax.reload();
+            $('#sSubjectTable').DataTable().ajax.reload();
         });
         $('#remove-filter-btn').on('click', function () {
             $('#filterBody').find('.js-enhanced-select').each(function () {
                 $(this).val($(this).is('[multiple]') ? [] : '').trigger('change');
             });
-            $('#sUserTable').DataTable().ajax.reload();
+            $('#sSubjectTable').DataTable().ajax.reload();
         });
     </script>
 @endpush

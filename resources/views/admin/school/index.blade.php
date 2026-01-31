@@ -14,7 +14,7 @@
         ]"
     />
 
-    <x-custom.stat-box :id="'campaign-schedule-management-filter'" :custom-col="'col-lg-12'">
+    <x-custom.stat-box :id="'school-management-filter'" :custom-col="'col-lg-12'">
         <x-slot:boxTitle>
             {{ __('Bộ lọc') }}
         </x-slot:boxTitle>
@@ -51,7 +51,7 @@
                 <tr>
                     <th style="width:5%">ID</th>
                     <th>{{ __('general.common.name') }}</th>
-                    <th>{{ __('general.common.type') }}</th>
+                    <th>{{ __('general.common.sub_domain') }}</th>
                     <th>{{ __('general.common.status') }}</th>
                     <th>{{ __('general.common.action') }}</th>
                 </tr>

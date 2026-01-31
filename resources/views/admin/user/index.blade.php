@@ -13,6 +13,14 @@
         ]"
     />
 
+    <x-custom.stat-box :id="'user-management-filter'" :custom-col="'col-lg-12'">
+        <x-slot:boxTitle>
+            {{ __('Bộ lọc') }}
+        </x-slot:boxTitle>
+
+        @include('admin.user.filters.index')
+    </x-custom.stat-box>
+
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
             {{ __('general.menu.user_management.user') }}
@@ -62,6 +70,8 @@
                             drawDT = d.draw;
                             d.limit = d.length;
                             d.page = d.start / d.length + 1;
+                            d.school_id = $('#sSchoolSelect').val() || searchParams.get('school_id');
+                            d.status = $('#sStatus').val() || searchParams.get('status');
                         },
                         "dataSrc": function(res) {
                             res.draw = drawDT;
@@ -98,7 +108,7 @@
                     {
                         "data": "school",
                         "orderable": false,
-                        "class": "text-center action two-icons",
+                        "class": "text-center",
                         "render": function(data, type, full) {
                             return `<span class="badge badge-light">${data?.name ?? 'N/A'}</span>`;
                         }

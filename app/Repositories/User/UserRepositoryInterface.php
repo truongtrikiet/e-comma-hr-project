@@ -29,22 +29,6 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function getDataByStatus(): Collection;
 
     /**
-     * Get data for scroll pagination in send email manual.
-     *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function fetchDataScrollPagination(): LengthAwarePaginator;
-
-    /**
-     * Retrieve table data where the values of a specified field are in the given array
-     *
-     * @param string $field
-     * @param array $values
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getDataInArray(string $field = 'id', array $values = []): Collection;
-
-    /**
      * Counting the number of employees
      *
      * @return mixed

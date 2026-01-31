@@ -7,6 +7,7 @@ use App\Enum\DepartmentType;
 use App\Enum\SettingStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+use App\Rules\ExcludeCurrentDepartment;
 
 class StoreDepartmentRequest extends FormRequest
 {
@@ -43,6 +44,15 @@ class StoreDepartmentRequest extends FormRequest
                 'integer',
                 'required',
                 new Enum(SettingStatus::class),
+            ],
+            'parent_id' => [
+                'nullable',
+                new ExcludeCurrentDepartment($this->route('department')?->id ?? null)
+            ],
+            'school_id' => [
+                'nullable',
+                'integer',
+                'exists:schools,id'
             ],
         ];
     }

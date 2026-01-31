@@ -257,6 +257,12 @@ return [
             'title' => 'Cài đặt hệ thống',
             'role' => 'Quản lý vai trò',
             'role_edit' => 'Chỉnh sửa vai trò',
+        ],
+        'subject_management' => [
+            'title' => 'Môn học',
+            'subject' => 'Quản lý môn học',
+            'create_subject' => 'Thêm mới môn học',
+            'edit_subject' => 'Chỉnh sửa môn học',
         ]
     ],
 
@@ -524,6 +530,8 @@ return [
         'disabled' => 'Tắt',
         'setting' => 'Cài đặt',
         'school' => 'Công tác trường',
+        'sub_domain' => 'Mã miền trường',
+        'parent_department' => 'Phòng ban lớn',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
@@ -598,5 +606,9 @@ return [
         'confirm_delete' => 'Bạn có chắc chắn muốn xóa không?',
         'delete_failed' => 'Xóa không thành công!',
         'delete_success' => 'Xóa thành công!',
+    ],
+    'filter' => [
+        'sort' => 'Lọc',
+        'remove_filter' => 'Xóa bộ lọc',
     ],
 ];

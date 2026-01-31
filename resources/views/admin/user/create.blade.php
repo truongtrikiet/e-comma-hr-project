@@ -88,19 +88,24 @@
                 <div class="mb-3">
                     <h5 class="mb-2">{{ __('general.common.work_information') }}</h5>
                     <div class="row">
-                        <div class="col-md-6">
-                            <x-form.form-select
-                                :id="'sSchoolSelect'"
-                                :label="__('general.common.school')"
-                                :data-values="$schools"
-                                :select-value-attribute="'id'"
-                                :select-value-label="'name'"
-                                :name="'school_id'"
-                                :multiple="false"
-                                :placeholder="__('general.common.school')"
-                                :isRequired="false"
-                            />
-                        </div>
+                        @if (session('school_name') === config('subdomain.system_main'))
+                            <div class="col-md-6">
+                                <x-form.form-select
+                                    :id="'sSchoolSelect'"
+                                    :label="__('general.common.school')"
+                                    :data-values="$schools"
+                                    :select-value-attribute="'id'"
+                                    :select-value-label="'name'"
+                                    :name="'school_id'"
+                                    :multiple="false"
+                                    :placeholder="__('general.common.school')"
+                                    :isRequired="false"
+                                />
+                            </div>
+                        @else
+                            <input type="hidden" name="school_id" value="{{ session('school_id') }}">
+                        @endif
+
                         <div class="col-md-6">
                             <x-form.form-select
                                 :id="'sRoleSelect'"

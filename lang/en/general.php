@@ -93,6 +93,12 @@ return [
             'title' => 'System Settings',
             'role' => 'Role Management',
             'role_edit' => 'Edit Role',
+        ],
+        'subject_management' => [
+            'title' => 'Subjects',
+            'subject' => 'Manage Subjects',
+            'create_subject' => 'Add Subject',
+            'edit_subject' => 'Edit Subject',
         ]
     ],
     'dashboard' => [
@@ -226,6 +232,8 @@ return [
         'type' => 'Type',
         'setting' => 'Setting',
         'school' => 'School',
+        'sub_domain' => 'Sub Domain',
+        'parent_department' => 'Parent Department',
     ],
 
     'selected_item' => [
@@ -267,5 +275,9 @@ return [
         'confirm_delete' => 'Are you sure you want to delete this?',
         'delete_failed' => 'Delete failed!',
         'delete_success' => 'Delete successful!',
-    ]
+    ],
+    'filter' => [
+        'sort' => 'Sort',
+        'remove_filter' => 'Clear',
+    ],
 ];

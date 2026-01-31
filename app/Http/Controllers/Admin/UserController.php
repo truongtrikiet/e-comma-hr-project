@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\School\SchoolRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\RoleService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,7 @@ class UserController extends Controller
         protected UserService $userService,
         protected RoleRepositoryInterface $roleRepository,
         protected SchoolRepositoryInterface $schoolRepository,
+        protected RoleService $roleService,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_USER_LIST)->only('index');
         $this->middleware('permission:' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
@@ -52,7 +54,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = $this->roleRepository->all();
+        $roles = $this->roleService->getListExceptSuperAdmin();
         $statuses = UserStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
 
@@ -88,7 +90,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = $this->roleRepository->all();
+        $roles = $this->roleService->getListExceptSuperAdmin();
         $userRoles = $user->roles->pluck('id')->toArray();
         $statuses = UserStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
