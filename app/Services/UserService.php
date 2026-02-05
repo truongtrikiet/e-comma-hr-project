@@ -34,6 +34,10 @@ class UserService
             //     $this->updateAvatar($user, $data['user_avatar']);
             // }
 
+            // if (isset($data['subject_id']) && $data['subject_id']) {
+            //     $user->subjects()->sync(Arr::wrap($data['subject_id']));
+            // }
+
             $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
             $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? null);
 
@@ -45,10 +49,10 @@ class UserService
                     $rolesInput = (array) $rolesInput;
                 }
 
-                $user->syncRoles(array_map(fn($r) => (int) $r, (array) $rolesInput));
+                $user->syncRoles(array_map(fn($role) => (int) $role, (array) $rolesInput));
             }
 
-            $user->school_id = (int)($data['school_id'] ?? $user->school_id);
+            // $user->school_id = (int)($data['school_id'] ?? $user->school_id);
             $user->save();
 
             DB::commit();
@@ -75,6 +79,10 @@ class UserService
                 $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
             }
 
+            // if (isset($data['subject_id']) && $data['subject_id']) {
+            //     $user->subjects()->sync(Arr::wrap($data['subject_id']));
+            // }
+
             $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
             $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? $user->school_id);
 
@@ -93,14 +101,14 @@ class UserService
                     $rolesInput = (array) $rolesInput;
                 }
 
-                $user->syncRoles(array_map(fn($r) => (int) $r, (array) $rolesInput));
+                $user->syncRoles(array_map(fn($role) => (int) $role, (array) $rolesInput));
             }
 
             // if ($user->userProfile) {
             //     $user->userProfile->update($data);
             // }
 
-            $user->school_id = $data['school_id'] ?? $user->school_id;
+            // $user->school_id = $data['school_id'] ?? $user->school_id;
             $user->save();
 
             DB::commit();

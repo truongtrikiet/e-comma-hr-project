@@ -66,6 +66,10 @@ class UpdateUserRequest extends FormRequest
                 'integer',
                 'exists:schools,id'
             ],
+            // 'subject_id' => [
+            //     'required',
+            //     'integer',
+            // ]
         ];
     }
 }

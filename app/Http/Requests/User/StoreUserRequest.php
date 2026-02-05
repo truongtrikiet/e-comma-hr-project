@@ -71,6 +71,10 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            // 'subject_id' => [
+            //     'required',
+            //     'integer',
+            // ]
         ];
     }
 }

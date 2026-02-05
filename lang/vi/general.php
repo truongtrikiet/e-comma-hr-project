@@ -431,7 +431,7 @@ return [
         'email_attribute_key' => 'Key thuộc tính email',
         'email_attribute_name' => 'Tên thuộc tính email',
         'event' => 'Sự kiện',
-        'subject' => 'Chủ đề',
+        'subject' => 'Môn học',
         'auto_send' => 'Tự động gửi',
         'close' => 'Thoát',
         'send_email' => 'Gửi email',
