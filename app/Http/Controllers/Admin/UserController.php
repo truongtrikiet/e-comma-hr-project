@@ -12,6 +12,7 @@ use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\School\SchoolRepositoryInterface;
+use App\Repositories\Subject\SubjectRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\RoleService;
 use App\Services\UserService;
@@ -27,6 +28,7 @@ class UserController extends Controller
         protected RoleRepositoryInterface $roleRepository,
         protected SchoolRepositoryInterface $schoolRepository,
         protected RoleService $roleService,
+        protected SubjectRepositoryInterface $subjectRepository,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_USER_LIST)->only('index');
         $this->middleware('permission:' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
@@ -45,8 +47,9 @@ class UserController extends Controller
         }
 
         $schools = $this->schoolRepository->getSchoolActive();
+        $subjects = $this->subjectRepository->all();
 
-        return view('admin.user.index', compact('schools'));
+        return view('admin.user.index', compact('schools', 'subjects'));
     }
 
     /**
@@ -57,11 +60,13 @@ class UserController extends Controller
         $roles = $this->roleService->getListExceptSuperAdmin();
         $statuses = UserStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
+        $subjects = $this->subjectRepository->all();
 
         return view('admin.user.create', compact(
             'roles', 
             'statuses',
-            'schools'
+            'schools',
+            'subjects'
         ));
     }
 
@@ -94,13 +99,15 @@ class UserController extends Controller
         $userRoles = $user->roles->pluck('id')->toArray();
         $statuses = UserStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
+        $subjects = $this->subjectRepository->all();
 
         return view('admin.user.edit', compact(
             'user', 
             'roles',
             'userRoles',
             'statuses', 
-            'schools'
+            'schools',
+            'subjects'
         ));
     }
 

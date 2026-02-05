@@ -108,6 +108,20 @@
 
                         <div class="col-md-6">
                             <x-form.form-select
+                                :id="'sSubjectSelect'"
+                                :label="__('general.common.subject')"
+                                :data-values="$subjects"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :name="'subject_id'"
+                                :multiple="false"
+                                :placeholder="__('general.common.subject')"
+                                :isRequired="false"
+                            />
+                        </div>
+
+                        <div class="col-md-6">
+                            <x-form.form-select
                                 :id="'sRoleSelect'"
                                 :label="__('general.common.role')"
                                 :data-values="$roles"

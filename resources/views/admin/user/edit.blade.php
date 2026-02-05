@@ -111,6 +111,21 @@
                         @else
                             <input type="hidden" name="school_id" value="{{ session('school_id') }}">
                         @endif
+
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sSubjectSelect'"
+                                :label="__('general.common.subject')"
+                                :data-values="$subjects"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :name="'subject_id'"
+                                :multiple="false"
+                                :placeholder="__('general.common.subject')"
+                                :isRequired="false"
+                                :selected="old('subjects', $user?->subject_id)"
+                            />
+                        </div>
                         
                         <div class="col-md-6">
                             <x-form.form-select
