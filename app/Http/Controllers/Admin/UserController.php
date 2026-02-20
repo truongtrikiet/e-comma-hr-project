@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Acl\Acl;
+use App\Enum\EmployeeStatus;
+use App\Enum\GenderEnum;
 use App\Enum\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
@@ -61,12 +63,16 @@ class UserController extends Controller
         $statuses = UserStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
         $subjects = $this->subjectRepository->all();
+        $genders = GenderEnum::options();
+        $employmentStatuses = EmployeeStatus::options();
 
         return view('admin.user.create', compact(
             'roles', 
             'statuses',
             'schools',
-            'subjects'
+            'subjects',
+            'genders',
+            'employmentStatuses'
         ));
     }
 
@@ -96,18 +102,20 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = $this->roleService->getListExceptSuperAdmin();
-        $userRoles = $user->roles->pluck('id')->toArray();
         $statuses = UserStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
         $subjects = $this->subjectRepository->all();
+        $genders = GenderEnum::options();
+        $employmentStatuses = EmployeeStatus::options();
 
         return view('admin.user.edit', compact(
             'user', 
             'roles',
-            'userRoles',
             'statuses', 
             'schools',
-            'subjects'
+            'subjects',
+            'genders',
+            'employmentStatuses'
         ));
     }
 

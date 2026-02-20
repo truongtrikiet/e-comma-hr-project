@@ -22,8 +22,8 @@ enum GenderEnum: int
     {
         $case = self::from($value);
         return match ($case) {
-            self::MALE => __('Nam'),
-            self::FEMALE => __('Nữ'),
+            self::MALE => __('general.common.male'),
+            self::FEMALE => __('general.common.female'),
             default => null,
         };
     }

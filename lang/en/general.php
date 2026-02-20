@@ -234,6 +234,14 @@ return [
         'school' => 'School',
         'sub_domain' => 'Sub Domain',
         'parent_department' => 'Parent Department',
+        'date_of_birth' => 'Date of Birth',
+        'entry_date' => 'Entry Date',
+        'employee_code' => 'Employee Code',
+        'male' => 'Male',
+        'female' => 'Female',
+        'gender' => 'Gender',
+        'subject' => 'Subject',
+        'employment_status' => 'Employment Status',
     ],
 
     'selected_item' => [

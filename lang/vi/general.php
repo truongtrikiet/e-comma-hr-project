@@ -532,6 +532,12 @@ return [
         'school' => 'Công tác trường',
         'sub_domain' => 'Mã miền trường',
         'parent_department' => 'Phòng ban lớn',
+        'date_of_birth' => 'Ngày sinh',
+        'entry_date' => 'Ngày vào làm',
+        'employee_code' => 'Mã nhân viên',
+        'male' => 'Nam',
+        'female' => 'Nữ',
+        'employment_status' => 'Tình trạng công việc',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
