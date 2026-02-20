@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Acl\Acl;
+use App\Enum\EmployeeStatus;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Support\Arr;
@@ -28,15 +29,17 @@ class UserService
 
             $user = $this->userRepository->create($data);
 
-            // $user->userProfile()->create($data);
+            $data['employment_status'] = EmployeeStatus::ACTIVE->value;
 
-            // if (isset($data['user_avatar']) && $data['user_avatar']) {
-            //     $this->updateAvatar($user, $data['user_avatar']);
-            // }
+            $user->userProfile()->create($data);
 
-            // if (isset($data['subject_id']) && $data['subject_id']) {
-            //     $user->subjects()->sync(Arr::wrap($data['subject_id']));
-            // }
+            if (isset($data['user_avatar']) && $data['user_avatar']) {
+                $this->updateAvatar($user, $data['user_avatar']);
+            }
+
+            if (isset($data['subject_id']) && $data['subject_id']) {
+                $user->subjects()->sync(Arr::wrap($data['subject_id']));
+            }
 
             $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
             $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? null);
@@ -52,7 +55,8 @@ class UserService
                 $user->syncRoles(array_map(fn($role) => (int) $role, (array) $rolesInput));
             }
 
-            // $user->school_id = (int)($data['school_id'] ?? $user->school_id);
+            \Log::info('User created: ' . json_encode($user->toArray()));
+
             $user->save();
 
             DB::commit();
@@ -79,9 +83,9 @@ class UserService
                 $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
             }
 
-            // if (isset($data['subject_id']) && $data['subject_id']) {
-            //     $user->subjects()->sync(Arr::wrap($data['subject_id']));
-            // }
+            if (isset($data['subject_id']) && $data['subject_id']) {
+                $user->subjects()->sync(Arr::wrap($data['subject_id']));
+            }
 
             $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
             $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? $user->school_id);
@@ -89,9 +93,9 @@ class UserService
             $user = $this->userRepository->update($user, $data);
 
 
-            // if (isset($data['user_avatar']) && $data['user_avatar']) {
-            //     $this->updateAvatar($user, $data['user_avatar']);
-            // }
+            if (isset($data['user_avatar']) && $data['user_avatar']) {
+                $this->updateAvatar($user, $data['user_avatar']);
+            }
 
             if (isset($data['roles']) && checkPermission(Acl::PERMISSION_ASSIGNEE)) {
                 $rolesInput = $data['roles'];
@@ -104,11 +108,10 @@ class UserService
                 $user->syncRoles(array_map(fn($role) => (int) $role, (array) $rolesInput));
             }
 
-            // if ($user->userProfile) {
-            //     $user->userProfile->update($data);
-            // }
+            if ($user->userProfile) {
+                $user->userProfile->update($data);
+            }
 
-            // $user->school_id = $data['school_id'] ?? $user->school_id;
             $user->save();
 
             DB::commit();

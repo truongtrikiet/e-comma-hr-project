@@ -83,6 +83,31 @@
                             />
                         </div>
                     </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sGenderSelect'"
+                                :label="__('general.common.gender')"
+                                :data-values="$genders"
+                                :select-value-attribute="'value'"
+                                :select-value-label="'label'"
+                                :name="'gender'"
+                                :multiple="false"
+                                :placeholder="__('general.common.gender')"
+                                :isRequired="false"
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <x-form.form-input
+                                :id="'date_of_birth'"
+                                :name="'date_of_birth'"
+                                type="date"
+                                :label="__('general.common.date_of_birth')"
+                                :placeholder="__('general.common.date_of_birth')"
+                                :isRequired="false"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -133,6 +158,34 @@
                                 :isRequired="true"
                             />
                         </div>
+                        <div class="col-md-8">
+                            <x-form.form-input
+                                :id="'entry_date'"
+                                :name="'entry_date'"
+                                type="date"
+                                :label="__('general.common.entry_date')"
+                                :placeholder="__('general.common.entry_date')"
+                                :isRequired="false"
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sEmploymentStatusSelect'"
+                                :label="__('general.common.employment_status')"
+                                :data-values="$employmentStatuses"
+                                :name="'employment_status'"
+                                :select-value-attribute="'value'"
+                                :select-value-label="'label'"
+                                :placeholder="__('general.common.employment_status')"
+                                :isRequired="true"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="mb-2">{{ __('general.common.security_information') }}</h5>
+                    <div class="row">
                         <div class="col-md-6">
                             <x-form.form-select
                                 :id="'sStatusSelect'"
@@ -145,12 +198,6 @@
                                 :isRequired="true"
                             />
                         </div>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <h5 class="mb-2">{{ __('general.common.security_information') }}</h5>
-                    <div class="row">
                         <div class="col-md-6">
                             <x-form.form-input
                                 :id="'password'"

@@ -3,6 +3,8 @@
 namespace App\Http\Requests\User;
 
 use App\Acl\Acl;
+use App\Enum\EmployeeStatus;
+use App\Enum\GenderEnum;
 use App\Enum\UserStatus;
 use App\Rules\AlphaSpaces;
 use App\Rules\CheckEmojiRule;
@@ -71,10 +73,31 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            // 'subject_id' => [
-            //     'required',
-            //     'integer',
-            // ]
+            'employee_code' => [
+                'nullable',
+                'string',
+                'max:20',
+                'unique:user_profiles,employee_code',
+            ],
+            'date_of_birth' => [
+                'nullable',
+                'date',
+            ],
+            'gender' => [
+                'nullable',
+                new Enum(GenderEnum::class),
+            ],
+            'position' => [
+                'nullable'
+            ],
+            'entry_date' => [
+                'nullable',
+                'date',
+            ],
+            'employment_status' => [
+                'nullable',
+                new Enum(EmployeeStatus::class),
+            ]
         ];
     }
 }

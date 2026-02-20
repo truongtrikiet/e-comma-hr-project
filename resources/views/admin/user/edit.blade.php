@@ -88,6 +88,33 @@
                             />
                         </div>
                     </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sGenderSelect'"
+                                :label="__('general.common.gender')"
+                                :data-values="$genders"
+                                :select-value-attribute="'value'"
+                                :select-value-label="'label'"
+                                :name="'gender'"
+                                :multiple="false"
+                                :placeholder="__('general.common.gender')"
+                                :isRequired="false"
+                                :selected="old('gender', $user->userProfile->gender?->value)"
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <x-form.form-input
+                                :id="'date_of_birth'"
+                                :name="'date_of_birth'"
+                                type="date"
+                                :label="__('general.common.date_of_birth')"
+                                :placeholder="__('general.common.date_of_birth')"
+                                :isRequired="false"
+                                :value="old('date_of_birth', $user->userProfile->date_of_birth?->format('Y-m-d'))"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -105,7 +132,7 @@
                                     :multiple="false"
                                     :placeholder="__('general.common.school')"
                                     :isRequired="false"
-                                    :selected="old('schools', $user?->school_id)"
+                                    :selected="old('school_id', $user->school_id)"
                                 />
                             </div>
                         @else
@@ -123,10 +150,10 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.subject')"
                                 :isRequired="false"
-                                :selected="old('subjects', $user?->subject_id)"
+                                :selected="old('subject_id', $user->userProfile->subject_id)"
                             />
                         </div>
-                        
+
                         <div class="col-md-6">
                             <x-form.form-select
                                 :id="'sRoleSelect'"
@@ -138,9 +165,39 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.role')"
                                 :isRequired="true"
-                                :selected="old('roles', $user->roles->pluck('id')->toArray())"
+                                :selected="old('roles', $user->roles)"
                             />
                         </div>
+                        <div class="col-md-6">
+                            <x-form.form-input
+                                :id="'entry_date'"
+                                :name="'entry_date'"
+                                type="date"
+                                :label="__('general.common.entry_date')"
+                                :placeholder="__('general.common.entry_date')"
+                                :isRequired="false"
+                                :value="old('entry_date', $user->userProfile->entry_date?->format('Y-m-d'))"
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sEmploymentStatusSelect'"
+                                :label="__('general.common.employment_status')"
+                                :data-values="$employmentStatuses"
+                                :name="'employment_status'"
+                                :select-value-attribute="'value'"
+                                :select-value-label="'label'"
+                                :placeholder="__('general.common.employment_status')"
+                                :isRequired="true"
+                                :selected="old('employment_status', $user->userProfile->employment_status?->value)"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="mb-2">{{ __('general.common.security_information') }}</h5>
+                    <div class="row">
                         <div class="col-md-6">
                             <x-form.form-select
                                 :id="'sStatusSelect'"
@@ -151,15 +208,9 @@
                                 :select-value-label="'label'"
                                 :placeholder="__('general.common.status')"
                                 :isRequired="true"
-                                :selected="old('status', $user->status->value)"
+                                :selected="old('status', $user->status?->value)"
                             />
                         </div>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <h5 class="mb-2">{{ __('general.common.security_information') }}</h5>
-                    <div class="row">
                         <div class="col-md-6">
                             <x-form.form-input
                                 :id="'password'"
