@@ -112,7 +112,7 @@ class UserService
                 $user->userProfile->update($data);
             }
 
-            \Log::info('User updated: ' . json_encode($user->toArray()));
+            // Make something wrong with update function, not work and show nginx error.
 
             $user->save();
 
