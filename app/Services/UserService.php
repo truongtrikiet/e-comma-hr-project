@@ -112,6 +112,8 @@ class UserService
                 $user->userProfile->update($data);
             }
 
+            \Log::info('User updated: ' . json_encode($user->toArray()));
+
             $user->save();
 
             DB::commit();

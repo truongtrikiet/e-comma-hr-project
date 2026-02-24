@@ -168,7 +168,7 @@
                                 :isRequired="false"
                             />
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <x-form.form-select
                                 :id="'sEmploymentStatusSelect'"
                                 :label="__('general.common.employment_status')"
@@ -179,7 +179,7 @@
                                 :placeholder="__('general.common.employment_status')"
                                 :isRequired="true"
                             />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 

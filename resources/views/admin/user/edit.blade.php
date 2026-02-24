@@ -100,7 +100,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.gender')"
                                 :isRequired="false"
-                                :selected="old('gender', $user->userProfile->gender?->value)"
+                                :selected="old('gender', $user->userProfile?->gender?->value)"
                             />
                         </div>
                         <div class="col-md-6">
@@ -111,7 +111,7 @@
                                 :label="__('general.common.date_of_birth')"
                                 :placeholder="__('general.common.date_of_birth')"
                                 :isRequired="false"
-                                :value="old('date_of_birth', $user->userProfile->date_of_birth?->format('Y-m-d'))"
+                                :value="old('date_of_birth', $user->userProfile?->date_of_birth?->format('Y-m-d'))"
                             />
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.subject')"
                                 :isRequired="false"
-                                :selected="old('subject_id', $user->userProfile->subject_id)"
+                                :selected="old('subject_id', $user->userProfile?->subject_id)"
                             />
                         </div>
 
@@ -176,7 +176,7 @@
                                 :label="__('general.common.entry_date')"
                                 :placeholder="__('general.common.entry_date')"
                                 :isRequired="false"
-                                :value="old('entry_date', $user->userProfile->entry_date?->format('Y-m-d'))"
+                                :value="old('entry_date', $user->userProfile?->entry_date?->format('Y-m-d'))"
                             />
                         </div>
                         <div class="col-md-6">
@@ -189,7 +189,7 @@
                                 :select-value-label="'label'"
                                 :placeholder="__('general.common.employment_status')"
                                 :isRequired="true"
-                                :selected="old('employment_status', $user->userProfile->employment_status?->value)"
+                                :selected="old('employment_status', $user->userProfile?->employment_status?->value)"
                             />
                         </div>
                     </div>
@@ -233,7 +233,7 @@
                         :name="'user_avatar'"
                         :label="__('general.common.avatar')"
                         accept="image/*"
-                        :value="old('user_avatar', $user->avatar_url)"
+                        :value="old('user_avatar', $user->cors_avatar_url)" previewId="avatarPreviewImg"
                     />
                 </div>
             </div>
@@ -257,87 +257,6 @@
         <script src="{{ asset('plugins/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
         <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            FilePond.registerPlugin(
-                FilePondPluginImagePreview,
-                FilePondPluginImageExifOrientation,
-                FilePondPluginFileValidateSize,
-                FilePondPluginImageTransform,
-                FilePondPluginFileEncode,
-                FilePondPluginFileValidateType
-            );
-
-            @if($user->avatar_url)
-                userAvatar.addFile('{{ $user->avatar_url }}');
-            @endif
-
-            document.addEventListener('DOMContentLoaded', () => {
-                let userInteracted = false;
-
-                document.addEventListener('click', () => { userInteracted = true; });
-
-                const avatarEl = document.querySelector('#user_avatar') || document.querySelector('#sProfilePicture') || document.querySelector('#sAvatar');
-                if (avatarEl) {
-                    const userAvatar = FilePond.create(avatarEl, {
-                        acceptedFileTypes: ['image/*'],
-                        fileValidateTypeLabelExpectedTypes: 'phải là hình ảnh',
-                        labelFileTypeNotAllowed: 'sai định dạng',
-                        maxFileSize: '5MB',
-                        labelMaxFileSizeExceeded: 'Tệp quá lớn',
-                        labelMaxFileSize: 'Kích thước ảnh tối đa 5MB',
-                        stylePanelLayout: 'compact',
-                        labelIdle: 'Kéo & thả hoặc <span class="filepond--label-action">chọn từ thiết bị</span>',
-                        server: {
-                            process: '/laravel-filepond/process',
-                            revert: '/laravel-filepond/revert',
-                            restore: '/laravel-filepond/restore/',
-                            load: '/laravel-filepond/load/',
-                        }
-                    });
-
-                    @if($user->avatar_url)
-                        userAvatar.addFile('{{ $user->avatar_url }}');
-                    @endif
-
-                    userAvatar.on('addfile', (error, file) => {
-                    const previewImg = document.querySelector('#avatarPreviewImg');
-                    if (file && file.file && previewImg) {
-                        previewImg.src = URL.createObjectURL(file.file);
-                    }
-
-                    if (userInteracted && file && !file.file.type.startsWith('image/')) {
-                        if (window.Swal) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi định dạng file!',
-                            text: 'Chỉ chấp nhận file hình ảnh (JPG, PNG, GIF, etc.).',
-                            confirmButtonText: 'Đã hiểu'
-                        });
-                        }
-                        setTimeout(() => userAvatar.removeFile(file), 100);
-                    }
-                    });
-
-                    userAvatar.on('removefile', () => {
-                        const previewImg = document.querySelector('#avatarPreviewImg');
-                        if (previewImg) {
-                            previewImg.src = "{{ asset('images/default-avatar.png') }}";
-                        }
-                    });
-
-                    userAvatar.on('error', (err, file, status) => {
-                    if (userInteracted && status === 'file-type-not-allowed' && window.Swal) {
-                        Swal.fire({
-                        icon: 'warning',
-                        title: 'Định dạng file không hợp lệ!',
-                        text: 'Vui lòng chọn file hình ảnh.',
-                        confirmButtonText: 'Đã hiểu'
-                        });
-                    }
-                    });
-                }
-            });
-        </script>
 
     </x-slot:footerFiles>
 </x-base-layout>

@@ -126,6 +126,19 @@ class User extends Authenticatable implements HasMedia, Auditable
     }
 
     /**
+     * Get the user avatar url with CORS support
+     *
+     */
+    public function getCorsAvatarUrlAttribute()
+    {
+        if (!$this->avatar_url) {
+            return null;
+        }
+        
+        return str_replace(url('/storage'), url('/cors-image'), $this->avatar_url);
+    }
+
+    /**
      * Get the user background url.
      *
      * @return Attribute
