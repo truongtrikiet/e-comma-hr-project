@@ -1,6 +1,6 @@
-<x-base-layout :scrollspy="false">
+<x-staff.base-layout :scrollspy="false">
     <x-slot:pageTitle>
-        {{ __('general.menu.furlough_management.create_furlough') }}
+        {{ __('general.menu.furlough_management.edit_furlough') }}
     </x-slot:pageTitle>
     <x-slot:headerFiles>
         <link href="{{ asset('vendor/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
@@ -25,15 +25,16 @@
     <!-- Breadcrumb -->
     <x-custom.breadcrumb
         :breadcrumb-items="[
-            __('general.menu.furlough_management.manage_furlough') => route('admin.furlough.index'),
-            __('general.menu.furlough_management.create_furlough') => '',
+            __('general.menu.furlough_management.manage_furlough') => route('staff.furlough.index'),
+            __('general.menu.furlough_management.edit_furlough') => '',
         ]"
     />
 
     <x-form.form-layout
         :form-id="'general-settings'"
-        :form-url="route('admin.furlough.store')"
-        :card-title="__('general.menu.furlough_management.create_furlough')"
+        :form-url="route('staff.furlough.update', $furlough->id)"
+        :formMethod="'PUT'"
+        :card-title="__('general.menu.furlough_management.edit_furlough')"
         :custom-col="'col-lg-12'"
     >
         <div class="row">
@@ -52,6 +53,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.menu.furlough_type_management.title')"
                                 :isRequired="true"
+                                :selected="$furlough->furlough_type_id"
                             />
 
                             <x-form.form-select
@@ -64,6 +66,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.furlough_duration_type')"
                                 :isRequired="true"
+                                :selected="old('duration_type', $furlough->duration_type->value)"
                             />
 
                             <x-form.form-select
@@ -76,6 +79,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.furlough_half_day_session')"
                                 :is-filter="true"
+                                :selectedValue="$furlough->half_day_session"
                             />
 
                             <x-form.form-input
@@ -86,6 +90,7 @@
                                 :placeholder="__('general.common.start_time')"
                                 :isRequired="true"
                                 :is-filter="false"
+                                :value="old('start_time', $furlough->start_time ? \Carbon\Carbon::parse($furlough->start_time)->format('Y-m-d\TH:i') : '')"
                             />
 
                             <x-form.form-input
@@ -96,6 +101,7 @@
                                 :placeholder="__('general.common.end_time')"
                                 :isRequired="true"
                                 :is-filter="false"
+                                :value="old('end_time', $furlough->end_time ? \Carbon\Carbon::parse($furlough->end_time)->format('Y-m-d\TH:i') : '')"
                             />
 
                             <x-form.form-textarea
@@ -106,6 +112,7 @@
                                 :isRequired="false"
                                 :is-filter="false"
                                 :isRequired="true"
+                                :value="$furlough->reason"
                             />
                         </div>
                     </div>
@@ -122,23 +129,50 @@
 
     <x-slot:footerFiles>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const duration = document.getElementById('sDurationType');
-                const halfDayWrapper = document.getElementById('sHalfDaySession').closest('.form-group');
+            document.addEventListener('DOMContentLoaded', function () {
+                const durationEl = document.getElementById('sDurationType') || document.querySelector('select[name="duration_type"], input[name="duration_type"]');
+                const halfDayEl = document.getElementById('sHalfDaySession');
+                if (!durationEl || !halfDayEl) return;
+
+                const halfDayWrapper = halfDayEl.closest('.form-group') || halfDayEl.parentElement;
+
+                function getDurationValue() {
+                    let v = durationEl.value;
+                    if ((v === undefined || v === null || v === '') && durationEl.dataset && durationEl.dataset.value) {
+                        v = durationEl.dataset.value;
+                    }
+                    return String(v ?? '');
+                }
+
+                function hideHalfDay() {
+                    halfDayWrapper.style.display = 'none';
+                    try { halfDayEl.value = ''; } catch (e) {}
+                    halfDayEl.setAttribute('disabled', 'disabled');
+                    if (halfDayEl.tomselect) { try { halfDayEl.tomselect.clear(); } catch(e){} }
+                }
+
+                function showHalfDay() {
+                    halfDayWrapper.style.display = '';
+                    halfDayEl.removeAttribute('disabled');
+                }
 
                 function toggleHalfDay() {
-                    if (duration.value == 1 || duration.value === "") {
-                        halfDayWrapper.style.display = 'none';
+                    const val = getDurationValue();
+                    if (val === '1' || val === '') {
+                        hideHalfDay();
                     } else {
-                        halfDayWrapper.style.display = 'block';
+                        showHalfDay();
                     }
                 }
 
-                duration.addEventListener('change', toggleHalfDay);
+                durationEl.addEventListener('change', toggleHalfDay);
+
+                const observer = new MutationObserver(toggleHalfDay);
+                observer.observe(durationEl, { attributes: true, attributeFilter: ['value', 'data-value'] });
 
                 toggleHalfDay();
             });
         </script>
         
     </x-slot:footerFiles>
-</x-base-layout>
+</x-staff.base-layout>

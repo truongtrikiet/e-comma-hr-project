@@ -42,6 +42,20 @@ if (!function_exists('customDateFormat')) {
     }
 }
 
+if (!function_exists('customDate')) {
+
+    /**
+     * Custom date format method.
+     *
+     * @param $dateTime
+     * @return string
+     */
+    function customDate($dateTime): string
+    {
+        return date_format($dateTime, 'd/m/Y') ?? 'N/A';
+    }
+}
+
 if (!function_exists('customPriceFormat')) {
 
     /**

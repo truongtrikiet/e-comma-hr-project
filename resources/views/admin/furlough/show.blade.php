@@ -108,11 +108,11 @@
                             </div>
                             <div class="mb-2">
                                 <label><h6>{{ __('general.common.furlough_duration_type') }}:</h6></label>
-                                {{ \App\Enum\DurationType::getNameByValue($furlough->duration_type->value ?? '-') }}
+                                {{ \App\Enum\DurationType::getNameByValue($furlough?->duration_type->value ?? '-') }}
                             </div>
                             <div class="mb-2">
                                 <label><h6>{{ __('general.common.furlough_half_day_session') }}:</h6></label>
-                                {{ \App\Enum\HalfDaySession::getNameByValue($furlough->half_day_session->value ?? '-') }}
+                                {{ $furlough->half_day_session ? \App\Enum\HalfDaySession::getNameByValue($furlough->half_day_session->value) : '-' }}
                             </div>
                             <div class="mb-2">
                                 <label><h6>{{ __('general.common.start_time') }}:</h6></label>

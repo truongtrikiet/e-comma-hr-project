@@ -296,6 +296,10 @@ return [
         'end_time' => 'End Time',
         'reason' => 'Reason',
         'purpose_status' => 'Purpose Status',
+        'user_profile' => 'User Profile',
+        'resigned_work' => 'Resigned',
+        'active_work' => 'Active',
+        'inactive_work' => 'Inactive',
     ],
 
     'selected_item' => [

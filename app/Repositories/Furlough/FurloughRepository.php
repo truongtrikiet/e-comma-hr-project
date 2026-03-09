@@ -108,6 +108,18 @@ class FurloughRepository extends BaseRepository implements FurloughRepositoryInt
     }
 
     /**
+     * Paginating, ordering and searching through pages for server side index table by self.
+     *
+     * @param $searchParams
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function serverPaginationFilteringByStaff($searchParams): LengthAwarePaginator
+    {
+        $searchParams['user_id'] = auth()->id();
+        return $this->serverPaginationFiltering($searchParams);
+    }
+
+    /**
      * Override create method.
      */
     public function create($data)
