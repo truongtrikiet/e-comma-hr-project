@@ -1,4 +1,4 @@
-<x-base-layout :scrollspy="false">
+<x-staff.base-layout :scrollspy="false">
     <x-slot:pageTitle>
         {{ __('general.menu.user_management.user') }}
     </x-slot:pageTitle>
@@ -106,7 +106,7 @@
                             <strong>{{ __('general.common.employee_code') }}:</strong> {{ $user->userProfile->employee_code ?? 'N/A' }}
                         </div>
                         <div class="col-md-6 mb-3">
-                            <strong>{{ __('general.common.date_of_birth') }}:</strong> {{ customDate($user->userProfile->date_of_birth ?? 'N/A') }}
+                            <strong>{{ __('general.common.date_of_birth') }}:</strong> {{ $user->userProfile->date_of_birth ?? 'N/A' }}
                         </div>
                         <div class="col-md-6 mb-3">
                             <strong>{{ __('general.common.gender') }}:</strong> {{ $user->userProfile->gender->name ?? 'N/A' }}
@@ -121,10 +121,10 @@
                             <strong>{{ __('general.common.school') }}:</strong> {{ $user->school->name ?? 'N/A' }}
                         </div>
                         <div class="col-md-6 mb-3">
-                            <strong>{{ __('general.common.entry_date') }}:</strong> {{ customDate($user->userProfile->entry_date ?? 'N/A') }}
+                            <strong>{{ __('general.common.entry_date') }}:</strong> {{ $user->userProfile->entry_date ?? 'N/A' }}
                         </div>
                         <div class="col-md-6 mb-3">
-                            <strong>{{ __('general.common.employment_status') }}:</strong> {{ $user->userProfile->employment_status->name ?? 'N/A' }}
+                            <strong>{{ __('general.common.employment_status') }}:</strong> {{ $user->employment_status_name ?? 'N/A' }}
                         </div>
                         <div class="col-md-6 mb-3">
                             <strong>{{ __('general.common.subject') }}:</strong> {{ $user->userProfile->subject_id ?? 'N/A' }}
@@ -154,4 +154,4 @@
         
 
     </x-slot:footerFiles>
-</x-base-layout>
+</x-staff.base-layout>

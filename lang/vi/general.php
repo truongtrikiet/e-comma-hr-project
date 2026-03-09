@@ -553,6 +553,10 @@ return [
         'employment_status' => 'Tình trạng công việc',
         'purpose' => 'Yêu cầu',
         'purpose_status' => 'Trạng thái yêu cầu',
+        'user_profile' => 'Hồ sơ cá nhân',
+        'resigned_work' => 'Chờ nghỉ việc',
+        'active_work' => 'Đang làm việc',
+        'inactive_work' => 'Đã nghỉ việc',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Staff;
 
 use App\Acl\Acl;
 use App\Enum\EmployeeStatus;
@@ -51,7 +51,7 @@ class UserController extends Controller
         $schools = $this->schoolRepository->getSchoolActive();
         $subjects = $this->subjectRepository->all();
 
-        return view('admin.user.index', compact('schools', 'subjects'));
+        return view('staff.user.index', compact('schools', 'subjects'));
     }
 
     /**
@@ -66,7 +66,7 @@ class UserController extends Controller
         $genders = GenderEnum::options();
         $employmentStatuses = EmployeeStatus::options();
 
-        return view('admin.user.create', compact(
+        return view('staff.user.create', compact(
             'roles', 
             'statuses',
             'schools',
@@ -85,7 +85,7 @@ class UserController extends Controller
             session()->flash(NOTIFICATION_SUCCESS, __('success.user.store'))
             : session()->flash(NOTIFICATION_ERROR, __('error.user.store'));
 
-        return to_route('admin.user.index');
+        return to_route('staff.user.index');
     }
 
     /**
@@ -93,7 +93,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.user.show', compact('user'));
+        return view('staff.user.show', compact('user'));
     }
 
     /**
@@ -108,7 +108,7 @@ class UserController extends Controller
         $genders = GenderEnum::options();
         $employmentStatuses = EmployeeStatus::options();
 
-        return view('admin.user.edit', compact(
+        return view('staff.user.edit', compact(
             'user', 
             'roles',
             'statuses', 
@@ -128,30 +128,7 @@ class UserController extends Controller
             session()->flash(NOTIFICATION_SUCCESS, __('success.user.update'))
             : session()->flash(NOTIFICATION_ERROR, __('error.user.update'));
 
-        return to_route('admin.user.index');
-    }
-
-    /**
-     * Show the profile of the logged-in user.
-     */
-    public function profile()
-    {
-        $user = auth()->user();
-        $user->load(['userProfile', 'roles', 'school']);
-
-        return view('admin.user.user-profile.user-profile', compact('user'));
-    }
-
-    /**
-     * Update the profile of the logged-in user.
-     */
-    public function updateProfile(UpdateProfileRequest $request)
-    {
-        $this->userRepository->update(Auth::user(), $request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.user.update'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.user.update'));
-
-        return redirect()->back();
+        return to_route('staff.user.index');
     }
 
     /**
@@ -166,6 +143,29 @@ class UserController extends Controller
         return response()->json([
             'message' => __('error.delete'),
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Show the profile of the logged-in user.
+     */
+    public function profile()
+    {
+        $user = auth()->user();
+        $user->load(['userProfile', 'roles', 'school']);
+
+        return view('staff.user.user-profile.user-profile', compact('user'));
+    }
+
+    /**
+     * Update the profile of the logged-in user.
+     */
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        $this->userRepository->update(Auth::user(), $request->validated()) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.user.update'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.user.update'));
+
+        return redirect()->back();
     }
 
     public function updateAvatar(Request $request)

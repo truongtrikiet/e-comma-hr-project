@@ -1,4 +1,4 @@
-<x-base-layout :scrollspy="false">
+<x-staff.base-layout :scrollspy="false">
     <x-slot:pageTitle>
         {{ __('general.menu.furlough_management.create_furlough') }}
     </x-slot:pageTitle>
@@ -25,14 +25,14 @@
     <!-- Breadcrumb -->
     <x-custom.breadcrumb
         :breadcrumb-items="[
-            __('general.menu.furlough_management.manage_furlough') => route('admin.furlough.index'),
+            __('general.menu.furlough_management.manage_furlough') => route('staff.furlough.index'),
             __('general.menu.furlough_management.create_furlough') => '',
         ]"
     />
 
     <x-form.form-layout
         :form-id="'general-settings'"
-        :form-url="route('admin.furlough.store')"
+        :form-url="route('staff.furlough.store')"
         :card-title="__('general.menu.furlough_management.create_furlough')"
         :custom-col="'col-lg-12'"
     >
@@ -141,4 +141,4 @@
         </script>
         
     </x-slot:footerFiles>
-</x-base-layout>
+</x-staff.base-layout>
