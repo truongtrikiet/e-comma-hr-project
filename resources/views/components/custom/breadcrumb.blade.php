@@ -5,7 +5,7 @@
 <div class="row page-titles mx-0 mb-3">
     <div class="col-sm-6 p-md-0">
         <div class="welcome-text">
-            <h4>{{ $title ?? 'Hi, welcome back!' }}</h4>
+            <h4>{{ $title ?? '' }}</h4>
             @if (!empty($subtitle))
                 <span class="ml-1">{{ $subtitle }}</span>
             @endif

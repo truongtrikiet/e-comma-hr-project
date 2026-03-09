@@ -195,6 +195,19 @@ return [
             'edit_furlough' => 'Chỉnh sửa nghỉ phép',
             'show_furlough' => 'Chi tiết nghỉ phép',
             'update_status' => 'Chỉnh sửa trạng thái',
+            'furlough_status' => [
+                'pending' => 'Đang chờ duyệt',
+                'approved' => 'Đã duyệt',
+                'rejected' => 'Bị từ chối',
+            ],
+            'duration_type' => [
+                'full_day' => 'Cả ngày',
+                'half_day' => 'Nửa ngày',
+            ],
+            'half_day_session' => [
+                'morning' => 'Buổi sáng',
+                'afternoon' => 'Buổi chiều',
+            ]
         ],
         'propose_management' => [
             'manage_propose' => 'Quản lý đề xuất',
@@ -538,6 +551,8 @@ return [
         'male' => 'Nam',
         'female' => 'Nữ',
         'employment_status' => 'Tình trạng công việc',
+        'purpose' => 'Yêu cầu',
+        'purpose_status' => 'Trạng thái yêu cầu',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
@@ -614,6 +629,7 @@ return [
         'delete_success' => 'Xóa thành công!',
     ],
     'filter' => [
+        'title' => 'Bộ lọc',
         'sort' => 'Lọc',
         'remove_filter' => 'Xóa bộ lọc',
     ],

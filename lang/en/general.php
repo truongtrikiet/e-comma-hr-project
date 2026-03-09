@@ -76,6 +76,51 @@ return [
                 'edit_exam' => 'Edit Survey Exam',
             ],
         ],
+        'meeting_type_management' => [
+            'title' => 'Meeting Types',
+            'manage_meeting_type' => 'Manage Meeting Types',
+            'create_meeting_type' => 'Add Meeting Type',
+            'edit_meeting_type' => 'Edit Meeting Type',
+        ],
+        'meeting_schedule_management' => [
+            'title' => 'Meeting Schedules',
+            'manage_meeting_schedule' => 'Manage Meeting Schedules',
+            'create_meeting_schedule' => 'Add Meeting Schedule',
+            'edit_meeting_schedule' => 'Edit Meeting Schedule',
+        ],
+        'holiday_schedule_management' => [
+            'title' => 'Holiday Schedules',
+            'manage_holiday_schedule' => 'Manage Holiday Schedules',
+            'create_holiday_schedule' => 'Add Holiday Schedule',
+            'edit_holiday_schedule' => 'Edit Holiday Schedule',
+        ],
+        'furlough_type_management' => [
+            'title' => 'Furlough Types',
+            'manage_furlough_type' => 'Manage Furlough Types',
+            'create_furlough_type' => 'Add Furlough Type',
+            'edit_furlough_type' => 'Edit Furlough Type',
+        ],
+        'furlough_management' => [
+            'title' => 'Furlough Management',
+            'manage_furlough' => 'Manage Furlough',
+            'create_furlough' => 'Create New Furlough',
+            'edit_furlough' => 'Edit Furlough',
+            'show_furlough' => 'Show Furlough Details',
+            'update_status' => 'Update Furlough Status',
+            'furlough_status' => [
+                'pending' => 'Pending',
+                'approved' => 'Approved',
+                'rejected' => 'Rejected',
+            ],
+            'duration_type' => [
+                'full_day' => 'Full Day',
+                'half_day' => 'Half Day',
+            ],
+            'half_day_session' => [
+                'morning' => 'Morning',
+                'afternoon' => 'Afternoon',
+            ]
+        ],
         'department_management' => [
             'title' => 'Manage Departments',
             'department' => 'Department Management',
@@ -242,6 +287,15 @@ return [
         'gender' => 'Gender',
         'subject' => 'Subject',
         'employment_status' => 'Employment Status',
+        'purpose' => 'Purpose',
+        'furlough_duration_type' => 'Furlough Duration Type',
+        'furlough_half_day_session' => 'Furlough Half Day Session',
+        'furlough_status' => 'Furlough Status',
+        'furlough_type' => 'Furlough Type',
+        'start_time' => 'Start Time',
+        'end_time' => 'End Time',
+        'reason' => 'Reason',
+        'purpose_status' => 'Purpose Status',
     ],
 
     'selected_item' => [
@@ -285,6 +339,7 @@ return [
         'delete_success' => 'Delete successful!',
     ],
     'filter' => [
+        'title' => 'Filter',
         'sort' => 'Sort',
         'remove_filter' => 'Clear',
     ],

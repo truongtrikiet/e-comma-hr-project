@@ -91,6 +91,24 @@ final class Acl
 
     const PERMISSION_POSITION_DELETE = 'Delete Position';
 
+    const PERMISSION_FURLOUGH_LIST = 'Furlough List';
+
+    const PERMISSION_FURLOUGH_ADD = 'Add Furlough';
+
+    const PERMISSION_FURLOUGH_EDIT = 'Edit Furlough';
+
+    const PERMISSION_FURLOUGH_DELETE = 'Delete Furlough';
+
+    const PERMISSION_FURLOUGH_TYPE_LIST = 'Furlough Type List';
+
+    const PERMISSION_FURLOUGH_TYPE_ADD = 'Add Furlough Type';
+
+    const PERMISSION_FURLOUGH_TYPE_EDIT = 'Edit Furlough Type';
+
+    const PERMISSION_FURLOUGH_TYPE_DELETE = 'Delete Furlough Type';
+
+    const PERMISSION_FURLOUGH_SHOW = 'Show Furlough';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

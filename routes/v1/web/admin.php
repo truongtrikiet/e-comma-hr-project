@@ -9,4 +9,6 @@ Route::prefix('')->group(function () {
     include 'admin/school.php';
     include 'admin/role.php';
     include 'admin/subject.php';
+    include 'admin/furlough_type.php';
+    include 'admin/furlough.php';
 });
