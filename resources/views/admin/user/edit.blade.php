@@ -100,7 +100,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.gender')"
                                 :isRequired="false"
-                                :selected="old('gender', $user->userProfile->gender?->value)"
+                                :selected="old('gender', $user->userProfile?->gender?->value)"
                             />
                         </div>
                         <div class="col-md-6">
@@ -111,7 +111,7 @@
                                 :label="__('general.common.date_of_birth')"
                                 :placeholder="__('general.common.date_of_birth')"
                                 :isRequired="false"
-                                :value="old('date_of_birth', $user->userProfile->date_of_birth?->format('Y-m-d'))"
+                                :value="old('date_of_birth', $user->userProfile?->date_of_birth?->format('Y-m-d'))"
                             />
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.subject')"
                                 :isRequired="false"
-                                :selected="old('subject_id', $user->userProfile->subject_id)"
+                                :selected="old('subject_id', $user->userProfile?->subject_id)"
                             />
                         </div>
 
@@ -176,7 +176,7 @@
                                 :label="__('general.common.entry_date')"
                                 :placeholder="__('general.common.entry_date')"
                                 :isRequired="false"
-                                :value="old('entry_date', $user->userProfile->entry_date?->format('Y-m-d'))"
+                                :value="old('entry_date', $user->userProfile?->entry_date?->format('Y-m-d'))"
                             />
                         </div>
                         <div class="col-md-6">
@@ -189,7 +189,7 @@
                                 :select-value-label="'label'"
                                 :placeholder="__('general.common.employment_status')"
                                 :isRequired="true"
-                                :selected="old('employment_status', $user->userProfile->employment_status?->value)"
+                                :selected="old('employment_status', $user->userProfile?->employment_status?->value)"
                             />
                         </div>
                     </div>

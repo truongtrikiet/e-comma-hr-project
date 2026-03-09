@@ -37,7 +37,7 @@ class VerticalMenu extends Component
         $this->setProperties();
         $this->buildMenuDashboard();
         $this->buildMainMenu();
-        // $this->buildMenuAddress();
+        $this->buildMenuPurpose();
         $this->buildSystemSetting();
     }
 
@@ -141,23 +141,33 @@ class VerticalMenu extends Component
        ]);
    }
 
-//    private function buildMenuAddress(): void
-//    {
-//        $this->menuItems = array_merge($this->menuItems, [
-//            [
-//                'title' => __('Địa chỉ'),
-//                'is_show_title_menu' => checkPermissions([Acl::PERMISSION_CAMPAIGN_LIST]),
-//            ],
-//            [
-//                'title' => __('Khu vực'),
-//                'url' => route('admin.area.index'),
-//                'icon' => 'globe',
-//                'active' => Route::is(['admin.area.*']),
-//                'show' => $this->isMainAgency && checkPermissions([Acl::PERMISSION_AREA_LIST]),
-//                'child' => [],
-//            ],
-//        ]);
-//    }
+   private function buildMenuPurpose(): void
+   {
+       $this->menuItems = array_merge($this->menuItems, [
+           [
+               'type' => 'label',
+               'title' => __('general.common.purpose'),
+           ],
+           [
+               'title' => __('general.menu.furlough_management.title'),
+               'icon' => 'icon icon-window-add',
+               'child' => [
+                    [
+                        'title' => __('general.menu.furlough_management.manage_furlough'),
+                        'url' => route('admin.furlough.index'),
+                        'active' => Route::is(['admin.furlough.*']),
+                        'show' => checkPermission(Acl::PERMISSION_FURLOUGH_LIST),
+                    ],
+                    [
+                        'title' => __('general.menu.furlough_type_management.manage_furlough_type'),
+                        'url' => route('admin.furlough-type.index'),
+                        'active' => Route::is(['admin.furlough-type.*']),
+                        'show' => checkPermission(Acl::PERMISSION_FURLOUGH_TYPE_LIST),
+                    ],
+               ],
+           ],
+       ]);
+   }
 
     private function setProperties(): void
     {

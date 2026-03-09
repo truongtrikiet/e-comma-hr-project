@@ -60,6 +60,8 @@
         <script src="{{ asset('assets/js/lib/menubar/sidebar.js') }}"></script>
         <script src="{{ asset('assets/js/lib/preloader/pace.min.js') }}"></script>
         <script src="{{ asset('vendor/global/global.min.js') }}"></script>
+        <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
         <script src="{{ asset('js/quixnav-init.js') }}"></script>
         <script src="{{ asset('js/custom.min.js') }}"></script>
 
@@ -70,5 +72,6 @@
         @stack('footerFiles')
 
         @stack('scripts')
+        @vite(['resources/js/plugins-init/material-date-picker-init.js'])
     </body>
 </html>

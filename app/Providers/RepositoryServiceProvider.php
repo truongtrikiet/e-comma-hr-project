@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\Department\DepartmentRepository;
 use App\Repositories\Department\DepartmentRepositoryInterface;
+use App\Repositories\Furlough\FurloughRepository;
+use App\Repositories\Furlough\FurloughRepositoryInterface;
+use App\Repositories\FurloughType\FurloughTypeRepository;
+use App\Repositories\FurloughType\FurloughTypeRepositoryInterface;
 use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
@@ -33,5 +37,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(DepartmentRepositoryInterface::class, DepartmentRepository::class);
         $this->app->singleton(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->singleton(SubjectRepositoryInterface::class, SubjectRepository::class);
+        $this->app->singleton(FurloughTypeRepositoryInterface::class, FurloughTypeRepository::class);
+        $this->app->singleton(FurloughRepositoryInterface::class, FurloughRepository::class);
     }
 }
