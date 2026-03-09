@@ -112,6 +112,8 @@ class UserService
                 $user->userProfile->update($data);
             }
 
+            // Make something wrong with update function, not work and show nginx error.
+
             $user->save();
 
             DB::commit();

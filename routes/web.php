@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Acl\Acl;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +52,22 @@ Route::group(['middleware' => 'web'], function () {
         ->group(function () {
             include 'v1/web/staff.php';
         });
+});
+
+// Get url for CORS handling in FormUpload component
+Route::get('/cors-image/{media_id}/{filename}', function ($media_id, $filename) {
+    $path = storage_path("app/public/{$media_id}/{$filename}");
+    
+    if (!File::exists($path)) {
+        abort(404, 'Không tìm thấy ảnh');
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    return Response::make($file, 200)
+        ->header('Content-Type', $type)
+        ->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        ->header('Cache-Control', 'public, max-age=86400');
 });

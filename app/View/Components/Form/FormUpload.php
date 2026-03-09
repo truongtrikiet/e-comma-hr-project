@@ -8,45 +8,33 @@ use Illuminate\Contracts\View\View;
 
 class FormUpload extends Component
 {
-    /**
-     * @var mixed|string
-     */
     public $id;
-
-    /**
-     * @var mixed|string
-     */
     public $label;
-
-    /**
-     * @var mixed|string
-     */
     public $name;
-
-    /**
-     * @var mixed|string
-     */
     public $multiple;
-
-    /**
-     * @var mixed|boolean
-     */
     public $isRequired;
-    /**
-     * Create a new component instance.
-     */
+    public $value;
+    public $previewId;
+
     public function __construct(
         $id = 'sDefaultUpload',
         $label = null,
         $name = 'default_upload',
         $multiple = false,
-        $isRequired = false
+        $isRequired = false,
+        $value = null,
+        $previewId = null,
     ) {
         $this->id = $id;
         $this->label = $label;
         $this->name = $name;
         $this->multiple = $multiple;
         $this->isRequired = $isRequired;
+        $this->value = $value;
+        $this->previewId = $previewId;
+        if ($value && str_contains($value, '/storage/')) {
+            $value = str_replace(url('/storage'), url('/cors-image'), $value);
+        }
     }
 
     /**
