@@ -11,4 +11,5 @@ Route::prefix('')->group(function () {
     include 'admin/subject.php';
     include 'admin/furlough_type.php';
     include 'admin/furlough.php';
+    include 'admin/employee_type.php';
 });
