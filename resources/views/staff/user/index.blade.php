@@ -13,14 +13,6 @@
         ]"
     />
 
-    <!-- <x-custom.stat-box :id="'user-management-filter'" :custom-col="'col-lg-12'">
-        <x-slot:boxTitle>
-            {{ __('Bộ lọc') }}
-        </x-slot:boxTitle>
-
-        @include('staff.user.filters.index')
-    </x-custom.stat-box> -->
-
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
             {{ __('general.menu.user_management.user') }}

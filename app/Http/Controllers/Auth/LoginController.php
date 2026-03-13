@@ -8,6 +8,7 @@ use App\Http\Requests\User\LoginRequest;
 use App\Models\Contracts\SettingKey;
 use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Models\School;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -101,6 +102,37 @@ class LoginController extends Controller
      */
     protected function credentials(Request $request)
     {
-        return $request->only($this->username(), 'password', 'status');
+        $credentials = $request->only($this->username(), 'password', 'status');
+
+        $sessionSchoolName = session('school_name');
+        $systemMain = config('subdomain.system_main', env('SYSTEM_MAIN', 'ecs'));
+
+        if ($sessionSchoolName && $sessionSchoolName !== $systemMain) {
+            $credentials['school_id'] = session('school_id');
+            return $credentials;
+        }
+
+        if ($sessionSchoolName && $sessionSchoolName === $systemMain) {
+            $systemSchool = School::where('sub_domain', $systemMain)->first();
+            if ($systemSchool) {
+                $credentials['school_id'] = $systemSchool->id;
+            } else {
+                $credentials['school_id'] = null;
+            }
+        }
+
+        return $credentials;
+    }
+
+    /**
+     * Override to provide friendly failed login message and keep old input.
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        return redirect()->back()
+            ->withInput($request->only($this->username()))
+            ->withErrors([
+                $this->username() => __('Tài khoản không tồn tại trong hệ thống hoặc mật khẩu không đúng'),
+            ]);
     }
 }

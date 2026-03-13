@@ -121,24 +121,27 @@ class VerticalMenu extends Component
 
    private function buildSystemSetting(): void
    {
-       $this->menuItems = array_merge($this->menuItems, [
-           [
-               'type' => 'label',
-               'title' => __('general.common.setting'),
-           ],
-           [
-               'title' => __('general.menu.setting_management.title'),
-               'icon' => 'icon icon-house-pricing',
-               'child' => [
+        if (!checkPermission(Acl::PERMISSION_PERMISSION_MANAGE)) {
+            return;
+        }
+
+        $this->menuItems = array_merge($this->menuItems, [
+            [
+                'type' => 'label',
+                'title' => __('general.common.setting'),
+            ],
+            [
+                'title' => __('general.menu.setting_management.title'),
+                'icon' => 'icon icon-house-pricing',
+                'child' => [
                     [
                         'title' => __('general.menu.role_management.role'),
                         'url' => route('admin.role.index'),
                         'active' => Route::is(['admin.role.*']),
-                        'show' => checkPermission(Acl::PERMISSION_PERMISSION_MANAGE),
                     ],
-               ],
-           ],
-       ]);
+                ],
+            ],
+        ]);
    }
 
    private function buildMenuPurpose(): void
