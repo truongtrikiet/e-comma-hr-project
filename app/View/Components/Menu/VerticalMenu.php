@@ -88,6 +88,12 @@ class VerticalMenu extends Component
                         'active' => Route::is(['admin.user.*']),
                         'show' => checkPermissions([Acl::PERMISSION_USER_LIST]),
                     ],
+                    [
+                        'title' => __('general.menu.employee_type_management.employee_type'),
+                        'url' => route('admin.employee-type.index'),
+                        'active' => Route::is(['admin.employee-type.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_EMPLOYEE_TYPE_LIST]),
+                    ]
                 ],
             ],
             [

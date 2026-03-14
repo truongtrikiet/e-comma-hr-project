@@ -6,6 +6,7 @@ use App\Acl\Acl;
 use App\Enum\EmployeeStatus;
 use App\Models\School;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,6 @@ class UserService
     ) {
         //
     }
-
     public function create($data)
     {
         try {
@@ -26,6 +26,15 @@ class UserService
 
             $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
             $data['password'] = Hash::make($data['password']) ?? Hash::make('Abcd@123');
+
+            $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
+            $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? null);
+
+            if (! empty($data['school_id'])) {
+                $data['employee_code'] = $this->generateEmployeeCode($data['school_id']);
+            } else {
+                $data['employee_code'] = $this->generateEmployeeCode(null);
+            }
 
             $user = $this->userRepository->create($data);
 
@@ -40,9 +49,6 @@ class UserService
             if (isset($data['subject_id']) && $data['subject_id']) {
                 $user->subjects()->sync(Arr::wrap($data['subject_id']));
             }
-
-            $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
-            $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? null);
 
             if (isset($data['roles']) && checkPermission(Acl::PERMISSION_ASSIGNEE)) {
                 $rolesInput = $data['roles'];
@@ -109,10 +115,13 @@ class UserService
             }
 
             if ($user->userProfile) {
+                if (empty($user->userProfile->employee_code)) {
+                    $schoolId = $data['school_id'] ?? $user->school_id;
+                    $data['employee_code'] = $this->generateEmployeeCode($schoolId);
+                }
+
                 $user->userProfile->update($data);
             }
-
-            // Make something wrong with update function, not work and show nginx error.
 
             $user->save();
 
@@ -144,5 +153,40 @@ class UserService
         }
 
         return $user;
+    }
+
+    /**
+     * Generate a unique employee code based on the school's code_school, current year, and a sequential number.
+     */
+    protected function generateEmployeeCode($schoolId = null): string
+    {
+        $yearSuffix = date('y');
+        $systemMain = env('SYSTEM_MAIN', 'ecs');
+
+        if ($schoolId) {
+            $school = School::find($schoolId);
+        } else {
+            $school = School::where('sub_domain', $systemMain)->first();
+        }
+
+        $prefixCode = $school && $school->code_school ? 
+            strtoupper($school->code_school) 
+            : strtoupper($systemMain);
+
+        $base = $prefixCode . $yearSuffix;
+
+        $last = UserProfile::where('employee_code', 'like', $base . '%')
+            ->orderByDesc('employee_code')
+            ->first();
+
+        if (! $last) {
+            $next = 1;
+        } else {
+            $lastCode = $last->employee_code;
+            $num = (int) substr($lastCode, -4);
+            $next = $num + 1;
+        }
+
+        return $base . str_pad((string) $next, 4, '0', STR_PAD_LEFT);
     }
 }

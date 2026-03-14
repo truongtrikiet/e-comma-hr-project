@@ -109,6 +109,14 @@ final class Acl
 
     const PERMISSION_FURLOUGH_SHOW = 'Show Furlough';
 
+    const PERMISSION_EMPLOYEE_TYPE_LIST = 'Employee Type List';
+
+    const PERMISSION_EMPLOYEE_TYPE_ADD = 'Add Employee Type';
+
+    const PERMISSION_EMPLOYEE_TYPE_EDIT = 'Edit Employee Type';
+
+    const PERMISSION_EMPLOYEE_TYPE_DELETE = 'Delete Employee Type';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */
