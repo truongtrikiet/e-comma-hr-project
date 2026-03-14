@@ -28,6 +28,7 @@ class UserProfile extends Model
         'position',
         'entry_date',
         'employment_status',
+        'employee_type_id',
     ];
 
     /**
@@ -48,5 +49,13 @@ class UserProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the employee type associated with the profile.
+     */
+    public function employeeType()
+    {
+        return $this->belongsTo(EmployeeType::class);
     }
 }
