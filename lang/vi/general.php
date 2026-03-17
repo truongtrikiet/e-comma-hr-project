@@ -104,11 +104,11 @@ return [
             'customer_history' => 'Lịch sử liên hệ khách hàng',
             'empty_history' => 'Không tồn tại liên hệ!',
         ],
-        'title_management' => [
+        'position_management' => [
             'title' => 'Vị trí',
-            'manage_title' => 'Quản lý vị trí',
-            'create_title' => 'Thêm mới vị trí',
-            'edit_title' => 'Chỉnh sửa vị trí',
+            'manage_position' => 'Quản lý vị trí',
+            'create_position' => 'Thêm mới vị trí',
+            'edit_position' => 'Chỉnh sửa vị trí',
         ],
         'income_and_expense_type_management' => [
             'title' => 'Tài chính',
@@ -181,6 +181,7 @@ return [
             'manage_holiday_schedule' => 'Quản lý lịch nghỉ lễ',
             'create_holiday_schedule' => 'Thêm mới lịch nghỉ lễ',
             'edit_holiday_schedule' => 'Chỉnh sửa lịch nghỉ lễ',
+            'view_holiday_schedule' => 'Xem lịch nghỉ lễ',
         ],
         'furlough_type_management' => [
             'title' => 'Loại nghỉ phép',
@@ -557,6 +558,8 @@ return [
         'resigned_work' => 'Chờ nghỉ việc',
         'active_work' => 'Đang làm việc',
         'inactive_work' => 'Đã nghỉ việc',
+        'saving' => 'Đang lưu...',
+        'total_days' => 'Tổng số ngày',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
@@ -631,6 +634,10 @@ return [
         'confirm_delete' => 'Bạn có chắc chắn muốn xóa không?',
         'delete_failed' => 'Xóa không thành công!',
         'delete_success' => 'Xóa thành công!',
+        'store_success' => 'Lưu thành công!',
+        'store_failed' => 'Lưu không thành công!',
+        'update_success' => 'Cập nhật thành công!',
+        'update_failed' => 'Cập nhật không thành công!',
     ],
     'filter' => [
         'title' => 'Bộ lọc',

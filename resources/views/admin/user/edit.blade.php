@@ -256,7 +256,6 @@
         <script src="{{ asset('plugins/filepond/FilePondPluginImageTransform.min.js') }}"></script>
         <script src="{{ asset('plugins/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
         <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     </x-slot:footerFiles>
 </x-base-layout>

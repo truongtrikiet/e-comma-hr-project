@@ -31,7 +31,7 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at?->format('d/m/Y | H:i:s'),
             'school' => $this->whenLoaded('school'),
             'role' => $this->whenLoaded('roles'),
-            'employee_code' => $profile?->employee_code,
+            'employee_code' => $profile->employee_code ?? 'N/A',
             'date_of_birth' => $profile?->date_of_birth?->format('d/m/Y'),
             'gender' => $profile?->gender?->value,
             'gender_name' => $profile?->gender?->name,

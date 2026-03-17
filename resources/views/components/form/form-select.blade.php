@@ -3,7 +3,7 @@
         @php
             $isMultiple = isset($multiple) && ($multiple === true || $multiple === 'true');
             $selectName = $name . ($isMultiple ? '[]' : '');
-            $current = old($oldName ?: $name, ${'selected'} ?? ($isMultiple ? [] : null));
+            $current = old($oldName ?: $name, $selected ?? ($isMultiple ? [] : null));
             $valueKey = $selectValueAttribute ?? 'value';
             $labelKey = $selectValueLabel ?? 'label';
 
@@ -50,12 +50,17 @@
 
             @foreach($dataValues as $option)
                 @php
-                    $optValue = data_get($option, $valueKey);
-                    $optLabel = data_get($option, $labelKey);
+                    if (is_array($option) || is_object($option)) {
+                        $optValue = data_get($option, $valueKey);
+                        $optLabel = data_get($option, $labelKey);
+                    } else {
+                        $optValue = $option;
+                        $optLabel = $option;
+                    }
 
                     $selected = $isMultiple
-                        ? in_array((string)$optValue, array_map('strval', $current ?? []), true)
-                        : ((string)$optValue === (string)$current);
+                        ? in_array((string)$optValue, array_map('strval', (array) ($current ?? [])), true)
+                        : ((string)$optValue === (string)($current ?? ''));
                 @endphp
 
                 <option value="{{ $optValue }}" {{ $selected ? 'selected' : '' }}>

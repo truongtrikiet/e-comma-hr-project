@@ -12,4 +12,5 @@ Route::prefix('')->group(function () {
     include 'admin/furlough_type.php';
     include 'admin/furlough.php';
     include 'admin/employee_type.php';
+    include 'admin/holiday_schedule.php';
 });

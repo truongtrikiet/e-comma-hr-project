@@ -104,13 +104,15 @@
                                         <span class="notify-time">3:20 am</span>
                                     </li>
                                 </ul>
-                                <a class="all-notification" href="#">See all notifications <i
-                                        class="ti-arrow-right"></i></a>
+                                <a class="all-notification" href="#">See all notifications 
+                                    <i class="ti-arrow-right"></i>
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item dropdown header-profile">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                <i class="mdi mdi-account"></i>
+                                <!-- <span><i class="mdi mdi-account"></i></span> -->
+                                <span class="user-avatar">{{ optional(auth()->user())->last_name ?? 'N/A' }} <i class="ti-angle-down f-s-10"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a href="{{ route('admin.user.profile', ['user' => auth()->id()]) }}" class="dropdown-item">
@@ -124,7 +126,7 @@
                                 <form id="logout-form-navbar" action="{{ route('auth.logout') }}" method="POST" style="display:none;">
                                     @csrf
                                 </form>
-                                <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form-navbar').submit();">
+                                <a href="#" class="dropdown-item logout-link" data-confirm-title="Confirm logout" data-confirm-text="Are you sure you want to logout?" data-confirm-button="Logout">
                                     <i class="icon-key"></i>
                                     <span class="ml-2">Logout </span>
                                 </a>

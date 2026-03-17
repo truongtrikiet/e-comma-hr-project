@@ -170,4 +170,9 @@ return [
         'delete' => 'Xóa khảo sát thất bại.',
         'response' => 'Gửi khảo sát thất bại.',
     ],
+    'subject' => [
+        'store' => 'Thêm mới môn học thất bại.',
+        'update' => 'Chỉnh sửa môn học thất bại.',
+        'delete' => 'Xóa môn học thất bại.',
+    ],
 ];

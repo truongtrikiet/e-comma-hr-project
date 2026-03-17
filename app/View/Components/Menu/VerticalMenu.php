@@ -64,7 +64,13 @@ class VerticalMenu extends Component
                         'url' => route('admin.school.index'),
                         'active' => Route::is(['admin.school.*']),
                         'show' => checkPermission(Acl::PERMISSION_SCHOOL_LIST),
-                    ]
+                    ],
+                    [
+                        'title' => __('general.menu.holiday_schedule_management.manage_holiday_schedule'),
+                        'url' => route('admin.holiday-schedule.index'),
+                        'active' => Route::is(['admin.holiday-schedule.*']),
+                        'show' => checkPermission(Acl::PERMISSION_HOLIDAY_SCHEDULE_LIST),
+                    ],
                 ],
             ],
         ]);
