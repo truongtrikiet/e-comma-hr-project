@@ -10,6 +10,8 @@ use App\Repositories\Furlough\FurloughRepository;
 use App\Repositories\Furlough\FurloughRepositoryInterface;
 use App\Repositories\FurloughType\FurloughTypeRepository;
 use App\Repositories\FurloughType\FurloughTypeRepositoryInterface;
+use App\Repositories\HolidaySchedule\HolidayScheduleRepository;
+use App\Repositories\HolidaySchedule\HolidayScheduleRepositoryInterface;
 use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
@@ -42,5 +44,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(FurloughTypeRepositoryInterface::class, FurloughTypeRepository::class);
         $this->app->singleton(FurloughRepositoryInterface::class, FurloughRepository::class);
         $this->app->singleton(EmployeeTypeRepositoryInterface::class, EmployeeTypeRepository::class);
+        $this->app->singleton(HolidayScheduleRepositoryInterface::class, HolidayScheduleRepository::class);
     }
 }

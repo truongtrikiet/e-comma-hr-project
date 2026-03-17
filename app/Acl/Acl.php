@@ -117,6 +117,16 @@ final class Acl
 
     const PERMISSION_EMPLOYEE_TYPE_DELETE = 'Delete Employee Type';
 
+    const PERMISSION_HOLIDAY_SCHEDULE_LIST = 'Holiday Schedule List';
+
+    const PERMISSION_HOLIDAY_SCHEDULE_ADD = 'Add Holiday Schedule';
+
+    const PERMISSION_HOLIDAY_SCHEDULE_EDIT = 'Edit Holiday Schedule';
+
+    const PERMISSION_HOLIDAY_SCHEDULE_DELETE = 'Delete Holiday Schedule';
+
+    const PERMISSION_HOLIDAY_SCHEDULE_SHOW = 'Show Holiday Schedule';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

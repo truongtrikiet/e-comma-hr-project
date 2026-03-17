@@ -41,7 +41,8 @@
             <x-slot:tableHeader>
                 <tr>
                     <th style="width:4%">ID</th>
-                    <th style="width:30%">{{ __('general.common.name') }}</th>
+                    <th style="width:20%">{{ __('general.common.name') }}</th>
+                    <th style="width:10%">{{ __('general.common.employee_code') }}</th>
                     <th style="width:20%">{{ __('general.common.email') }}</th>
                     <th style="width:12%">{{ __('general.common.role') }}</th>
                     <th style="width:14%">{{ __('general.common.school') }}</th>
@@ -78,6 +79,11 @@
                     },
                     { 
                         "data": "name",
+                        "class": "text-center",
+                        "orderable": false
+                    },
+                    { 
+                        "data": "employee_code",
                         "class": "text-center",
                         "orderable": false
                     },

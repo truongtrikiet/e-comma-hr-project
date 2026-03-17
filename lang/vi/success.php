@@ -176,4 +176,9 @@ return [
         'delete' => 'Xóa khảo sát thành công.',
         'response' => 'Gửi khảo sát thành công.',
     ],
+    'subject' => [
+        'store' => 'Thêm mới môn học thành công.',
+        'update' => 'Chỉnh sửa môn học thành công.',
+        'delete' => 'Xóa môn học thành công.',
+    ],
 ];

@@ -110,7 +110,8 @@
                         </li>
                         <li class="nav-item dropdown header-profile">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                <i class="mdi mdi-account"></i>
+                                <!-- <i class="mdi mdi-account"></i> -->
+                                 <span class="user-avatar">{{ optional(auth()->user())->last_name ?? 'N/A' }} <i class="ti-angle-down f-s-10"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a href="{{ route('staff.user.profile', ['user' => auth()->id()]) }}" class="dropdown-item">
