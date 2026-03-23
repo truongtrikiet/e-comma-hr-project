@@ -42,8 +42,8 @@ class UpdateUserRequest extends FormRequest
             ],
             'email' => [
                 'nullable', 
-                'email:rfc,dns', 
-                new ValidEmail
+                // 'email:rfc,dns', 
+                // new ValidEmail
             ],
             'password' => [
                 'nullable',
@@ -65,6 +65,11 @@ class UpdateUserRequest extends FormRequest
                 'nullable',
                 'integer',
                 'exists:schools,id'
+            ],
+            'employee_type_id' => [
+                'nullable',
+                'integer',
+                'exists:employee_types,id',
             ],
             // 'subject_id' => [
             //     'required',

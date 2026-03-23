@@ -131,58 +131,76 @@ class VerticalMenu extends Component
         ]);
     }
 
-   private function buildSystemSetting(): void
-   {
-        if (!checkPermission(Acl::PERMISSION_PERMISSION_MANAGE)) {
-            return;
-        }
+    private function buildSystemSetting(): void
+    {
+            if (!checkPermission(Acl::PERMISSION_PERMISSION_MANAGE)) {
+                return;
+            }
 
+            $this->menuItems = array_merge($this->menuItems, [
+                [
+                    'type' => 'label',
+                    'title' => __('general.common.setting'),
+                ],
+                [
+                    'title' => __('general.menu.furlough_policy_management.title'),
+                    'icon' => 'icon icon-e-reader',
+                    'child' => [
+                        [
+                            'title' => __('general.menu.furlough_type_management.manage_furlough_type'),
+                            'url' => route('admin.furlough-type.index'),
+                            'active' => Route::is(['admin.furlough-type.*']),
+                            'show' => checkPermission(Acl::PERMISSION_FURLOUGH_TYPE_LIST),
+                        ],
+                        [
+                            'title' => __('general.menu.furlough_policy_template_management.title'),
+                            'url' => route('admin.furlough-policy-template.index'),
+                            'active' => Route::is(['admin.furlough-policy-template.*']),
+                            'show' => checkPermission(Acl::PERMISSION_FURLOUGH_POLICY_TEMPLATE_LIST),
+                        ],
+                        [
+                            'title' => __('general.menu.furlough_policy_management.title'),
+                            'url' => route('admin.furlough-policies.index'),
+                            'active' => Route::is(['admin.furlough-policies.*']),
+                            'show' => checkPermission(Acl::PERMISSION_FURLOUGH_POLICY_LIST),
+                        ],
+                    ],
+                ],
+                [
+                    'title' => __('general.menu.setting_management.title'),
+                    'icon' => 'icon icon-house-pricing',
+                    'child' => [
+                        [
+                            'title' => __('general.menu.role_management.role'),
+                            'url' => route('admin.role.index'),
+                            'active' => Route::is(['admin.role.*']),
+                        ],
+                    ],
+                ],
+            ]);
+    }
+
+    private function buildMenuPurpose(): void
+    {
         $this->menuItems = array_merge($this->menuItems, [
             [
                 'type' => 'label',
-                'title' => __('general.common.setting'),
+                'title' => __('general.common.purpose'),
             ],
             [
-                'title' => __('general.menu.setting_management.title'),
-                'icon' => 'icon icon-house-pricing',
+                'title' => __('general.menu.furlough_management.title'),
+                'icon' => 'icon icon-window-add',
                 'child' => [
-                    [
-                        'title' => __('general.menu.role_management.role'),
-                        'url' => route('admin.role.index'),
-                        'active' => Route::is(['admin.role.*']),
-                    ],
+                        [
+                            'title' => __('general.menu.furlough_management.manage_furlough'),
+                            'url' => route('admin.furlough.index'),
+                            'active' => Route::is(['admin.furlough.*']),
+                            'show' => checkPermission(Acl::PERMISSION_FURLOUGH_LIST),
+                        ],
                 ],
             ],
         ]);
-   }
-
-   private function buildMenuPurpose(): void
-   {
-       $this->menuItems = array_merge($this->menuItems, [
-           [
-               'type' => 'label',
-               'title' => __('general.common.purpose'),
-           ],
-           [
-               'title' => __('general.menu.furlough_management.title'),
-               'icon' => 'icon icon-window-add',
-               'child' => [
-                    [
-                        'title' => __('general.menu.furlough_management.manage_furlough'),
-                        'url' => route('admin.furlough.index'),
-                        'active' => Route::is(['admin.furlough.*']),
-                        'show' => checkPermission(Acl::PERMISSION_FURLOUGH_LIST),
-                    ],
-                    [
-                        'title' => __('general.menu.furlough_type_management.manage_furlough_type'),
-                        'url' => route('admin.furlough-type.index'),
-                        'active' => Route::is(['admin.furlough-type.*']),
-                        'show' => checkPermission(Acl::PERMISSION_FURLOUGH_TYPE_LIST),
-                    ],
-               ],
-           ],
-       ]);
-   }
+    }
 
     private function setProperties(): void
     {

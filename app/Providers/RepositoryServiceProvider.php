@@ -8,6 +8,12 @@ use App\Repositories\EmployeeType\EmployeeTypeRepository;
 use App\Repositories\EmployeeType\EmployeeTypeRepositoryInterface;
 use App\Repositories\Furlough\FurloughRepository;
 use App\Repositories\Furlough\FurloughRepositoryInterface;
+use App\Repositories\FurloughBalance\FurloughBalanceRepository;
+use App\Repositories\FurloughBalance\FurloughBalanceRepositoryInterface;
+use App\Repositories\FurloughPolicy\FurloughPolicyRepository;
+use App\Repositories\FurloughPolicy\FurloughPolicyRepositoryInterface;
+use App\Repositories\FurloughPolicyTemplate\FurloughPolicyTemplateRepository;
+use App\Repositories\FurloughPolicyTemplate\FurloughPolicyTemplateRepositoryInterface;
 use App\Repositories\FurloughType\FurloughTypeRepository;
 use App\Repositories\FurloughType\FurloughTypeRepositoryInterface;
 use App\Repositories\HolidaySchedule\HolidayScheduleRepository;
@@ -45,5 +51,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(FurloughRepositoryInterface::class, FurloughRepository::class);
         $this->app->singleton(EmployeeTypeRepositoryInterface::class, EmployeeTypeRepository::class);
         $this->app->singleton(HolidayScheduleRepositoryInterface::class, HolidayScheduleRepository::class);
+        $this->app->singleton(FurloughPolicyTemplateRepositoryInterface::class, FurloughPolicyTemplateRepository::class);
+        $this->app->singleton(FurloughPolicyRepositoryInterface::class, FurloughPolicyRepository::class);
+        $this->app->singleton(FurloughBalanceRepositoryInterface::class, FurloughBalanceRepository::class);
     }
 }

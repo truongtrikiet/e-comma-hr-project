@@ -1,70 +1,63 @@
 <x-base-layout :scrollspy="false">
     <x-slot:pageTitle>
-        {{ __('general.menu.user_management.user') }}
+        {{ __('general.menu.furlough_policy_management.manage_furlough_policy') }}
     </x-slot:pageTitle>
     <x-slot:headerFiles>
 
+    
     </x-slot:headerFiles>
 
     <!-- Breadcrumb -->
     <x-custom.breadcrumb
         :breadcrumb-items="[
-            __('general.menu.user_management.user') => '',
+            __('general.menu.furlough_policy_management.manage_furlough_policy') => '',
         ]"
     />
 
-    <x-custom.stat-box :id="'user-management-filter'" :custom-col="'col-lg-12'">
-        <x-slot:boxTitle>
-            {{ __('Bộ lọc') }}
-        </x-slot:boxTitle>
-
-        @include('admin.user.filters.index')
-    </x-custom.stat-box>
-
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
-            {{ __('general.menu.user_management.user') }}
+            {{ __('general.menu.furlough_policy_management.manage_furlough_policy') }}
         </x-slot:boxTitle>
         <div></div>
 
         <div>
-            @can(Acl::PERMISSION_USER_ADD)
+            @can(Acl::PERMISSION_FURLOUGH_POLICY_ADD)
                 <x-buttons.button-link
-                    :label="__('general.menu.user_management.create_user')"
-                    :url="route('admin.user.create')"
+                    :label="__('general.menu.furlough_policy_management.create_furlough_policy')"
+                    :url="route('admin.furlough-policies.create')"
                 />
             @endcan
         </div>
     </div>
 
     <x-custom.stat-box
-        :boxId="'users-box'"
+        :boxId="'furlough-policy-box'"
         :custom-col="'col-lg-12'"
         :box_of_datatable="true"
     >
         <x-table.datatable 
-            :id="'sUserTable'"
-            :title="__('User List')"
+            :id="'sFurloughPolicyTable'"
+            :title="__('Furlough Policy List')"
         >
             <x-slot:tableHeader>
                 <tr>
-                    <th style="width:4%">ID</th>
-                    <th style="width:20%">{{ __('general.common.name') }}</th>
-                    <th style="width:10%">{{ __('general.common.employee_code') }}</th>
-                    <th style="width:20%">{{ __('general.common.email') }}</th>
-                    <th style="width:12%">{{ __('general.common.role') }}</th>
-                    <th style="width:12%">{{ __('general.common.employee_type') }}</th>
-                    <th style="width:14%">{{ __('general.common.school') }}</th>
-                    <th style="width:10%">{{ __('general.common.login_at') }}</th>
-                    <th style="width:10%">{{ __('general.common.status') }}</th>
-                    <th style="width:10%">{{ __('general.common.action') }}</th>
+                    <th style="width:5%">ID</th>
+                    <th>{{ __('general.common.school') }}</th>
+                    <th>{{ __('general.common.furlough_type_name') }}</th>
+                    <th>{{ __('general.common.employee_type') }}</th>
+                    <th>{{ __('general.common.paid') }}</th>
+                    <th>{{ __('general.common.carry_forward') }}</th>
+                    <th>{{ __('general.common.reset_type') }}</th>
+                    <th>{{ __('general.common.reset_month') }}</th>
+                    <th>{{ __('general.common.status') }}</th>
+                    <th>{{ __('general.common.action') }}</th>
                 </tr>
             </x-slot:tableHeader>
             <x-slot:customScript>
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "{{ route('admin.user.index') }}",
+                    "url": "{{ route('admin.furlough-policies.index') }}",
                         "data": function(d) {
                             let searchParams = new URLSearchParams(window.location.search);
                             drawDT = d.draw;
@@ -86,38 +79,6 @@
                         "class": "text-center",
                         "orderable": true
                     },
-                    { 
-                        "data": "name",
-                        "class": "text-center",
-                        "orderable": false
-                    },
-                    { 
-                        "data": "employee_code",
-                        "class": "text-center",
-                        "orderable": false
-                    },
-                    {
-                        "data": "email",
-                        "class": "text-center",
-                        "orderable": false
-                    },
-                    {
-                        "data": "role",
-                        "class": "text-center",
-                        "orderable": false,
-                        "render": function(data, type, full) {
-                            let roles = data.map(role => `<span class="badge badge-info">${role.name}</span>`).join(' ');
-                            return roles || '<span class="badge badge-light">N/A</span>';
-                        }
-                    },
-                    {
-                        "data": "employee_type",
-                        "orderable": false,
-                        "class": "text-center",
-                        "render": function(data, type, full) {
-                            return `<span class="badge badge-light">${data ?? 'N/A'}</span>`;
-                        }
-                    },
                     {
                         "data": "school",
                         "orderable": false,
@@ -127,9 +88,52 @@
                         }
                     },
                     {
-                        "data": "login_at",
-                        "orderable": false,
+                        "data": "furlough_type_name",
                         "class": "text-center",
+                        "orderable": false,
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-light">${full.furlough_type_name}</span>`;
+                        }
+                    },
+                    {
+                        "data": "employee_type_name",
+                        "class": "text-center",
+                        "orderable": false,
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-light">${full.employee_type_name}</span>`;
+                        }
+                    },
+                    {
+                        "data": "is_paid",
+                        "orderable": false,
+                        "className": "text-center",
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-${full.is_paid_badge}">${full.is_paid_name}</span>`;
+                        }
+                    },
+                    {
+                        "data": "carry_forward",
+                        "orderable": false,
+                        "className": "text-center",
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-light">${full.carry_forward_name}</span>`;
+                        }
+                    },
+                    {
+                        "data": "reset_type",
+                        "orderable": false,
+                        "className": "text-center",
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-light">${full.reset_type_name}</span>`;
+                        }
+                    },
+                    {
+                        "data": "reset_month",
+                        "orderable": false,
+                        "className": "text-center",
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-light">${full.reset_month_name ?? 'N/A'}</span>`;
+                        }
                     },
                     {
                         "data": "status",
@@ -144,25 +148,19 @@
                         "class": "text-center no-content",
                         "orderable": false,
                         "render": function (data, type, full) {
-                            let urlShow = `{{ route('admin.user.show', ':id') }}`.replace(':id', data);
-                            let urlEdit = `{{ route('admin.user.edit', ':id') }}`.replace(':id', data);
-                            let urlDestroy = `{{ route('admin.user.destroy', ':id') }}`.replace(':id', data);
+                            let urlEdit = `{{ route('admin.furlough-policies.edit', ':id') }}`.replace(':id', data);
+                            let urlDestroy = `{{ route('admin.furlough-policies.destroy', ':id') }}`.replace(':id', data);
 
                             return `
                                 <ul class="table-controls d-flex justify-content-center">
-                                    <!-- <x-table.actions.show-action
-                                        :permission="Acl::PERMISSION_USER_VIEW"
-                                        :url="'${urlShow}'"
-                                        :dataTableId="'sUserTable'"
-                                    /> -->
                                     <x-table.actions.edit-action
-                                        :permission="Acl::PERMISSION_USER_EDIT"
+                                        :permission="Acl::PERMISSION_FURLOUGH_POLICY_EDIT"
                                         :url="'${urlEdit}'"
                                     />
                                     <x-table.actions.delete-action
-                                        :permission="Acl::PERMISSION_USER_DELETE"
+                                        :permission="Acl::PERMISSION_FURLOUGH_POLICY_DELETE"
                                         :url="'${urlDestroy}'"
-                                        :datatableId="'sUserTable'"
+                                        :datatableId="'sFurloughPolicyTable'"
                                     />
                                 </ul>`;
                         }

@@ -1,70 +1,60 @@
 <x-base-layout :scrollspy="false">
     <x-slot:pageTitle>
-        {{ __('general.menu.user_management.user') }}
+        {{ __('general.menu.furlough_policy_template_management.manage_furlough_policy_template') }}
     </x-slot:pageTitle>
     <x-slot:headerFiles>
 
+    
     </x-slot:headerFiles>
 
     <!-- Breadcrumb -->
     <x-custom.breadcrumb
         :breadcrumb-items="[
-            __('general.menu.user_management.user') => '',
+            __('general.menu.furlough_policy_template_management.manage_furlough_policy_template') => '',
         ]"
     />
 
-    <x-custom.stat-box :id="'user-management-filter'" :custom-col="'col-lg-12'">
-        <x-slot:boxTitle>
-            {{ __('Bộ lọc') }}
-        </x-slot:boxTitle>
-
-        @include('admin.user.filters.index')
-    </x-custom.stat-box>
-
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
-            {{ __('general.menu.user_management.user') }}
+            {{ __('general.menu.furlough_policy_template_management.manage_furlough_policy_template') }}
         </x-slot:boxTitle>
         <div></div>
 
         <div>
-            @can(Acl::PERMISSION_USER_ADD)
+            @can(Acl::PERMISSION_FURLOUGH_POLICY_TEMPLATE_ADD)
                 <x-buttons.button-link
-                    :label="__('general.menu.user_management.create_user')"
-                    :url="route('admin.user.create')"
+                    :label="__('general.menu.furlough_policy_template_management.create_furlough_policy_template')"
+                    :url="route('admin.furlough-policy-template.create')"
                 />
             @endcan
         </div>
     </div>
 
     <x-custom.stat-box
-        :boxId="'users-box'"
+        :boxId="'furlough-policy-template-box'"
         :custom-col="'col-lg-12'"
         :box_of_datatable="true"
     >
         <x-table.datatable 
-            :id="'sUserTable'"
-            :title="__('User List')"
+            :id="'sFurloughPolicyTemplateTable'"
+            :title="__('Furlough Policy Template List')"
         >
             <x-slot:tableHeader>
                 <tr>
-                    <th style="width:4%">ID</th>
-                    <th style="width:20%">{{ __('general.common.name') }}</th>
-                    <th style="width:10%">{{ __('general.common.employee_code') }}</th>
-                    <th style="width:20%">{{ __('general.common.email') }}</th>
-                    <th style="width:12%">{{ __('general.common.role') }}</th>
-                    <th style="width:12%">{{ __('general.common.employee_type') }}</th>
-                    <th style="width:14%">{{ __('general.common.school') }}</th>
-                    <th style="width:10%">{{ __('general.common.login_at') }}</th>
-                    <th style="width:10%">{{ __('general.common.status') }}</th>
-                    <th style="width:10%">{{ __('general.common.action') }}</th>
+                    <th style="width:5%">ID</th>
+                    <th>{{ __('general.common.name') }}</th>
+                    <th>{{ __('general.common.description') }}</th>
+                    <th>{{ __('general.common.paid') }}</th>
+                    <th>{{ __('general.common.carry_forward') }}</th>
+                    <th>{{ __('general.common.status') }}</th>
+                    <th>{{ __('general.common.action') }}</th>
                 </tr>
             </x-slot:tableHeader>
             <x-slot:customScript>
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "{{ route('admin.user.index') }}",
+                    "url": "{{ route('admin.furlough-policy-template.index') }}",
                         "data": function(d) {
                             let searchParams = new URLSearchParams(window.location.search);
                             drawDT = d.draw;
@@ -91,45 +81,26 @@
                         "class": "text-center",
                         "orderable": false
                     },
-                    { 
-                        "data": "employee_code",
+                    {
+                        "data": "description",
                         "class": "text-center",
                         "orderable": false
                     },
                     {
-                        "data": "email",
-                        "class": "text-center",
-                        "orderable": false
-                    },
-                    {
-                        "data": "role",
-                        "class": "text-center",
+                        "data": "is_paid",
                         "orderable": false,
+                        "className": "text-center",
                         "render": function(data, type, full) {
-                            let roles = data.map(role => `<span class="badge badge-info">${role.name}</span>`).join(' ');
-                            return roles || '<span class="badge badge-light">N/A</span>';
+                            return `<span class="badge badge-${full.is_paid_badge}">${full.is_paid_name}</span>`;
                         }
                     },
                     {
-                        "data": "employee_type",
+                        "data": "carry_forward",
                         "orderable": false,
-                        "class": "text-center",
+                        "className": "text-center",
                         "render": function(data, type, full) {
-                            return `<span class="badge badge-light">${data ?? 'N/A'}</span>`;
+                            return `<span class="badge badge-${full.carry_forward_badge}">${full.carry_forward_name}</span>`;
                         }
-                    },
-                    {
-                        "data": "school",
-                        "orderable": false,
-                        "class": "text-center",
-                        "render": function(data, type, full) {
-                            return `<span class="badge badge-light">${data?.name ?? 'N/A'}</span>`;
-                        }
-                    },
-                    {
-                        "data": "login_at",
-                        "orderable": false,
-                        "class": "text-center",
                     },
                     {
                         "data": "status",
@@ -144,25 +115,19 @@
                         "class": "text-center no-content",
                         "orderable": false,
                         "render": function (data, type, full) {
-                            let urlShow = `{{ route('admin.user.show', ':id') }}`.replace(':id', data);
-                            let urlEdit = `{{ route('admin.user.edit', ':id') }}`.replace(':id', data);
-                            let urlDestroy = `{{ route('admin.user.destroy', ':id') }}`.replace(':id', data);
+                            let urlEdit = `{{ route('admin.furlough-policy-template.edit', ':id') }}`.replace(':id', data);
+                            let urlDestroy = `{{ route('admin.furlough-policy-template.destroy', ':id') }}`.replace(':id', data);
 
                             return `
                                 <ul class="table-controls d-flex justify-content-center">
-                                    <!-- <x-table.actions.show-action
-                                        :permission="Acl::PERMISSION_USER_VIEW"
-                                        :url="'${urlShow}'"
-                                        :dataTableId="'sUserTable'"
-                                    /> -->
                                     <x-table.actions.edit-action
-                                        :permission="Acl::PERMISSION_USER_EDIT"
+                                        :permission="Acl::PERMISSION_FURLOUGH_POLICY_TEMPLATE_EDIT"
                                         :url="'${urlEdit}'"
                                     />
                                     <x-table.actions.delete-action
-                                        :permission="Acl::PERMISSION_USER_DELETE"
+                                        :permission="Acl::PERMISSION_FURLOUGH_POLICY_TEMPLATE_DELETE"
                                         :url="'${urlDestroy}'"
-                                        :datatableId="'sUserTable'"
+                                        :datatableId="'sFurloughPolicyTemplateTable'"
                                     />
                                 </ul>`;
                         }

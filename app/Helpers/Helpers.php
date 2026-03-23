@@ -38,7 +38,20 @@ if (!function_exists('customDateFormat')) {
      */
     function customDateFormat($dateTime): string
     {
-        return date_format($dateTime, 'H:i | d/m/Y') ?? 'N/A';
+            if (empty($dateTime)) {
+                return 'N/A';
+            }
+
+            if ($dateTime instanceof \DateTimeInterface) {
+                return $dateTime->format('H:i | d/m/Y');
+            }
+
+            try {
+                $dt = \Carbon\Carbon::parse($dateTime);
+                return $dt->format('H:i | d/m/Y');
+            } catch (\Throwable $e) {
+                return 'N/A';
+            }
     }
 }
 
@@ -52,7 +65,20 @@ if (!function_exists('customDate')) {
      */
     function customDate($dateTime): string
     {
-        return date_format($dateTime, 'd/m/Y') ?? 'N/A';
+            if (empty($dateTime)) {
+                return 'N/A';
+            }
+
+            if ($dateTime instanceof \DateTimeInterface) {
+                return $dateTime->format('d/m/Y');
+            }
+
+            try {
+                $dt = \Carbon\Carbon::parse($dateTime);
+                return $dt->format('d/m/Y');
+            } catch (\Throwable $e) {
+                return 'N/A';
+            }
     }
 }
 

@@ -40,7 +40,8 @@ class UserResource extends JsonResource
             'employment_status' => $profile?->employment_status?->value,
             'employment_status_name' => __(Str::title($profile?->employment_status?->name)),
             'subject_id' => $profile?->subject_id,
-            'employee_type' => $profile?->employee_type?->value,
+            'employee_type_id' => $profile?->employee_type_id,
+            'employee_type' => $profile?->employeeType?->name ?? null,
         ];
     }
 }

@@ -97,7 +97,12 @@ class StoreUserRequest extends FormRequest
             'employment_status' => [
                 'nullable',
                 new Enum(EmployeeStatus::class),
-            ]
+            ],
+            'employee_type_id' => [
+                'nullable',
+                'integer',
+                'exists:employee_types,id',
+            ],
         ];
     }
 }

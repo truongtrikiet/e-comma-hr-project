@@ -6,22 +6,29 @@ use App\Enum\ActiveStatus;
 use App\Enum\IsPaid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Translatable\HasTranslations;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class FurloughType extends Model
+class FurloughPolicyTemplate extends Model
 {
     use HasFactory, HasTranslations;
 
     protected $fillable = [
         'name',
-        'status',
+        'description',
+        'accrual_per_month',
+        'max_days',
+        'carry_forward',
         'is_paid',
+        'status',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
-        'status' => ActiveStatus::class,
+        'carry_forward' => 'boolean',
         'is_paid' => IsPaid::class,
+        'status' => ActiveStatus::class,
     ];
 
     public $translatable = [

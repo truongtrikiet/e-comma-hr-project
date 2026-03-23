@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Acl\Acl;
 use App\Enum\EmployeeStatus;
+use App\Models\FurloughBalance;
+use App\Models\FurloughPolicy;
 use App\Models\School;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -11,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 
 class UserService
 {
@@ -61,7 +64,12 @@ class UserService
                 $user->syncRoles(array_map(fn($role) => (int) $role, (array) $rolesInput));
             }
 
-            \Log::info('User created: ' . json_encode($user->toArray()));
+            if (!empty($data['employee_type_id'])) {
+                $user->load('userProfile');                
+                $this->createInitialFurloughBalances($user);
+            }
+
+            Log::info('User created: ' . json_encode($user->toArray()));
 
             $user->save();
 
@@ -70,7 +78,8 @@ class UserService
             return $user;
         } catch (\Exception $e) {
             DB::rollBack();
-            return $e->getMessage();
+            Log::error('Error creating user: ' . $e->getMessage());
+            return null;
         }
     }
 
@@ -95,6 +104,9 @@ class UserService
 
             $defaultSystem = School::where('sub_domain', env('SYSTEM_MAIN', 'ecs'))->first();
             $data['school_id'] = $data['school_id'] ?? ($defaultSystem->id ?? $user->school_id);
+
+            $oldEmployeeTypeId = $user->userProfile->employee_type_id ?? null;
+            \Log::info('Old Employee Type ID: ' . $oldEmployeeTypeId);
 
             $user = $this->userRepository->update($user, $data);
 
@@ -123,6 +135,15 @@ class UserService
                 $user->userProfile->update($data);
             }
 
+            $newEmployeeTypeId = $data['employee_type_id'] ?? ($user->userProfile->employee_type_id ?? null);
+            
+            if ($newEmployeeTypeId && $oldEmployeeTypeId !== $newEmployeeTypeId) {                
+                $user->load('userProfile');
+                $this->createInitialFurloughBalances($user);
+            }
+
+            Log::info('User updated: ' . json_encode($user->toArray()));
+
             $user->save();
 
             DB::commit();
@@ -130,7 +151,8 @@ class UserService
             return $user;
         } catch (\Exception $e) {
             DB::rollBack();
-            return $e->getMessage();
+            Log::error('Error updating user: ' . $e->getMessage());
+            return null;
         }
     }
 
@@ -188,5 +210,52 @@ class UserService
         }
 
         return $base . str_pad((string) $next, 4, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Create initial furlough balances for a user based on applicable furlough policies.
+     */
+    protected function createInitialFurloughBalances(User $user): void
+    {   
+        $employeeTypeId = $user->userProfile->employee_type_id ?? null;
+        $schoolId = $user->school_id ?? null;
+
+        Log::info('=== TẠO BALANCE (KHÔNG DÙNG BẢNG TRUNG GIAN) ===', [
+            'user_id' => $user->id ?? 'NULL',
+            'employee_type_id' => $employeeTypeId ?? 'NULL',
+            'school_id' => $schoolId ?? 'NULL',
+        ]);
+
+        if (!$employeeTypeId || !$schoolId) {
+            return;
+        }
+
+        $policies = FurloughPolicy::where('school_id', $schoolId)
+            ->where('employee_type_id', $employeeTypeId)
+            ->get();
+
+        Log::info('Số Policy tìm thấy: ' . $policies->count());
+
+        foreach ($policies as $policy) {
+            try {
+                $balance = FurloughBalance::firstOrCreate(
+                    [
+                        'user_id' => $user->id,
+                        'furlough_type_id' => $policy->furlough_type_id,
+                    ],
+                    [
+                        'total_days' => $policy->max_days ?? 0,
+                        'used_days' => 0,
+                        'remaining_days' => 0,
+                        'last_accrual_at' => null,
+                        'last_reset_at' => null,
+                    ]
+                );
+                
+                Log::info('✅ Đã tạo Balance ID: ' . $balance->id);
+            } catch (\Throwable $e) {
+                Log::error('❌ LỖI TẠO BALANCE: ' . $e->getMessage());
+            }
+        }
     }
 }
