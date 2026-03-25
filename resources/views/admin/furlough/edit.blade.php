@@ -114,6 +114,18 @@
                                 :isRequired="true"
                                 :value="$furlough->reason"
                             />
+
+                            <x-form.form-select
+                                :id="'sUseBalanceSelect'"
+                                :label="__('general.common.use_balance')"
+                                :data-values="$useBalance"
+                                :name="'use_balance'"
+                                :select-value-attribute="'value'"
+                                :select-value-label="'label'"
+                                :placeholder="__('general.common.use_balance')"
+                                :isRequired="true"
+                                :selected="$furlough->use_balance ? '1' : '0'"
+                            />
                         </div>
                     </div>
                 </div>

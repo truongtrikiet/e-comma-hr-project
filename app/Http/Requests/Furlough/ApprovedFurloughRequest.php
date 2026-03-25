@@ -14,7 +14,7 @@ class ApprovedFurloughRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return checkPermission(Acl::PERMISSION_FURLOUGH_SHOW);
+        return checkPermission(Acl::PERMISSION_FURLOUGH_EDIT);
     }
 
     /**

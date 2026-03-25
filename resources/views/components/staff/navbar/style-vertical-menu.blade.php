@@ -48,6 +48,12 @@
                                 <a class="dropdown-item" href="{{ route('locale.switch', ['locale' => 'vi', 'redirect_to' => request()->fullUrl()]) }}">Tiếng Việt</a>
                             </div>
                         </li>
+                        @php
+                            $notifications = $notifications ?? (
+                                auth()->check() ? auth()->user()->notifications()->latest()->take(5)->get() : collect()
+                            );
+                        @endphp
+
                         <li class="nav-item dropdown notification_dropdown">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                 <i class="mdi mdi-bell"></i>
@@ -55,57 +61,26 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="list-unstyled">
-                                    <li class="media dropdown-item">
-                                        <span class="success"><i class="ti-user"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>Martin</strong> has added a <strong>customer</strong> Successfully
-                                                </p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="primary"><i class="ti-shopping-cart"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="danger"><i class="ti-bookmark"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>Robin</strong> marked a <strong>ticket</strong> as unsolved.
-                                                </p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="primary"><i class="ti-heart"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="success"><i class="ti-image"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong> James.</strong> has added a<strong>customer</strong> Successfully
-                                                </p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
+                                    @forelse($notifications as $note)
+                                        <li class="media dropdown-item">
+                                            <span class="primary"><i class="ti-bell"></i></span>
+                                            <div class="media-body">
+                                                <a href="{{ $note->data['url'] ?? '#' }}">
+                                                    <p>{!! 
+                                                        \Illuminate\Support\Str::limit(
+                                                            $note->data['message'] ?? ($note->data['title'] ?? null) ?? ($note->data ?? json_encode($note->data)),
+                                                            120
+                                                        )
+                                                    !!}</p>
+                                                </a>
+                                            </div>
+                                            <span class="notify-time">{{ optional($note->created_at)->diffForHumans() }}</span>
+                                        </li>
+                                    @empty
+                                        <li class="dropdown-item text-center">No notifications</li>
+                                    @endforelse
                                 </ul>
-                                <a class="all-notification" href="#">See all notifications <i
-                                        class="ti-arrow-right"></i></a>
+                                <a class="all-notification" href="{{ route('staff.notifications.index') }}">See all notifications <i class="ti-arrow-right"></i></a>
                             </div>
                         </li>
                         <li class="nav-item dropdown header-profile">

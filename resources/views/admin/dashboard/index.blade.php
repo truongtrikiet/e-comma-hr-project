@@ -21,7 +21,7 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">{{ __('Furlough Balances') }}</h5>
+                    <h5 class="card-title mb-0">{{ __('general.menu.furlough_balance_management.title') }}</h5>
                 </div>
                 <div class="card-body p-2">
                     @php

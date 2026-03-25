@@ -590,6 +590,9 @@ return [
         'monthly' => 'Monthly',
         'yearly' => 'Yearly',
         'never' => 'Never',
+        'use_balance' => 'Use Balance',
+        'use' => 'Use',
+        'not_use' => 'Not Use',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

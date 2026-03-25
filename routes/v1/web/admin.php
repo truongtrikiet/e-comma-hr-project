@@ -15,4 +15,5 @@ Route::prefix('')->group(function () {
     include 'admin/holiday_schedule.php';
     include 'admin/furlough_policy_template.php';
     include 'admin/furlough_policy.php';
+    include 'admin/notification.php';
 });

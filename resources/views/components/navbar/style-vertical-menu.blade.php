@@ -51,60 +51,57 @@
                         <li class="nav-item dropdown notification_dropdown">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                 <i class="mdi mdi-bell"></i>
-                                <div class="pulse-css"></div>
+
+                                @php
+                                    $notifications = $notifications ?? (
+                                        auth()->check()
+                                        ? auth()->user()->notifications()->latest()->limit(5)->get()
+                                        : collect()
+                                    );
+                                @endphp
+
+                                @if($notifications->count())
+                                    <span class="badge badge-danger">{{ $notifications->count() }}</span>
+                                    <div class="pulse-css"></div>
+                                @endif
                             </a>
+
                             <div class="dropdown-menu dropdown-menu-right">
+                                @php
+                                    $notifRoutePrefix = 'admin.notifications';
+                                @endphp
+
                                 <ul class="list-unstyled">
-                                    <li class="media dropdown-item">
-                                        <span class="success"><i class="ti-user"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>Martin</strong> has added a <strong>customer</strong> Successfully
-                                                </p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="primary"><i class="ti-shopping-cart"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="danger"><i class="ti-bookmark"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>Robin</strong> marked a <strong>ticket</strong> as unsolved.
-                                                </p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="primary"><i class="ti-heart"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
-                                    <li class="media dropdown-item">
-                                        <span class="success"><i class="ti-image"></i></span>
-                                        <div class="media-body">
-                                            <a href="#">
-                                                <p><strong> James.</strong> has added a<strong>customer</strong> Successfully
-                                                </p>
-                                            </a>
-                                        </div>
-                                        <span class="notify-time">3:20 am</span>
-                                    </li>
+                                    @forelse ($notifications as $notification)
+                                        @php
+                                            $data = $notification->data;
+                                            $badge = $data['badge'] ?? 'primary';
+                                        @endphp
+
+                                        <li class="media dropdown-item">
+                                            <span class="{{ $badge }}">
+                                                <i class="ti-bell"></i>
+                                            </span>
+
+                                            <div class="media-body">
+                                                <a href="{{ route($notifRoutePrefix . '.read', $notification->id) }}">
+                                                    <p>{{ $data['message'] ?? 'New notification' }}</p>
+                                                </a>
+                                            </div>
+
+                                            <span class="notify-time">
+                                                {{ $notification->created_at->diffForHumans() }}
+                                            </span>
+                                        </li>
+                                    @empty
+                                        <li class="dropdown-item text-center text-muted">
+                                            No notifications
+                                        </li>
+                                    @endforelse
                                 </ul>
-                                <a class="all-notification" href="#">See all notifications 
+
+                                <a class="all-notification" href="{{ route($notifRoutePrefix . '.index') }}">
+                                    See all notifications
                                     <i class="ti-arrow-right"></i>
                                 </a>
                             </div>

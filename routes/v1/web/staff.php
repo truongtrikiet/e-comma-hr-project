@@ -7,4 +7,5 @@ Route::prefix('')->group(function () {
     include 'staff/furlough.php';
     include 'staff/user.php';
     include 'staff/holiday_schedule.php';
+    include 'staff/notification.php';
 });

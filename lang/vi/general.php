@@ -592,6 +592,9 @@ return [
         'monthly' => 'Theo tháng',
         'yearly' => 'Theo năm',
         'never' => 'Không bao giờ',
+        'use_balance' => 'Sử dụng số dư',
+        'use' => 'Sử dụng',
+        'not_use' => 'Không sử dụng',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
