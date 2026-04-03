@@ -164,6 +164,12 @@ class VerticalMenu extends Component
                             'active' => Route::is(['admin.furlough-policies.*']),
                             'show' => checkPermission(Acl::PERMISSION_FURLOUGH_POLICY_LIST),
                         ],
+                        [
+                            'title' => __('general.menu.school_working_calendar_management.title'),
+                            'url' => route('admin.school-working-calendar.index'),
+                            'active' => Route::is(['admin.school-working-calendar.*']),
+                            'show' => checkPermission(Acl::PERMISSION_SCHOOL_WORKING_CALENDAR_LIST),
+                        ],
                     ],
                 ],
                 [
@@ -191,12 +197,12 @@ class VerticalMenu extends Component
                 'title' => __('general.menu.furlough_management.title'),
                 'icon' => 'icon icon-window-add',
                 'child' => [
-                        [
-                            'title' => __('general.menu.furlough_management.manage_furlough'),
-                            'url' => route('admin.furlough.index'),
-                            'active' => Route::is(['admin.furlough.*']),
-                            'show' => checkPermission(Acl::PERMISSION_FURLOUGH_LIST),
-                        ],
+                    [
+                        'title' => __('general.menu.furlough_management.manage_furlough'),
+                        'url' => route('admin.furlough.index'),
+                        'active' => Route::is(['admin.furlough.*']),
+                        'show' => checkPermission(Acl::PERMISSION_FURLOUGH_LIST),
+                    ],
                 ],
             ],
         ]);

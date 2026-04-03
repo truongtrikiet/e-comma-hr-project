@@ -295,13 +295,22 @@ return [
             'subject' => 'Subject Management',
             'create_subject' => 'Create New Subject',
             'edit_subject' => 'Edit Subject',
-        ]
+        ],
+        'school_working_calendar_management' => [
+            'title' => 'School Working Calendar',
+            'school_working_calendar' => 'School Working Calendar Management',
+            'create_school_working_calendar' => 'Create New School Working Calendar',
+            'edit_school_working_calendar' => 'Edit School Working Calendar',
+        ],
     ],
 
     'dashboard' => [
         'title' => 'Dashboard',
         'menu_title' => 'Dashboard',
         'subtitle' => 'Here is a quote to inspire your day',
+        'remaining_leave_days' => 'Remaining Leave Days',
+        'used_leave_days' => 'Used Leave Days',
+        'total_leave_days' => 'Total Leave Days',
     ],
 
     'blocked' => [
@@ -593,6 +602,17 @@ return [
         'use_balance' => 'Use Balance',
         'use' => 'Use',
         'not_use' => 'Not Use',
+        'sunday' => 'Sunday',
+        'monday' => 'Monday',
+        'tuesday' => 'Tuesday',
+        'wednesday' => 'Wednesday',
+        'thursday' => 'Thursday',
+        'friday' => 'Friday',
+        'saturday' => 'Saturday',
+        'calendar' => 'Calendar',
+        'time' => 'Time',
+        'working_days_count' => 'Working Days Count',
+        'working_days' => 'Working Days',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

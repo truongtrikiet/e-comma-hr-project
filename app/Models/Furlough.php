@@ -38,6 +38,7 @@ class Furlough extends Model
         'end_time' => 'datetime',
         'furlough_status' => FurloughStatus::class,
         'use_balance' => UseBalanceFurloughEnum::class,
+        'number_of_days' => 'float',
     ];
 
     /**

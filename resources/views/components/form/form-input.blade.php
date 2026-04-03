@@ -4,8 +4,25 @@
             <label for="{{ $id }}">{{ $label }}@if($isRequired) <strong class="text-danger">*</strong> @endif</label>
         @endif
 
-        <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}" class="form-control @error($oldName ?: $name) is-invalid @enderror input-rounded"
-               placeholder="{{ $placeholder }}" value="{{ old($oldName ?: $name, $value) }}" {{ $attributes }}>
+        @php
+            $displayValue = $value;
+            if (($type ?? 'text') === 'time') {
+                try {
+                    if ($value instanceof \DateTimeInterface) {
+                        $displayValue = $value->format('H:i');
+                    } elseif (is_string($value) && $value !== '') {
+                        $displayValue = \Carbon\Carbon::parse($value)->format('H:i');
+                    } else {
+                        $displayValue = '';
+                    }
+                } catch (\Throwable $e) {
+                    $displayValue = '';
+                }
+            }
+        @endphp
+
+        <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}" class="form-control @error($oldName ?: $name) is-invalid @enderror input-default"
+               placeholder="{{ $placeholder }}" value="{{ old($oldName ?: $name, $displayValue) }}" {{ $attributes }}>
 
         @error($oldName ?: $name)
             <span class="invalid-feedback" role="alert">

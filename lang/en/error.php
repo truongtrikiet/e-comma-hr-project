@@ -6,6 +6,7 @@ return [
     'appendix_contract' => [
         'store' => 'Add new contract appendix failed.',
         'update' => 'Update contract appendix failed.',
+        'delete' => 'Delete contract appendix failed.',
     ],
     'role' => [
         'store' => 'Add new role failed.',
@@ -14,27 +15,26 @@ return [
     'user' => [
         'store' => 'Add new user failed.',
         'update' => 'Update user failed.',
-        'is_admin' => 'Cannot reset password for super admin and admin users.',
+        'reset_password' => 'Reset password failed.',
     ],
     'candidate' => [
         'store' => 'Add new candidate failed.',
         'update' => 'Update candidate failed.',
+        'delete' => 'Delete candidate failed.',
     ],
     'customer' => [
         'store' => 'Add new customer failed.',
         'update' => 'Update customer failed.',
-        'exists_in_project'  => 'Customer code is already in use in a project. You cannot delete it.',
+        'delete' => 'Delete customer failed.',
     ],
     'contract_type' => [
         'store' => 'Add new contract type failed.',
         'update' => 'Update contract type failed.',
-        'contracts_count' => 'Cannot delete because there are contracts created.',
     ],
     'contract_attribute' => [
         'store' => 'Add new contract attribute failed.',
         'update' => 'Update contract attribute failed.',
         'delete' => 'Delete contract attribute failed.',
-        'contract_types_count' => 'Cannot delete because there are contract types using it.',
     ],
     'contract' => [
         'store' => 'Add new contract failed.',
@@ -44,12 +44,11 @@ return [
         'update' => 'Update password failed.',
     ],
     'template' => [
-        'store' => 'Add new email template failed.',
-        'update' => 'Update email template failed.',
+        'store' => 'Add new template failed.',
+        'update' => 'Update template failed.',
     ],
     'template_email' => [
         'send' => 'Send email failed.',
-        'empty' => 'No objects selected.',
     ],
     'domain' => [
         'store' => 'Add new domain failed.',
@@ -60,16 +59,10 @@ return [
         'store' => 'Add new project failed.',
         'update' => 'Update project failed.',
         'delete' => 'Delete project failed.',
-        'foreign_key' => 'Project is currently using an existing domain.',
-    ],
-    'project_employee_role' => [
-        'update' => 'Update project employee role failed.',
-    ],
-    'domain_accounts' => [
-        'update' => 'Update domain account failed.',
     ],
     'send_email' => [
         'customer' => 'Send email to customer failed.',
+        'user' => 'Send email failed. Please check your email inbox!',
     ],
     'salary' => [
         'store' => 'Add new salary failed.',
@@ -79,19 +72,14 @@ return [
         'store' => 'Add new department failed.',
         'update' => 'Update department failed.',
         'delete' => 'Delete department failed.',
-        'foreign_key' => 'Cannot delete because there are employees in this department.',
     ],
-    'title' => [
-        'store' => 'Add new title failed.',
-        'update' => 'Update title failed.',
-        'user_foreign_key' => 'Cannot delete because there are employees with this title.',
-        'candidate_foreign_key' => 'Cannot delete because there are candidates with this title.',
+    'meeting_calendar' => [
+        'update' => 'Change status failed.',
     ],
-    'project_type' => [
-        'store' => 'Add new project type failed.',
-        'update' => 'Update project type failed.',
-        'delete' => 'Delete project type failed.',
-        'projects_count' => 'Cannot delete because there are projects of this type.',
+    'position' => [
+        'store' => 'Add new position failed.',
+        'update' => 'Update position failed.',
+        'delete' => 'Delete position failed.',
     ],
     'income_and_expense_type' => [
         'store' => 'Add new income and expense type failed.',
@@ -107,12 +95,6 @@ return [
         'store' => 'Add new employee type failed.',
         'update' => 'Update employee type failed.',
         'delete' => 'Delete employee type failed.',
-        'exists_in_employee'  => 'Cannot delete because the employee type is in use.',
-    ],
-    'payment_process' => [
-        'store' => 'Add new payment process failed.',
-        'update' => 'Update payment process failed.',
-        'delete' => 'Delete payment process failed.',
     ],
     'meeting_type' => [
         'store' => 'Add new meeting type failed.',
@@ -127,7 +109,7 @@ return [
     'preference' => [
         'store' => 'Add new preference failed.',
         'update' => 'Update preference failed.',
-        'uploadBannerLogin' => 'Update login banner failed.',
+        'uploadBannerLogin' => 'Update banner image failed.',
     ],
     'holiday_schedule' => [
         'store' => 'Add new holiday schedule failed.',
@@ -144,11 +126,6 @@ return [
         'update' => 'Update furlough failed.',
         'delete' => 'Delete furlough failed.',
     ],
-    'bill' => [
-        'store' => 'Add new bill failed.',
-        'update' => 'Update bill failed.',
-        'delete' => 'Delete bill failed.',
-    ],
     'document_type' => [
         'store' => 'Add new document type failed.',
         'update' => 'Update document type failed.',
@@ -159,20 +136,25 @@ return [
         'update' => 'Update document failed.',
         'delete' => 'Delete document failed.',
     ],
-    'evaluation' => [
-        'store' => 'Add new evaluation failed.',
-        'update' => 'Update evaluation failed.',
-        'delete' => 'Delete evaluation failed.',
-    ],
     'survey' => [
         'store' => 'Add new survey failed.',
         'update' => 'Update survey failed.',
         'delete' => 'Delete survey failed.',
-        'response' => 'Submit survey failed.',
+        'response' => 'Send survey failed.',
     ],
     'subject' => [
         'store' => 'Add new subject failed.',
         'update' => 'Update subject failed.',
         'delete' => 'Delete subject failed.',
+    ],
+    'school' => [
+        'create' => 'Add new school failed.',
+        'update' => 'Update school failed.',
+        'delete' => 'Delete school failed.',
+    ],
+    'school-working-calendar' => [
+        'store' => 'Add new school working calendar failed.',
+        'update' => 'Update school working calendar failed.',
+        'delete' => 'Delete school working calendar failed.',
     ],
 ];

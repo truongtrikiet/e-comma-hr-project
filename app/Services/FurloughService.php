@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Acl\Acl;
 use App\Enum\DurationType;
 use App\Enum\FurloughStatus;
+use App\Enum\UseBalanceFurloughEnum;
 use App\Models\FurloughBalance;
 use App\Models\FurloughPolicy;
 use App\Models\User;
@@ -139,45 +140,37 @@ class FurloughService
         try {
             DB::beginTransaction();
 
-            $newStatus = $data['furlough_status'];
-            $oldStatus = $furlough->furlough_status;
+            $newStatus = (int) $data['furlough_status'];
+            $oldStatus = (int) $furlough->furlough_status->value;
 
-            if ($newStatus === FurloughStatus::APPROVED->value && $oldStatus !== FurloughStatus::APPROVED->value && $furlough->use_balance) {
-                $balance = FurloughBalance::where([
-                    'user_id' => $furlough->user_id,
-                    'furlough_type_id' => $furlough->furlough_type_id,
-                ])->lockForUpdate()->first();
+            Log::info('FurloughService::approved start', [
+                'furlough_id' => $furlough->id,
+                'user_id' => $furlough->user_id,
+                'old_status' => $oldStatus,
+                'new_status' => $newStatus,
+                'use_balance' => $furlough->use_balance,
+                'number_of_days' => $furlough->number_of_days,
+            ]);
 
-                if (!$balance) {
-                    session()->flash(NOTIFICATION_ERROR, __('No furlough balance found to approve this request.'));
-                    return false;
-                }
+            $useBalance = $furlough->use_balance instanceof UseBalanceFurloughEnum
+                ? ($furlough->use_balance === UseBalanceFurloughEnum::USE)
+                : (UseBalanceFurloughEnum::tryFrom($furlough->use_balance) === UseBalanceFurloughEnum::USE);
 
-                $number = (float) $furlough->number_of_days;
-                $newUsed = round(($balance->used_days ?? 0) + $number, 2);
+            if ($useBalance) {
+                switch (true) {
+                    case (
+                        $oldStatus !== FurloughStatus::APPROVED->value &&
+                        $newStatus === FurloughStatus::APPROVED->value
+                    ):
+                        $this->deductFurloughBalance($furlough);
+                        break;
 
-                if ($newUsed > ($balance->total_days ?? 0)) {
-                    session()->flash(NOTIFICATION_ERROR, __('Not enough furlough balance to approve this request. Please contact admin for support.'));
-                    return false;
-                }
-
-                $balance->used_days = $newUsed;
-                $balance->remaining_days = round(max(0, ($balance->total_days ?? 0) - $newUsed), 2);
-                $balance->save();
-            }
-
-            if ($newStatus !== FurloughStatus::APPROVED->value && $oldStatus === FurloughStatus::APPROVED->value && $furlough->use_balance) {
-                $balance = FurloughBalance::where([
-                    'user_id' => $furlough->user_id,
-                    'furlough_type_id' => $furlough->furlough_type_id,
-                ])->lockForUpdate()->first();
-
-                if ($balance) {
-                    $number = (float) $furlough->number_of_days;
-                    $newUsed = round(max(0, ($balance->used_days ?? 0) - $number), 2);
-                    $balance->used_days = $newUsed;
-                    $balance->remaining_days = round(min($balance->total_days ?? 0, ($balance->total_days ?? 0) - $newUsed), 2);
-                    $balance->save();
+                    case (
+                        $oldStatus === FurloughStatus::APPROVED->value &&
+                        $newStatus !== FurloughStatus::APPROVED->value
+                    ):
+                        $this->restoreFurloughBalance($furlough);
+                        break;
                 }
             }
 
@@ -204,6 +197,9 @@ class FurloughService
         }
     }
 
+    /**
+     * Get furlough policy for user and furlough type.
+     */
     protected function getFurloughPolicy($user, $furloughTypeId)
     {
         $employeeTypeId = $user->userProfile->employee_type_id ?? null;
@@ -218,6 +214,9 @@ class FurloughService
             ->first();
     }
 
+    /**
+     * Get furlough balance for user and furlough type.
+     */
     protected function getFurloughBalance($userId, $furloughTypeId)
     {
         return FurloughBalance::where([
@@ -226,15 +225,90 @@ class FurloughService
         ])->firstOrFail();
     }
 
+    /**
+     * Calculate the number of days for a furlough request.
+     */
     protected function calculateNumberOfDays(array $data): float
     {
-        if ($data['duration_type'] === DurationType::HALF_DAY) {
+        $durationType = DurationType::tryFrom($data['duration_type'] ?? null);
+
+        if ($durationType === DurationType::HALF_DAY) {
             return 0.5;
         }
 
-        return Carbon::parse($data['start_time'])
-            ->diffInDaysFiltered(fn ($date) => $date->isWeekday(),
-                Carbon::parse($data['end_time'])->addDay()
-            );
+        try {
+            $start = Carbon::parse($data['start_time'])->startOfDay();
+            $end = Carbon::parse($data['end_time'])->startOfDay();
+        } catch (\Throwable $e) {
+            Log::warning('calculateNumberOfDays: invalid dates', ['start' => $data['start_time'], 'end' => $data['end_time']]);
+            return 0.0;
+        }
+
+        if ($start->gt($end)) {
+            return 0.0;
+        }
+
+        if ($start->isSameDay($end)) {
+            $result = $start->isWeekday() ? 1.0 : 0.0;
+            Log::info('calculateNumberOfDays - same day result', ['result' => $result, 'is_weekday' => $start->isWeekday()]);
+            return $result;
+        }
+
+        $days = 0;
+        $current = $start->copy();
+
+        while ($current->lt($end)) {
+            if ($current->isWeekday()) {
+                $days++;
+            }
+            $current->addDay();
+        }
+
+        Log::info('calculateNumberOfDays - computed days (exclusive end)', ['days' => $days]);
+        return (float) $days;
+    }
+
+    /**
+     * Deduct furlough balance when a furlough request is approved.
+     */
+    protected function deductFurloughBalance($furlough): void
+    {
+        $balance = FurloughBalance::where([
+            'user_id' => $furlough->user_id,
+            'furlough_type_id' => $furlough->furlough_type_id,
+        ])->lockForUpdate()->firstOrFail();
+
+        $number = (float) $furlough->number_of_days;
+
+        if ($number > ($balance->remaining_days ?? 0)) {
+            session()->flash(NOTIFICATION_ERROR, __('Not enough furlough balance to approve this request. Please contact admin for support.'));
+            return;
+        }
+
+        $balance->used_days = round(($balance->used_days ?? 0) + $number, 2);
+        $balance->remaining_days = round(($balance->remaining_days ?? 0) - $number, 2);
+        $balance->save();
+    }
+
+    /**
+     * Restore furlough balance when a furlough request is rejected or withdrawn.
+     */
+    protected function restoreFurloughBalance($furlough): void
+    {
+        $balance = FurloughBalance::where([
+            'user_id' => $furlough->user_id,
+            'furlough_type_id' => $furlough->furlough_type_id,
+        ])->lockForUpdate()->first();
+
+        if (!$balance) {
+            session()->flash(NOTIFICATION_ERROR, __('No furlough balance found to restore. Please contact admin for support.'));
+            return;
+        }
+
+        $number = (float) $furlough->number_of_days;
+
+        $balance->used_days = round(max(0, $balance->used_days - $number), 2);
+        $balance->remaining_days = round(($balance->remaining_days ?? 0) + $number, 2);
+        $balance->save();
     }
 }

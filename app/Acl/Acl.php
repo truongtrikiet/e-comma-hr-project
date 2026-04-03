@@ -151,6 +151,14 @@ final class Acl
 
     const PERMISSION_FURLOUGH_BALANCE_DELETE = 'Delete Furlough Balance';
 
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_LIST = 'School Working Calendar List';
+
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_ADD = 'Add School Working Calendar';
+
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_EDIT = 'Edit School Working Calendar';
+
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_DELETE = 'Delete School Working Calendar';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

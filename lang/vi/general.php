@@ -295,13 +295,22 @@ return [
             'subject' => 'Quản lý môn học',
             'create_subject' => 'Thêm mới môn học',
             'edit_subject' => 'Chỉnh sửa môn học',
-        ]
+        ],
+        'school_working_calendar_management' => [
+            'title' => 'Lịch làm việc của trường học',
+            'school_working_calendar' => 'Quản lý lịch làm việc của trường học',
+            'create_school_working_calendar' => 'Thêm mới lịch làm việc của trường học',
+            'edit_school_working_calendar' => 'Chỉnh sửa lịch làm việc của trường học',
+        ],
     ],
 
     'dashboard' => [
         'title' => 'Bảng điều khiển',
         'menu_title' => 'Bảng điều khiển',
-        'subtitle' => 'Here is a quote to inspire your day',
+        'subtitle' => 'Chào mừng bạn đến với hệ thống quản lý nhân sự của chúng tôi!',
+        'remaining_leave_days' => 'Nghỉ phép còn lại',
+        'used_leave_days' => 'Nghỉ phép đã sử dụng',
+        'total_leave_days' => 'Tổng ngày nghỉ phép',
     ],
 
     'blocked' => [
@@ -595,6 +604,17 @@ return [
         'use_balance' => 'Sử dụng số dư',
         'use' => 'Sử dụng',
         'not_use' => 'Không sử dụng',
+        'sunday' => 'Chủ nhật',
+        'monday' => 'Thứ hai',
+        'tuesday' => 'Thứ ba',
+        'wednesday' => 'Thứ tư',
+        'thursday' => 'Thứ năm',
+        'friday' => 'Thứ sáu',
+        'saturday' => 'Thứ bảy',
+        'calendar' => 'Lịch thường niên',
+        'time' => 'Thời gian',
+        'working_days_count' => 'Số ngày làm việc',
+        'working_days' => 'Ngày làm việc',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

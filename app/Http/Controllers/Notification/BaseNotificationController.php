@@ -40,4 +40,20 @@ abstract class BaseNotificationController extends Controller
 
         return back()->with('success', 'All notifications marked as read.');
     }
+
+    protected function clearAll()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return back();
+        }
+
+        $user->notifications()->delete();
+
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json(['success' => true]);
+        }
+
+        return back()->with('success', 'All notifications cleared.');
+    }
 }

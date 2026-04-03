@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'toggle_status' => 'Change status successfully.',
+    'toggle_status' => 'Toggle status successfully.',
     'delete' => 'Delete selection successfully.',
     'appendix_contract' => [
         'store' => 'Add new contract appendix successfully.',
@@ -44,8 +44,8 @@ return [
         'update' => 'Update password successfully.',
     ],
     'template' => [
-        'store' => 'Add new email template successfully.',
-        'update' => 'Update email template successfully.',
+        'store' => 'Add new template successfully.',
+        'update' => 'Update template successfully.',
     ],
     'template_email' => [
         'send' => 'Send email successfully.',
@@ -60,20 +60,9 @@ return [
         'update' => 'Update project successfully.',
         'delete' => 'Delete project successfully.',
     ],
-    'project_role' => [
-        'store' => 'Add new project role successfully.',
-        'update' => 'Update project role successfully.',
-        'delete' => 'Delete project role successfully.',
-    ],
-    'project_employee_role' => [
-        'update' => 'Update project employee role successfully.',
-    ],
-    'domain_accounts' => [
-        'update' => 'Update domain account successfully.',
-    ],
     'send_email' => [
         'customer' => 'Send email to customer successfully.',
-        'user' => 'Send email successfully. Please check your email inbox!'
+        'user' => 'Send email successfully. Please check your email inbox!',
     ],
     'salary' => [
         'store' => 'Add new salary successfully.',
@@ -85,17 +74,12 @@ return [
         'delete' => 'Delete department successfully.',
     ],
     'meeting_calendar' => [
-        'update' => 'Change status successfully. Email has been sent to the candidate.',
+        'update' => 'Update meeting calendar successfully.',
     ],
-    'title' => [
-        'store' => 'Add new title successfully.',
-        'update' => 'Update title successfully.',
-        'delete' => 'Delete title successfully.',
-    ],
-    'project_type' => [
-        'store' => 'Add new project type successfully.',
-        'update' => 'Update project type successfully.',
-        'delete' => 'Delete project type successfully.',
+    'position' => [
+        'store' => 'Add new position successfully.',
+        'update' => 'Update position successfully.',
+        'delete' => 'Delete position successfully.',
     ],
     'income_and_expense_type' => [
         'store' => 'Add new income and expense type successfully.',
@@ -111,16 +95,6 @@ return [
         'store' => 'Add new employee type successfully.',
         'update' => 'Update employee type successfully.',
         'delete' => 'Delete employee type successfully.',
-    ],
-    'evaluation' => [
-        'store' => 'Add new evaluation successfully.',
-        'update' => 'Update evaluation successfully.',
-        'delete' => 'Delete evaluation successfully.',
-    ],
-    'payment_process' => [
-        'store' => 'Add new payment process successfully.',
-        'update' => 'Update payment process successfully.',
-        'delete' => 'Delete payment process successfully.',
     ],
     'meeting_type' => [
         'store' => 'Add new meeting type successfully.',
@@ -152,14 +126,6 @@ return [
         'update' => 'Update furlough successfully.',
         'delete' => 'Delete furlough successfully.',
     ],
-    'bill' => [
-        'store' => 'Add new bill successfully.',
-        'update' => 'Update bill successfully.',
-        'delete' => 'Delete bill successfully.',
-    ],
-    'meeting_attendee' => [
-        'update' => 'Update meeting attendee successfully.',
-    ],
     'document_type' => [
         'store' => 'Add new document type successfully.',
         'update' => 'Update document type successfully.',
@@ -174,11 +140,21 @@ return [
         'store' => 'Add new survey successfully.',
         'update' => 'Update survey successfully.',
         'delete' => 'Delete survey successfully.',
-        'response' => 'Submit survey successfully.',
+        'response' => 'Send survey successfully.',
     ],
     'subject' => [
         'store' => 'Add new subject successfully.',
         'update' => 'Update subject successfully.',
         'delete' => 'Delete subject successfully.',
+    ],
+    'school' => [
+        'create' => 'Add new school successfully.',
+        'update' => 'Update school successfully.',
+        'delete' => 'Delete school successfully.',
+    ],
+    'school-working-calendar' => [
+        'store' => 'Add new school working calendar successfully.',
+        'update' => 'Update school working calendar successfully.',
+        'delete' => 'Delete school working calendar successfully.',
     ],
 ];

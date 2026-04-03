@@ -35,7 +35,7 @@
             {{ $isMultiple ? 'multiple' : '' }}
             data-enhanced="true"
             {!! $attributes->merge([
-                'class' => 'form-control input-rounded js-enhanced-select ' .
+                'class' => 'form-control input-default js-enhanced-select ' .
                 ($errors->has($oldName ?: $name) ? 'is-invalid' : '')
             ]) !!}
         >

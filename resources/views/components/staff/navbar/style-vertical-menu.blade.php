@@ -18,6 +18,10 @@
         Nav header end
     ***********************************-->
 
+    <style>
+        .notification-count { position: absolute; top: -6px; right: -6px; font-size: 10px; padding: 2px 5px; border-radius: 10px; }
+    </style>
+
     <!--**********************************
         Header start
     ***********************************-->
@@ -49,6 +53,7 @@
                             </div>
                         </li>
                         @php
+                            $unreadCount = auth()->check() ? auth()->user()->unreadNotifications()->count() : 0;
                             $notifications = $notifications ?? (
                                 auth()->check() ? auth()->user()->notifications()->latest()->take(5)->get() : collect()
                             );
@@ -56,8 +61,12 @@
 
                         <li class="nav-item dropdown notification_dropdown">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                <i class="mdi mdi-bell"></i>
-                                <div class="pulse-css"></div>
+                                <span class="notification-icon">
+                                    <i class="mdi mdi-bell"></i>
+                                    @if($unreadCount)
+                                        <div class="pulse-css"></div>
+                                    @endif
+                                </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="list-unstyled">
@@ -80,9 +89,52 @@
                                         <li class="dropdown-item text-center">No notifications</li>
                                     @endforelse
                                 </ul>
-                                <a class="all-notification" href="{{ route('staff.notifications.index') }}">See all notifications <i class="ti-arrow-right"></i></a>
+                                <a type="button" class="all-notification btn btn-link p-0" data-toggle="modal" data-target="#allNotificationsModal">
+                                    See all notifications 
+                                    <i class="ti-arrow-right"></i>
+                                </a>
                             </div>
                         </li>
+
+                        @php
+                            $allNotifications = auth()->check() ? auth()->user()->notifications()->latest()->get() : collect();
+                            $clearRoute = route('staff.notifications.clear-all');
+                        @endphp
+
+                        <!-- All Notifications Modal -->
+                        <div class="modal fade" id="allNotificationsModal" tabindex="-1" role="dialog" aria-labelledby="allNotificationsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="allNotificationsModalLabel">All Notifications</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="list-group">
+                                            @forelse($allNotifications as $notification)
+                                                @php $d = $notification->data; @endphp
+                                                <div class="list-group-item notification-item {{ $notification->read_at ? 'read' : 'unread' }}">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h6 class="mb-1">{{ $d['message'] ?? 'Notification' }}</h6>
+                                                        <small class="text-muted">{{ optional($notification->created_at)->diffForHumans() }}</small>
+                                                    </div>
+                                                    <p class="mb-1">{!! $d['action_url'] ? '<a href="' . $d['action_url'] . '">Open</a>' : '' !!}</p>
+                                                </div>
+                                            @empty
+                                                <div class="text-center text-muted">No notifications</div>
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" id="clearNotificationsBtn" class="btn btn-danger">Clear all</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <li class="nav-item dropdown header-profile">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                 <!-- <i class="mdi mdi-account"></i> -->
@@ -114,3 +166,35 @@
     <!--**********************************
         Header end ti-comment-alt
     ***********************************-->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const allNotificationsModal = document.getElementById('allNotificationsModal');
+            if (allNotificationsModal && allNotificationsModal.parentNode !== document.body) {
+                document.body.appendChild(allNotificationsModal);
+            }
+
+            const clearBtn = document.getElementById('clearNotificationsBtn');
+            if (!clearBtn) return;
+            clearBtn.addEventListener('click', function () {
+                if (!confirm('Clear all notifications?')) return;
+                fetch("{{ $clearRoute }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(r => r.json()).then(json => {
+                    if (json.success) {
+                        document.querySelectorAll('#allNotificationsModal .notification-item').forEach(n => n.remove());
+                        const pulse = document.querySelector('.pulse-css');
+                        if (pulse) pulse.remove();
+                        $('#allNotificationsModal').modal('hide');
+                    } else {
+                        alert('Failed to clear notifications');
+                    }
+                }).catch(() => alert('Failed to clear notifications'));
+            });
+        });
+    </script>

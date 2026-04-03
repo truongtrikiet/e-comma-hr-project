@@ -24,6 +24,8 @@ use App\Repositories\Role\RoleRepository;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\School\SchoolRepository;
 use App\Repositories\School\SchoolRepositoryInterface;
+use App\Repositories\SchoolWorkingCalendar\SchoolWorkingCalendarRepository;
+use App\Repositories\SchoolWorkingCalendar\SchoolWorkingCalendarRepositoryInterface;
 use App\Repositories\Setting\SettingRepository;
 use App\Repositories\Setting\SettingRepositoryInterface;
 use App\Repositories\Subject\SubjectRepository;
@@ -54,5 +56,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(FurloughPolicyTemplateRepositoryInterface::class, FurloughPolicyTemplateRepository::class);
         $this->app->singleton(FurloughPolicyRepositoryInterface::class, FurloughPolicyRepository::class);
         $this->app->singleton(FurloughBalanceRepositoryInterface::class, FurloughBalanceRepository::class);
+        $this->app->singleton(SchoolWorkingCalendarRepositoryInterface::class, SchoolWorkingCalendarRepository::class);
     }
 }
