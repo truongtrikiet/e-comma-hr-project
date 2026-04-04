@@ -120,7 +120,9 @@
                                                         <h6 class="mb-1">{{ $d['message'] ?? 'Notification' }}</h6>
                                                         <small class="text-muted">{{ optional($notification->created_at)->diffForHumans() }}</small>
                                                     </div>
-                                                    <p class="mb-1">{!! $d['action_url'] ? '<a href="' . $d['action_url'] . '">Open</a>' : '' !!}</p>
+                                                    @if(!empty($d['action_url']))
+                                                        <p class="mb-1"><a href="{{ $d['action_url'] }}">Open</a></p>
+                                                    @endif
                                                 </div>
                                             @empty
                                                 <div class="text-center text-muted">No notifications</div>

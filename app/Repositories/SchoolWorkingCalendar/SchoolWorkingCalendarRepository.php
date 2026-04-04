@@ -65,4 +65,12 @@ class SchoolWorkingCalendarRepository extends BaseRepository implements SchoolWo
 
         return $query->paginate($limit);
     }
+
+    /**
+     * Get working calendar by school.
+     */
+    public function getWorkingCalendarBySchool($schoolId): ?SchoolWorkingCalendar
+    {
+        return $this->model->where('school_id', $schoolId)->first();
+    }
 }

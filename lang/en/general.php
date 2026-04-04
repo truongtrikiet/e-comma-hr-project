@@ -613,6 +613,8 @@ return [
         'time' => 'Time',
         'working_days_count' => 'Working Days Count',
         'working_days' => 'Working Days',
+        'working_hours_end' => 'Working Hours End',
+        'working_hours_start' => 'Working Hours Start',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

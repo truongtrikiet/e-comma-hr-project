@@ -18,14 +18,12 @@
     />
 
     <div class="row mt-3">
-        <!-- Left column: two stacked cards -->
         <div class="col-lg-6">
-            <!-- Top: existing furlough balances -->
             <div class="card mb-3">
                 <div class="card-header">
                     <h5 class="card-title mb-2">{{ __('general.menu.furlough_balance_management.title') }}</h5>
                 </div>
-                <div class="card-body p-5">
+                <div class="card-body p-3">
                     @php
                         $balances = \App\Models\FurloughBalance::where('user_id', auth()->id())
                             ->with('furloughType')
@@ -59,12 +57,20 @@
                 </div>
             </div>
 
-            <!-- Bottom: placeholder for department meeting calendar (empty for now) -->
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-2">Department Meetings (placeholder)</h5>
                 </div>
-                <div class="card-body p-5 text-center text-muted">
+                <div class="card-body p-4 text-center text-muted">
+                    <div class="large">Empty — meeting calendar will appear here in future.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-2">Department Meetings (placeholder)</h5>
+                </div>
+                <div class="card-body p-4 text-center text-muted">
                     <div class="large">Empty — meeting calendar will appear here in future.</div>
                 </div>
             </div>
@@ -80,7 +86,7 @@
                         $year = $today->year;
                         $month = $today->month;
                         $firstOfMonth = \Carbon\Carbon::create($year, $month, 1);
-                        $startDay = $firstOfMonth->dayOfWeek; // 0 (Sun) - 6 (Sat)
+                        $startDay = $firstOfMonth->dayOfWeek;
                         $daysInMonth = $firstOfMonth->daysInMonth;
                     @endphp
                     <small class="text-muted">{{ $firstOfMonth->translatedFormat('F Y') }}</small>
@@ -126,6 +132,27 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">{{ __('general.common.calendar') }}</h5>
+                //
+            </div>
+            <div class="card-body p-3">
+                <div class="w-100" style="aspect-ratio:1; overflow:auto;">
+                    <table class="table table-sm mb-0" style="table-layout:fixed; height:100%;">
+                        <thead>
+                            //
+                        </thead>
+                        <tbody>
+                            //
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('holiday:remind')->dailyAt('11:00');
+        $schedule->command('furlough:accrue')->monthlyOn(1, '00:05');
+        // $schedule->command('furlough:accrue')->everyMinute();
     }
 
     /**

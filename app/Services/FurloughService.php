@@ -3,11 +3,15 @@
 namespace App\Services;
 
 use App\Acl\Acl;
+use App\Enum\ActiveStatus;
+use App\Enum\DayEnum;
 use App\Enum\DurationType;
 use App\Enum\FurloughStatus;
 use App\Enum\UseBalanceFurloughEnum;
+use App\Helpers\DayEnumHelper;
 use App\Models\FurloughBalance;
 use App\Models\FurloughPolicy;
+use App\Models\SchoolWorkingCalendar;
 use App\Models\User;
 use App\Notifications\FurloughRequestReviewed;
 use App\Repositories\Furlough\FurloughRepositoryInterface;
@@ -238,9 +242,9 @@ class FurloughService
 
         try {
             $start = Carbon::parse($data['start_time'])->startOfDay();
-            $end = Carbon::parse($data['end_time'])->startOfDay();
+            $end   = Carbon::parse($data['end_time'])->startOfDay();
         } catch (\Throwable $e) {
-            Log::warning('calculateNumberOfDays: invalid dates', ['start' => $data['start_time'], 'end' => $data['end_time']]);
+            Log::warning('calculateNumberOfDays: invalid dates', $data);
             return 0.0;
         }
 
@@ -248,23 +252,39 @@ class FurloughService
             return 0.0;
         }
 
-        if ($start->isSameDay($end)) {
-            $result = $start->isWeekday() ? 1.0 : 0.0;
-            Log::info('calculateNumberOfDays - same day result', ['result' => $result, 'is_weekday' => $start->isWeekday()]);
-            return $result;
+        $schoolId = $data['school_id'] ?? session('school_id');
+        $workingDays = null;
+
+        if ($schoolId) {
+            $calendar = SchoolWorkingCalendar::where('school_id', $schoolId)
+                ->where('is_active', ActiveStatus::ACTIVE->value)
+                ->latest()
+                ->first();
+
+            if ($calendar && is_array($calendar->working_days)) {
+                $workingDays = $calendar->working_days;
+            }
         }
 
         $days = 0;
         $current = $start->copy();
 
-        while ($current->lt($end)) {
-            if ($current->isWeekday()) {
+        while ($current->lte($end)) {
+
+            if (is_array($workingDays)) {
+                $dayEnumVal = DayEnumHelper::fromCarbon($current);
+                $isWorking = in_array($dayEnumVal, $workingDays, true);
+            } else {
+                $isWorking = $current->isWeekday();
+            }
+
+            if ($isWorking) {
                 $days++;
             }
+
             $current->addDay();
         }
 
-        Log::info('calculateNumberOfDays - computed days (exclusive end)', ['days' => $days]);
         return (float) $days;
     }
 

@@ -1,6 +1,19 @@
 <div class="col-lg-12 p-4">
     <div id="filterBody" class="row align-items-center">
         <div class="col-md-6">
+            <x-form.form-select
+                :id="'sStatus'"
+                :label="__('general.common.status')"
+                :data-values="App\Enum\ActiveStatus::options(true)"
+                :select-value-attribute="'value'"
+                :select-value-label="'label'"
+                :name="'status'"
+                :multiple="false"
+                :placeholder="__('general.common.status')"
+                :is-filter="true"
+            />
+        </div>
+        <div class="col-md-6">
             @if (session('school_name') === config('subdomain.system_main'))
             <x-form.form-select
                 :id="'sSchoolSelect'"
@@ -14,19 +27,6 @@
                 :is-filter="true"
             />
             @endif
-        </div>
-        <div class="col-md-6">
-            <x-form.form-select
-                :id="'sStatus'"
-                :label="__('general.common.status')"
-                :data-values="App\Enum\ActiveStatus::options(true)"
-                :select-value-attribute="'value'"
-                :select-value-label="'label'"
-                :name="'status'"
-                :multiple="false"
-                :placeholder="__('general.common.status')"
-                :is-filter="true"
-            />
         </div>
     </div>
     <hr>

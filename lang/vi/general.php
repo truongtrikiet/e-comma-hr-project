@@ -615,6 +615,8 @@ return [
         'time' => 'Thời gian',
         'working_days_count' => 'Số ngày làm việc',
         'working_days' => 'Ngày làm việc',
+        'working_hours_end' => 'Giờ kết thúc làm việc',
+        'working_hours_start' => 'Giờ bắt đầu làm việc',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
