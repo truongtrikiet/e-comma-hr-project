@@ -53,6 +53,7 @@
                     <th style="width:10%">{{ __('general.common.employee_code') }}</th>
                     <th style="width:20%">{{ __('general.common.email') }}</th>
                     <th style="width:12%">{{ __('general.common.role') }}</th>
+                    <th style="width:12%">{{ __('general.common.employee_type') }}</th>
                     <th style="width:14%">{{ __('general.common.school') }}</th>
                     <th style="width:10%">{{ __('general.common.login_at') }}</th>
                     <th style="width:10%">{{ __('general.common.status') }}</th>
@@ -107,6 +108,14 @@
                         "render": function(data, type, full) {
                             let roles = data.map(role => `<span class="badge badge-info">${role.name}</span>`).join(' ');
                             return roles || '<span class="badge badge-light">N/A</span>';
+                        }
+                    },
+                    {
+                        "data": "employee_type",
+                        "orderable": false,
+                        "class": "text-center",
+                        "render": function(data, type, full) {
+                            return `<span class="badge badge-light">${data ?? 'N/A'}</span>`;
                         }
                     },
                     {

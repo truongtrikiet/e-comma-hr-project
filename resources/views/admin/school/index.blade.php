@@ -121,7 +121,7 @@
                                     <x-table.actions.delete-action
                                         :permission="Acl::PERMISSION_SCHOOL_DELETE"
                                         :url="'${urlDestroy}'"
-                                        :datatableId="'sDepartmentTable'"
+                                        :datatableId="'sSchoolTable'"
                                     />
                                 </ul>`;
                         }

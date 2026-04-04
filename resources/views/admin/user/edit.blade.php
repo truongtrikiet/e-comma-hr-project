@@ -165,7 +165,20 @@
                                 :multiple="false"
                                 :placeholder="__('general.common.role')"
                                 :isRequired="true"
-                                :selected="old('roles', $user->roles)"
+                                :selected="old('roles', $user->roles->pluck('id')->toArray())"
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sEmployeeTypeSelect'"
+                                :label="__('general.common.employee_type')"
+                                :data-values="$employeeTypes"
+                                :name="'employee_type_id'"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :placeholder="__('general.common.employee_type')"
+                                :isRequired="false"
+                                :selected="old('employee_type_id', $user->userProfile?->employee_type_id)"
                             />
                         </div>
                         <div class="col-md-6">

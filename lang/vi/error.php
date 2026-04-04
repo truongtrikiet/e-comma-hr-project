@@ -6,6 +6,7 @@ return [
     'appendix_contract' => [
         'store' => 'Thêm mới phụ lục hợp đồng thất bại.',
         'update' => 'Chỉnh sửa phụ lục hợp đồng thất bại.',
+        'delete' => 'Xóa phụ lục hợp đồng thất bại.',
     ],
     'role' => [
         'store' => 'Thêm mới vai trò thất bại.',
@@ -14,27 +15,26 @@ return [
     'user' => [
         'store' => 'Thêm mới người dùng thất bại.',
         'update' => 'Chỉnh sửa người dùng thất bại.',
-        'is_admin' => 'Không thể đặt lại mật khẩu cho quản trị viên cấp cao và quản trị viên.',
+        'reset_password' => 'Đặt lại mật khẩu thất bại.',
     ],
     'candidate' => [
         'store' => 'Thêm mới ứng viên thất bại.',
         'update' => 'Chỉnh sửa ứng viên thất bại.',
+        'delete' => 'Xóa ứng viên thất bại.',
     ],
     'customer' => [
         'store' => 'Thêm mới khách hàng thất bại.',
         'update' => 'Chỉnh sửa khách hàng thất bại.',
-        'exists_in_project'  => 'Mã khách hàng đang tồn tại trong dự án. Bạn không thể xoá.',
+        'delete' => 'Xóa khách hàng thất bại.',
     ],
     'contract_type' => [
         'store' => 'Thêm mới loại hợp đồng thất bại.',
         'update' => 'Chỉnh sửa loại hợp đồng thất bại.',
-        'contracts_count' => 'Không thể xóa vì đã có hợp đồng được tạo.',
     ],
     'contract_attribute' => [
         'store' => 'Thêm mới thuộc tính hợp đồng thất bại.',
         'update' => 'Chỉnh sửa thuộc tính hợp đồng thất bại.',
         'delete' => 'Xóa thuộc tính hợp đồng thất bại.',
-        'contract_types_count' => 'Không thể xóa vì đã có loại hợp đồng sử dụng.',
     ],
     'contract' => [
         'store' => 'Thêm mới hợp đồng thất bại.',
@@ -44,12 +44,11 @@ return [
         'update' => 'Cập nhật thông tin mật khẩu thất bại.',
     ],
     'template' => [
-        'store' => 'Thêm mới mẫu email thất bại.',
-        'update' => 'Chỉnh sửa mẫu email thất bại.',
+        'store' => 'Thêm mới mẫu thất bại.',
+        'update' => 'Chỉnh sửa mẫu thất bại.',
     ],
     'template_email' => [
         'send' => 'Gửi email thất bại.',
-        'empty' => 'Không có đối tượng nào được chọn.',
     ],
     'domain' => [
         'store' => 'Thêm mới tên miền thất bại.',
@@ -60,16 +59,10 @@ return [
         'store' => 'Thêm mới dự án thất bại.',
         'update' => 'Chỉnh sửa dự án thất bại.',
         'delete' => 'Xóa dự án thất bại.',
-        'foreign_key' => 'Dự án hiện đang sử dụng một tên miền tồn tại.',
-    ],
-    'project_employee_role' => [
-        'update' => 'Cập nhật nhân viên dự án thất bại.',
-    ],
-    'domain_accounts' => [
-        'update' => 'Chỉnh sửa tài khoản của tên miền thất bại.',
     ],
     'send_email' => [
         'customer' => 'Gửi email tới khách hàng thất bại.',
+        'user' => 'Gửi email thất bại. Vui lòng kiểm tra hộp thư của mail!',
     ],
     'salary' => [
         'store' => 'Thêm mới lương thất bại.',
@@ -79,40 +72,29 @@ return [
         'store' => 'Thêm mới phòng ban thất bại.',
         'update' => 'Chỉnh sửa phòng ban thất bại.',
         'delete' => 'Xóa phòng ban thất bại.',
-        'foreign_key' => 'Không thể xóa vì tồn tại danh sách nhân viên.',
     ],
-    'title' => [
+    'meeting_calendar' => [
+        'update' => 'Thay đổi trạng thái thất bại.',
+    ],
+    'position' => [
         'store' => 'Thêm mới vị trí thất bại.',
         'update' => 'Chỉnh sửa vị trí thất bại.',
-        'user_foreign_key' => 'Không thể xóa vì tồn tại danh sách nhân viên.',
-        'candidate_foreign_key' => 'Không thể xóa vì tồn tại danh sách ứng viên.',
-    ],
-    'project_type' => [
-        'store' => 'Thêm mới loại dự án thất bại.',
-        'update' => 'Chỉnh sửa loại dự án thất bại.',
-        'delete' => 'Xóa loại dự án thất bại.',
-        'projects_count' => 'Không thể xóa vì tồn tại danh sách dự án.',
+        'delete' => 'Xóa vị trí thất bại.',
     ],
     'income_and_expense_type' => [
-        'store' => 'Thêm mới loại thu phí thất bại.',
-        'update' => 'Chỉnh sửa loại thu phí thất bại.',
-        'delete' => 'Xóa loại thu phí thất bại.',
+        'store' => 'Thêm mới loại thu chi thất bại.',
+        'update' => 'Chỉnh sửa loại thu chi thất bại.',
+        'delete' => 'Xóa loại thu chi thất bại.',
     ],
     'income_and_expense' => [
-        'store' => 'Thêm mới thu phí thất bại.',
-        'update' => 'Chỉnh sửa thu phí thất bại.',
-        'delete' => 'Xóa thu phí thất bại.',
+        'store' => 'Thêm mới thu chi thất bại.',
+        'update' => 'Chỉnh sửa thu chi thất bại.',
+        'delete' => 'Xóa thu chi thất bại.',
     ],
     'employee_type' => [
         'store' => 'Thêm mới loại nhân viên thất bại.',
         'update' => 'Chỉnh sửa loại nhân viên thất bại.',
         'delete' => 'Xóa loại nhân viên thất bại.',
-        'exists_in_employee'  => 'Xoá không thành công do Loại nhân viên đang có dữ liệu dàng buộc.',
-    ],
-    'payment_process' => [
-        'store' => 'Thêm mới tiến trình thanh toán thất bại.',
-        'update' => 'Chỉnh sửa tiến trình thanh toán thất bại.',
-        'delete' => 'Xóa tiến trình thanh toán thất bại.',
     ],
     'meeting_type' => [
         'store' => 'Thêm mới loại cuộc họp thất bại.',
@@ -144,11 +126,6 @@ return [
         'update' => 'Chỉnh sửa nghỉ phép thất bại.',
         'delete' => 'Xóa nghỉ phép thất bại.',
     ],
-    'bill' => [
-        'store' => 'Thêm mới hoá đơn thất bại.',
-        'update' => 'Chỉnh sửa hoá đơn thất bại.',
-        'delete' => 'Xóa hoá đơn thất bại.',
-    ],
     'document_type' => [
         'store' => 'Thêm mới loại tài liệu thất bại.',
         'update' => 'Chỉnh sửa loại tài liệu thất bại.',
@@ -158,11 +135,6 @@ return [
         'store' => 'Thêm mới tài liệu thất bại.',
         'update' => 'Chỉnh sửa tài liệu thất bại.',
         'delete' => 'Xóa tài liệu thất bại.',
-    ],
-    'evaluation' => [
-        'store' => 'Thêm mới đánh giá thất bại.',
-        'update' => 'Chỉnh sửa đánh giá thất bại.',
-        'delete' => 'Xóa đánh giá thất bại.',
     ],
     'survey' => [
         'store' => 'Thêm mới khảo sát thất bại.',
@@ -174,5 +146,15 @@ return [
         'store' => 'Thêm mới môn học thất bại.',
         'update' => 'Chỉnh sửa môn học thất bại.',
         'delete' => 'Xóa môn học thất bại.',
+    ],
+    'school' => [
+        'create' => 'Thêm mới trường học thất bại.',
+        'update' => 'Chỉnh sửa trường học thất bại.',
+        'delete' => 'Xóa trường học thất bại.',
+    ],
+    'school-working-calendar' => [
+        'store' => 'Thêm mới lịch làm việc của trường học thất bại.',
+        'update' => 'Chỉnh sửa lịch làm việc của trường học thất bại.',
+        'delete' => 'Xóa lịch làm việc của trường học thất bại.',
     ],
 ];

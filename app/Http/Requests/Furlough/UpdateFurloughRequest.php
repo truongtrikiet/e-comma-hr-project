@@ -6,6 +6,7 @@ use App\Acl\Acl;
 use App\Enum\DurationType;
 use App\Enum\FurloughStatus;
 use App\Enum\HalfDaySession;
+use App\Enum\UseBalanceFurloughEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -29,6 +30,8 @@ class UpdateFurloughRequest extends FormRequest
         return [
             'furlough_type_id' => [
                 'required',
+                'integer',
+                'exists:furlough_types,id',
             ],
             'reason' => [
                 'required',
@@ -42,6 +45,12 @@ class UpdateFurloughRequest extends FormRequest
             'half_day_session' => [
                 'nullable',
                 new Enum(HalfDaySession::class),
+                'required_if:duration_type,' . DurationType::HALF_DAY->value,
+            ],
+            'use_balance' => [
+                'nullable',
+                'integer',
+                new Enum(UseBalanceFurloughEnum::class),
             ],
             'start_time' => [
                 'required',

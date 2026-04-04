@@ -54,7 +54,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $school_id = Arr::get($searchParams, 'school_id', null);
         $status = Arr::get($searchParams, 'status', null);
 
-        $query = $this->model->query()->with(['roles', 'school']);
+        $query = $this->model->query()->with([
+            'roles',
+            'school',
+            'userProfile.employeeType'
+        ]);
 
         if ($keyword) {
             if (is_array($keyword)) {

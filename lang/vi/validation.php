@@ -307,7 +307,6 @@ return [
         'status_payment'        => 'trạng thái thanh toán',
         'status_invoicing'      => 'trạng thái hóa đơn',
         'contractAttributes.*.value' => 'thuộc tính hợp đồng',
-        'employee_type_id'      => 'loại nhân viên',
         'domainAccounts.*.email' => 'email',
         'domainAccounts.*.password' => 'mật khẩu',
         'domainAccounts.*.role' => 'vai trò',

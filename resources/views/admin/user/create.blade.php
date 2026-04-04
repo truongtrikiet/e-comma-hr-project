@@ -158,6 +158,18 @@
                                 :isRequired="true"
                             />
                         </div>
+                        <div class="col-md-6">
+                            <x-form.form-select
+                                :id="'sEmployeeTypeSelect'"
+                                :label="__('general.common.employee_type')"
+                                :data-values="$employeeTypes"
+                                :name="'employee_type_id'"
+                                :select-value-attribute="'id'"
+                                :select-value-label="'name'"
+                                :placeholder="__('general.common.employee_type')"
+                                :isRequired="false"
+                            />
+                        </div>
                         <div class="col-md-8">
                             <x-form.form-input
                                 :id="'entry_date'"

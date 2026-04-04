@@ -73,7 +73,6 @@
                 </div>
             </div>
 
-
             <div class="col-lg-8">
                 <div class="mb-3">
                     <x-buttons.submit :label="__('general.common.complete')"/>

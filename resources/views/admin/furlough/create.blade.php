@@ -107,6 +107,18 @@
                                 :is-filter="false"
                                 :isRequired="true"
                             />
+
+                            <x-form.form-select
+                                :id="'sUseBalance'"
+                                :label="__('general.common.use_balance')"
+                                :data-values="$useBalance"
+                                :select-value-attribute="'value'"
+                                :select-value-label="'label'"
+                                :name="'use_balance'"
+                                :multiple="false"
+                                :placeholder="__('general.common.use_balance')"
+                                :isRequired="true"
+                            />
                         </div>
                     </div>
                 </div>

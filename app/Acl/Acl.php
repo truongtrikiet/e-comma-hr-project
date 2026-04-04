@@ -127,6 +127,38 @@ final class Acl
 
     const PERMISSION_HOLIDAY_SCHEDULE_SHOW = 'Show Holiday Schedule';
 
+    const PERMISSION_FURLOUGH_POLICY_TEMPLATE_LIST = 'Furlough Policy Template List';
+
+    const PERMISSION_FURLOUGH_POLICY_TEMPLATE_ADD = 'Add Furlough Policy Template';
+
+    const PERMISSION_FURLOUGH_POLICY_TEMPLATE_EDIT = 'Edit Furlough Policy Template';
+
+    const PERMISSION_FURLOUGH_POLICY_TEMPLATE_DELETE = 'Delete Furlough Policy Template';
+
+    const PERMISSION_FURLOUGH_POLICY_LIST = 'Furlough Policy List';
+
+    const PERMISSION_FURLOUGH_POLICY_ADD = 'Add Furlough Policy';
+
+    const PERMISSION_FURLOUGH_POLICY_EDIT = 'Edit Furlough Policy';
+
+    const PERMISSION_FURLOUGH_POLICY_DELETE = 'Delete Furlough Policy';
+
+    const PERMISSION_FURLOUGH_BALANCE_LIST = 'Furlough Balance List';
+
+    const PERMISSION_FURLOUGH_BALANCE_ADD = 'Add Furlough Balance';
+
+    const PERMISSION_FURLOUGH_BALANCE_EDIT = 'Edit Furlough Balance';
+
+    const PERMISSION_FURLOUGH_BALANCE_DELETE = 'Delete Furlough Balance';
+
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_LIST = 'School Working Calendar List';
+
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_ADD = 'Add School Working Calendar';
+
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_EDIT = 'Edit School Working Calendar';
+
+    const PERMISSION_SCHOOL_WORKING_CALENDAR_DELETE = 'Delete School Working Calendar';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

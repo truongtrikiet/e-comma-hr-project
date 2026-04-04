@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enum\ActiveStatus;
+use App\Enum\IsPaid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -15,10 +16,12 @@ class FurloughType extends Model
     protected $fillable = [
         'name',
         'status',
+        'is_paid',
     ];
 
     protected $casts = [
         'status' => ActiveStatus::class,
+        'is_paid' => IsPaid::class,
     ];
 
     public $translatable = [

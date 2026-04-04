@@ -12,6 +12,7 @@ use App\Http\Requests\User\UpdateProfileRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Repositories\EmployeeType\EmployeeTypeRepositoryInterface;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\School\SchoolRepositoryInterface;
 use App\Repositories\Subject\SubjectRepositoryInterface;
@@ -31,6 +32,7 @@ class UserController extends Controller
         protected SchoolRepositoryInterface $schoolRepository,
         protected RoleService $roleService,
         protected SubjectRepositoryInterface $subjectRepository,
+        protected EmployeeTypeRepositoryInterface $employeeTypeRepository,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_USER_LIST)->only('index');
         $this->middleware('permission:' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
@@ -65,6 +67,7 @@ class UserController extends Controller
         $subjects = $this->subjectRepository->all();
         $genders = GenderEnum::options();
         $employmentStatuses = EmployeeStatus::options();
+        $employeeTypes = $this->employeeTypeRepository->getActiveEmployeeTypes();
 
         return view('admin.user.create', compact(
             'roles', 
@@ -72,7 +75,8 @@ class UserController extends Controller
             'schools',
             'subjects',
             'genders',
-            'employmentStatuses'
+            'employmentStatuses',
+            'employeeTypes'
         ));
     }
 
@@ -107,6 +111,7 @@ class UserController extends Controller
         $subjects = $this->subjectRepository->all();
         $genders = GenderEnum::options();
         $employmentStatuses = EmployeeStatus::options();
+        $employeeTypes = $this->employeeTypeRepository->getActiveEmployeeTypes();
 
         return view('admin.user.edit', compact(
             'user', 
@@ -115,7 +120,8 @@ class UserController extends Controller
             'schools',
             'subjects',
             'genders',
-            'employmentStatuses'
+            'employmentStatuses',
+            'employeeTypes'
         ));
     }
 

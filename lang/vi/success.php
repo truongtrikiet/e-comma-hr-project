@@ -44,8 +44,8 @@ return [
         'update' => 'Cập nhật thông tin mật khẩu thành công.',
     ],
     'template' => [
-        'store' => 'Thêm mới mẫu email thành công.',
-        'update' => 'Chỉnh sửa mẫu email thành công.',
+        'store' => 'Thêm mới mẫu thành công.',
+        'update' => 'Chỉnh sửa mẫu thành công.',
     ],
     'template_email' => [
         'send' => 'Gửi email thành công.',
@@ -59,17 +59,6 @@ return [
         'store' => 'Thêm mới dự án thành công.',
         'update' => 'Chỉnh sửa dự án thành công.',
         'delete' => 'Xóa dự án thành công.',
-    ],
-    'project_role' => [
-        'store' => 'Thêm mới vai trò dự án thành công.',
-        'update' => 'Chỉnh sửa vai trò dự án thành công.',
-        'delete' => 'Xóa vai trò dự án thành công.',
-    ],
-    'project_employee_role' => [
-        'update' => 'Cập nhật nhân viên dự án thành công.',
-    ],
-    'domain_accounts' => [
-        'update' => 'Chỉnh sửa tài khoản của tên miền thành công.',
     ],
     'send_email' => [
         'customer' => 'Gửi email tới khách hàng thành công.',
@@ -87,15 +76,10 @@ return [
     'meeting_calendar' => [
         'update' => 'Thay đổi trạng thái thành công. Email đã được gửi tới ứng viên.',
     ],
-    'title' => [
+    'position' => [
         'store' => 'Thêm mới vị trí thành công.',
         'update' => 'Chỉnh sửa vị trí thành công.',
         'delete' => 'Xóa vị trí thành công.',
-    ],
-    'project_type' => [
-        'store' => 'Thêm mới loại dự án thành công.',
-        'update' => 'Chỉnh sửa loại dự án thành công.',
-        'delete' => 'Xóa loại dự án thành công.',
     ],
     'income_and_expense_type' => [
         'store' => 'Thêm mới loại thu chi thành công.',
@@ -111,16 +95,6 @@ return [
         'store' => 'Thêm mới loại nhân viên thành công.',
         'update' => 'Chỉnh sửa loại nhân viên thành công.',
         'delete' => 'Xóa loại nhân viên thành công.',
-    ],
-    'evaluation' => [
-        'store' => 'Thêm mới đánh giá thành công.',
-        'update' => 'Chỉnh sửa đánh giá thành công.',
-        'delete' => 'Xóa đánh giá thành công.',
-    ],
-    'payment_process' => [
-        'store' => 'Thêm mới tiến trình thanh toán thành công.',
-        'update' => 'Chỉnh sửa tiến trình thanh toán thành công.',
-        'delete' => 'Xóa tiến trình thanh toán thành công.',
     ],
     'meeting_type' => [
         'store' => 'Thêm mới loại cuộc họp thành công.',
@@ -152,14 +126,6 @@ return [
         'update' => 'Chỉnh sửa nghỉ phép thành công.',
         'delete' => 'Xóa nghỉ phép thành công.',
     ],
-    'bill' => [
-        'store' => 'Thêm mới hoá đơn thành công.',
-        'update' => 'Chỉnh sửa hoá đơn thành công.',
-        'delete' => 'Xóa hoá đơn thành công.',
-    ],
-    'meeting_attendee' => [
-        'update' => 'Xác nhận lịch họp thành công.',
-    ],
     'document_type' => [
         'store' => 'Thêm mới loại tài liệu thành công.',
         'update' => 'Chỉnh sửa loại tài liệu thành công.',
@@ -180,5 +146,15 @@ return [
         'store' => 'Thêm mới môn học thành công.',
         'update' => 'Chỉnh sửa môn học thành công.',
         'delete' => 'Xóa môn học thành công.',
+    ],
+    'school' => [
+        'create' => 'Thêm mới trường học thành công.',
+        'update' => 'Chỉnh sửa trường học thành công.',
+        'delete' => 'Xóa trường học thành công.',
+    ],
+    'school-working-calendar' => [
+        'store' => 'Thêm mới lịch làm việc của trường học thành công.',
+        'update' => 'Chỉnh sửa lịch làm việc của trường học thành công.',
+        'delete' => 'Xóa lịch làm việc của trường học thành công.',
     ],
 ];

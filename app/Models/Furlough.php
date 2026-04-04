@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enum\DurationType;
 use App\Enum\FurloughStatus;
 use App\Enum\HalfDaySession;
+use App\Enum\UseBalanceFurloughEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,11 @@ class Furlough extends Model
         'start_time',
         'end_time',
         'furlough_status',
+        'number_of_days',
+        'use_balance',
+        'furlough_balance_id',
+        'created_at',
+        'updated_at'
     ];
 
     protected $casts = [
@@ -31,6 +37,8 @@ class Furlough extends Model
         'start_time' => 'datetime',
         'end_time' => 'datetime',
         'furlough_status' => FurloughStatus::class,
+        'use_balance' => UseBalanceFurloughEnum::class,
+        'number_of_days' => 'float',
     ];
 
     /**
@@ -80,5 +88,15 @@ class Furlough extends Model
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+
+    /**
+     * Define a relationship to the FurloughBalance model.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function furloughBalance()
+    {
+        return $this->belongsTo(FurloughBalance::class);
     }
 }

@@ -7,6 +7,7 @@ use App\Repositories\Furlough\FurloughRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Acl\Acl;
 use App\Enum\FurloughStatus;
+use App\Enum\UseBalanceFurloughEnum;
 use App\Http\Requests\Furlough\ApprovedFurloughRequest;
 use App\Http\Requests\Furlough\StoreFurloughRequest;
 use App\Http\Requests\Furlough\UpdateFurloughRequest;
@@ -14,6 +15,7 @@ use App\Http\Resources\Furlough\FurloughResource;
 use App\Models\Furlough;
 use App\Repositories\FurloughType\FurloughTypeRepositoryInterface;
 use App\Repositories\School\SchoolRepositoryInterface;
+use App\Services\FurloughService;
 
 class FurloughController extends Controller
 {
@@ -21,12 +23,12 @@ class FurloughController extends Controller
         protected FurloughRepositoryInterface $furloughRepository,
         protected FurloughTypeRepositoryInterface $furloughTypeRepository,
         protected SchoolRepositoryInterface $schoolRepository,
+        protected FurloughService $furloughService,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_FURLOUGH_LIST)->only(['index']);
         $this->middleware('permission:' . Acl::PERMISSION_FURLOUGH_ADD)->only(['create', 'store']);
         $this->middleware('permission:' . Acl::PERMISSION_FURLOUGH_EDIT)->only(['edit', 'update']);
         $this->middleware('permission:' . Acl::PERMISSION_FURLOUGH_DELETE)->only(['destroy']);
-        $this->middleware('permission:' . Acl::PERMISSION_FURLOUGH_SHOW)->only(['show']);
     }
 
     /**
@@ -51,8 +53,9 @@ class FurloughController extends Controller
     public function create()
     {
         $furloughTypes = $this->furloughTypeRepository->getActiveFurloughTypes();
+        $useBalance = UseBalanceFurloughEnum::options();
 
-        return view('admin.furlough.create', compact('furloughTypes'));
+        return view('admin.furlough.create', compact('furloughTypes', 'useBalance'));
     }
 
     /**
@@ -60,7 +63,7 @@ class FurloughController extends Controller
      */
     public function store(StoreFurloughRequest $request)
     {
-        $this->furloughRepository->create($request->validated()) ? 
+        $this->furloughService->create($request->validated()) ? 
             session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.create'))
             : session()->flash(NOTIFICATION_ERROR, __('error.furlough.create'));
 
@@ -82,7 +85,7 @@ class FurloughController extends Controller
      */
     public function approved(ApprovedFurloughRequest $request, Furlough $furlough)
     {
-        $this->furloughRepository->approved($furlough, $request->validated()) ? 
+        $this->furloughService->approved($furlough, $request->validated()) ? 
             session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.approved'))
             : session()->flash(NOTIFICATION_ERROR, __('error.furlough.approved'));
 
@@ -95,8 +98,9 @@ class FurloughController extends Controller
     public function edit(Furlough $furlough)
     {
         $furloughTypes = $this->furloughTypeRepository->getActiveFurloughTypes();
+        $useBalance = UseBalanceFurloughEnum::options();
 
-        return view('admin.furlough.edit', compact('furlough', 'furloughTypes'));
+        return view('admin.furlough.edit', compact('furlough', 'furloughTypes', 'useBalance'));
     }
 
     /**
@@ -104,7 +108,7 @@ class FurloughController extends Controller
      */
     public function update(UpdateFurloughRequest $request, Furlough $furlough)
     {
-        $this->furloughRepository->update($furlough, $request->validated()) ? 
+        $this->furloughService->update($furlough, $request->validated()) ? 
             session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.update'))
             : session()->flash(NOTIFICATION_ERROR, __('error.furlough.update'));
 
