@@ -122,11 +122,11 @@ class ContractController extends Controller
      */
     public function edit(Contract $contract)
     {
-        $contract->load([
-            'contractTypeAttribute.contractAttribute',
-            'user',
-            'contractType',
-        ]);
+        // $contract->load([
+        //     'contractTypeAttribute.contractAttribute',
+        //     'user',
+        //     'contractType',
+        // ]);
 
         $contractTypes = $this->contractTypeRepository->all();
         $contractTypes->load([
@@ -141,9 +141,9 @@ class ContractController extends Controller
 
         $users = $this->userRepository->getUsersBySchoolId((int) $schoolId);
 
-        $contractAttributeValues = $contract->attributeValues
-            ->pluck('value', 'contract_type_attribute_id')
-            ->toArray();
+        // $contractAttributeValues = $contract->attributeValues
+        //     ->pluck('value', 'contract_type_attribute_id')
+        //     ->toArray();
 
         $contractTypeAttributesMap = [];
         foreach ($contractTypes as $type) {
