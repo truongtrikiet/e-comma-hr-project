@@ -2,6 +2,16 @@
 
 namespace App\Providers;
 
+use App\Repositories\AppendixContract\AppendixContractRepository;
+use App\Repositories\AppendixContract\AppendixContractRepositoryInterface;
+use App\Repositories\Contract\ContractRepository;
+use App\Repositories\Contract\ContractRepositoryInterface;
+use App\Repositories\ContractAttribute\ContractAttributeRepository;
+use App\Repositories\ContractAttribute\ContractAttributeRepositoryInterface;
+use App\Repositories\ContractAttributeValue\ContractAttributeValueRepository;
+use App\Repositories\ContractAttributeValue\ContractAttributeValueRepositoryInterface;
+use App\Repositories\ContractType\ContractTypeRepository;
+use App\Repositories\ContractType\ContractTypeRepositoryInterface;
 use App\Repositories\Department\DepartmentRepository;
 use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\EmployeeType\EmployeeTypeRepository;
@@ -57,5 +67,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(FurloughPolicyRepositoryInterface::class, FurloughPolicyRepository::class);
         $this->app->singleton(FurloughBalanceRepositoryInterface::class, FurloughBalanceRepository::class);
         $this->app->singleton(SchoolWorkingCalendarRepositoryInterface::class, SchoolWorkingCalendarRepository::class);
+        $this->app->singleton(ContractRepositoryInterface::class, ContractRepository::class);
+        $this->app->singleton(ContractTypeRepositoryInterface::class, ContractTypeRepository::class);
+        $this->app->singleton(ContractAttributeRepositoryInterface::class, ContractAttributeRepository::class);
+        $this->app->singleton(ContractAttributeValueRepositoryInterface::class, ContractAttributeValueRepository::class);
+        $this->app->singleton(AppendixContractRepositoryInterface::class, AppendixContractRepository::class);
     }
 }

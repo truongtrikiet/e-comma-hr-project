@@ -1,4 +1,4 @@
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 function initCustomEditors(selector = '.custom-ckeditor') {
   document.querySelectorAll(selector).forEach(el => {
