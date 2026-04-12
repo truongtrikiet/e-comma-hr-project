@@ -10,5 +10,11 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 interface ContractAttributeValueRepositoryInterface extends RepositoryInterface
 {
-    // Define specific methods for the UserWalletRepository here
+    /**
+     * Get attribute values by contract ID
+      *
+      * @param int $contractId
+      * @return array
+     */
+    public function getValuesByContractId(int $contractId): array;
 }

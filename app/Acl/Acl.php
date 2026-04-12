@@ -169,6 +169,8 @@ final class Acl
 
     const PERMISSION_CONTRACT_DELETE = 'Delete Contract';
 
+    const PERMISSION_CONTRACT_DETAIL_PDF = 'Contract Detail PDF';
+ 
     const PERMISSION_CONTRACT_TYPE_LIST = 'Contract Type List';
 
     const PERMISSION_CONTRACT_TYPE_ADD = 'Add Contract Type';

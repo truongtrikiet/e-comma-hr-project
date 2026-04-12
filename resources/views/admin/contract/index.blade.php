@@ -79,7 +79,7 @@
                         "data": "code",
                         "class": "text-center",
                         "render": function (data, type, full) {
-                            return `<span class="badge badge-secondary">${data}</span>`;
+                            return `<span class="badge badge-light">${data}</span>`;
                         },
                     },
                     {
@@ -113,11 +113,16 @@
                         "orderable": false,
                         "render": function (data, type, full) {
                             <!-- let urlShow = `{{ route('admin.contract.show', ':id') }}`.replace(':id', data); -->
-                            let urlEdit = `{{ route('admin.contract.edit', ':id') }}`.replace(':id', data);
-                            let urlDestroy = `{{ route('admin.contract.destroy', ':id') }}`.replace(':id', data);
+                            let urlEdit = `{{ route('admin.contract.edit', ':id') }}`.replace(':id', (full.code ?? data));
+                            let urlDestroy = `{{ route('admin.contract.destroy', ':id') }}`.replace(':id', (full.code ?? data));
+                            let urlPdf = `{{ route('admin.contract.contract-detail', ':id') }}`.replace(':id', (full.code ?? data));
 
                             return `
                                 <ul class="table-controls d-flex justify-content-center">
+                                    <x-table.actions.download-pdf
+                                        :permission="Acl::PERMISSION_CONTRACT_DETAIL_PDF"
+                                        :url="'${urlPdf}'"
+                                    />
                                     <x-table.actions.edit-action
                                         :permission="Acl::PERMISSION_CONTRACT_EDIT"
                                         :url="'${urlEdit}'"

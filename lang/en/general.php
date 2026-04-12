@@ -624,6 +624,7 @@ return [
         'canceled' => 'Canceled',
         'cleared' => 'Cleared',
         'pending' => 'Pending',
+        'download_pdf' => 'Download PDF',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

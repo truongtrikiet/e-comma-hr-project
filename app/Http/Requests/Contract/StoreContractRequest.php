@@ -49,7 +49,15 @@ class StoreContractRequest extends FormRequest
             // key = contract_type_attribute_id
             'attributes.*' => [
                 'nullable',
+            ],
+            'attributes.*.value' => [
+                'nullable',
                 'string',
+            ],
+            'attributes.*.contract_type_attribute_id' => [
+                'nullable',
+                'integer',
+                'exists:contract_type_attributes,id',
             ],
             'appendix_ids' => [
                 'nullable',

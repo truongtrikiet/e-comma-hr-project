@@ -32,7 +32,7 @@
 
     <x-form.form-layout
         :form-id="'general-settings'"
-        :form-url="route('admin.contract.update', $contract->id)"
+        :form-url="route('admin.contract.update', $contract->code)"
         :form-method="'PUT'"
         :card-title="__('general.menu.contract_management.edit_contract')"
         :custom-col="'col-lg-12'"
@@ -43,6 +43,17 @@
                     <h5 class="mb-2">{{ __('general.common.information') }}</h5>
                     <div class="row">
                         <div class="col-md-8">
+                            <x-form.form-input
+                                :id="'code'"
+                                :label="__('general.common.contract_code')"
+                                :name="'code'"
+                                :type="'text'"
+                                :placeholder="__('general.common.contract_code')"
+                                :isRequired="false"
+                                :value="old('code', $contract->code)"
+                                :readonly="true"
+                            />
+
                             <x-form.form-select
                                 :id="'sUser'"
                                 :label="__('general.common.user')"
@@ -127,6 +138,7 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
         <script>
             window.contractAttributeValues = @json($contractAttributeValues ?? []);
+            window.contractTypeAttributesMap = @json($contractTypeAttributesMap ?? []);
             window.oldAttributes = @json(old('attributes', []));
         </script>
         <script>
@@ -203,6 +215,8 @@
                             window.oldAttributes?.[attr.id]?.value
                             ?? window.contractAttributeValues?.[attr.id]
                             ?? '';
+
+                        console.log('contract-attr-debug', { id: attr.id, name: attr.name, key: attr.key, value, oldAttr: window.oldAttributes?.[attr.id], savedValue: window.contractAttributeValues?.[attr.id] });
 
                         const row = document.createElement('div');
                         row.className = 'row align-items-center mb-3';

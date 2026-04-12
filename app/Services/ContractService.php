@@ -168,27 +168,30 @@ class ContractService
      */
     public function generateContractContent(Contract $contract)
     {
-        $contract->load('contractTypeAttributes.contractAttribute');
+        $contract->load('contractTypeAttributes.contractAttribute', 'contractType');
 
-        $contractTypeContent = $contract->contractType->content;
+        $contractTypeContent = $contract->contractType->content ?? '';
 
         $contractTypeContent = $this->replaceImageUrlsWithAbsolutePaths($contractTypeContent, $contract);
-        
+
         foreach ($contract->contractTypeAttributes as $attributeValue) {
             $placeholder = '{{ $' . $attributeValue->contractAttribute->key . ' }}';
 
             $contractAttributeValue = $this->contractAttributeValueRepository->advancedGetFirst([
-                                        'conditions' => [
-                                            'where' => [
-                                                'contract_id' => $contract->id,
-                                                'contract_type_attribute_id' => $attributeValue->id,
-                                            ],
-                                        ],
-                                    ]);
+                'conditions' => [
+                    'where' => [
+                        'contract_id' => $contract->id,
+                        'contract_type_attribute_id' => $attributeValue->id,
+                    ],
+                ],
+            ]);
 
-            $contractTypeContent = str_replace($placeholder, $contractAttributeValue->value, $contractTypeContent);
+            $replacement = '';
+            if ($contractAttributeValue && isset($contractAttributeValue->value)) {
+                $replacement = $contractAttributeValue->value;
+            }
 
-            
+            $contractTypeContent = str_replace($placeholder, $replacement, $contractTypeContent);
         }
 
         $contractTypeContent = str_replace('!important', '', $contractTypeContent);
@@ -200,10 +203,41 @@ class ContractService
     {
         $imageUrls = extractImageUrls($contractTypeContent);
 
-        if (!empty($imageUrls)) {
-            foreach ($imageUrls as $url) {
-                $absolutePath = $this->getFileAbsolutePath($url);
+        if (empty($imageUrls)) {
+            return $contractTypeContent;
+        }
+
+        foreach ($imageUrls as $url) {
+            $parsedUrl = parse_url($url);
+
+            // Try to extract file_url from query string
+            $relativePath = null;
+            if (!empty($parsedUrl['query'])) {
+                parse_str($parsedUrl['query'], $qs);
+                $fileQuery = $qs['file_url'] ?? null;
+                if ($fileQuery) {
+                    // normalize
+                    $relativePath = preg_replace('#^public/media/#', '', $fileQuery);
+                }
+            }
+
+            // Fallback: if URL already points to storage/media path
+            if (!$relativePath && !empty($parsedUrl['path'])) {
+                if (str_contains($parsedUrl['path'], '/storage/media/')) {
+                    $relativePath = ltrim(str_replace('/storage/media/', '', $parsedUrl['path']), '/');
+                }
+            }
+
+            if (!$relativePath) {
+                Log::warning('Unable to resolve image url for PDF replacement', ['url' => $url]);
+                continue;
+            }
+
+            $absolutePath = public_path('storage/media/' . $relativePath);
+            if (file_exists($absolutePath)) {
                 $contractTypeContent = str_replace($url, $absolutePath, $contractTypeContent);
+            } else {
+                Log::warning('PDF image not found', ['path' => $absolutePath, 'url' => $url]);
             }
         }
 

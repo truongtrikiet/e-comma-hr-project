@@ -228,10 +228,14 @@
 
                             <!-- Attribute value -->
                             <div class="col-md-5">
+                                <input type="hidden"
+                                    name="attributes[${attr.id}][contract_type_attribute_id]"
+                                    value="${attr.id}">
+
                                 <input type="text"
                                     class="form-control"
-                                    name="attributes[${attr.id}]"
-                                >
+                                    name="attributes[${attr.id}][value]"
+                                    value="">
                             </div>
                         `;
 

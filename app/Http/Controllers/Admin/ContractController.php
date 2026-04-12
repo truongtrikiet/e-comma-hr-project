@@ -13,8 +13,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Contract\StoreContractRequest;
 use App\Http\Requests\Contract\UpdateContractRequest;
 use App\Http\Resources\Contract\ContractResource;
+use App\Models\ContractAttributeValue;
 use App\Models\Contracts\SettingKey;
 use App\Repositories\Contract\ContractRepositoryInterface;
+use App\Repositories\ContractAttributeValue\ContractAttributeValueRepositoryInterface;
 use App\Repositories\ContractType\ContractTypeRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 
@@ -26,11 +28,13 @@ class ContractController extends Controller
         protected SettingRepositoryInterface $settingRepository,
         protected ContractTypeRepositoryInterface $contractTypeRepository,
         protected UserRepositoryInterface $userRepository,
+        protected ContractAttributeValueRepositoryInterface $contractAttributeValueRepository,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_CONTRACT_LIST)->only('index');
         $this->middleware('permission:' . Acl::PERMISSION_CONTRACT_ADD)->only(['create', 'store']);
         $this->middleware('permission:' . Acl::PERMISSION_CONTRACT_EDIT)->only(['edit', 'update']);
         $this->middleware('permission:' . Acl::PERMISSION_CONTRACT_DELETE)->only('destroy');
+        $this->middleware('permission:' . Acl::PERMISSION_CONTRACT_DETAIL_PDF)->only('showDetail');
     }
 
     /**
@@ -96,9 +100,17 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
-    public function showDetail(Request $request, Contract $contract)
+    public function showDetailPdf(Request $request, Contract $contract)
     {
-        $appendixContracts = $this->contractRepository->getAppendixContractInArrayForContract($contract, json_decode($request->appendixContracts));
+        $appendixContracts = $this->contractRepository->getAppendixContractInArrayForContract(
+            $contract,
+            json_decode($request->appendixContracts, true) ?: []
+        );
+
+        if (! $contract->contractType) {
+            return response()->json(['message' => 'Contract type not found.'], Response::HTTP_NOT_FOUND);
+        }
+
         $contractTypeContent = $this->contractService->generateContractContent($contract);
         $contractHeader  = $this->settingRepository->findByKey(SettingKey::CONTRACT_HEADER['key']);
         $contractWatermark  = $this->settingRepository->findByKey(SettingKey::CONTRACT_WATERMARK['key']);
@@ -122,11 +134,13 @@ class ContractController extends Controller
      */
     public function edit(Contract $contract)
     {
-        // $contract->load([
-        //     'contractTypeAttribute.contractAttribute',
-        //     'user',
-        //     'contractType',
-        // ]);
+        $contract->load([
+            'contractTypeAttributes.contractAttribute',
+            'contractable',
+            'contractType',
+            'appendixContracts',
+            'school',
+        ]);
 
         $contractTypes = $this->contractTypeRepository->all();
         $contractTypes->load([
@@ -135,26 +149,28 @@ class ContractController extends Controller
             'school',
         ]);
 
-        $schoolId = $contract->school_id
-            ?? auth()->user()->school_id
-            ?? null;
+        $schoolId = $contract->school_id ?? auth()->user()->school_id ?? null;
 
         $users = $this->userRepository->getUsersBySchoolId((int) $schoolId);
 
-        // $contractAttributeValues = $contract->attributeValues
-        //     ->pluck('value', 'contract_type_attribute_id')
-        //     ->toArray();
+        $contractAttributeValues = $this->contractAttributeValueRepository->getValuesByContractId($contract->id);
 
         $contractTypeAttributesMap = [];
-        foreach ($contractTypes as $type) {
-            $contractTypeAttributesMap[$type->id] = $type->contractTypeAttributes->map(fn ($cta) => [
-                'id'   => $cta->id,
-                'name' => $cta->contractAttribute->name,
-                'key'  => $cta->contractAttribute->key,
+        foreach ($contractTypes as $contractType) {
+            $contractTypeAttributesMap[$contractType->id] = $contractType->contractTypeAttributes->map(fn ($contractTypeAttribute) => [
+                'id' => $contractTypeAttribute->id,
+                'name' => $contractTypeAttribute->contractAttribute->name,
+                'key' => $contractTypeAttribute->contractAttribute->key,
             ])->toArray();
         }
 
-        return view('admin.contract.edit', compact('contract', 'contractTypes', 'users'));
+        return view('admin.contract.edit', compact(
+            'contract',
+            'contractTypes',
+            'users',
+            'contractTypeAttributesMap',
+            'contractAttributeValues'
+        ));
     }
 
     /**
@@ -162,7 +178,11 @@ class ContractController extends Controller
      */
     public function update(UpdateContractRequest $request, Contract $contract)
     {
-        //
+        $this->contractService->update($contract, $request->validated()) ? 
+            session()->flash(NOTIFICATION_SUCCESS, __('success.contract.update')) 
+            : session()->flash(NOTIFICATION_ERROR, __('error.contract.update'));
+
+        return to_route('admin.contract.index');
     }
 
     /**

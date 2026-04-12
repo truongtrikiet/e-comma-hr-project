@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enum\ContractStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -97,6 +98,15 @@ class Contract extends Model
                 $builder->where('school_id', session('school_id'));
             }
         });
+
+        // When signed_at or expired_at changes, automatically set status (but don't override CLEARED)
+        static::saving(function (Contract $contract) {
+            if ($contract->isDirty(['signed_at', 'expired_at']) || is_null($contract->status)) {
+                if (!($contract->status instanceof ContractStatus && $contract->status === ContractStatus::CLEARED)) {
+                    $contract->status = $contract->calculated_status;
+                }
+            }
+        });
     }
 
     /**
@@ -107,5 +117,61 @@ class Contract extends Model
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
+    }
+
+    /**
+     * Use `code` for route model binding instead of `id`.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'code';
+    }
+
+    /**
+     * Calculate the contract status based on signed and expired dates.
+     * - UNDER_ACCEPTANCE when not signed yet
+     * - ACTIVE when signed and not expired
+     * - COMPLETED when expired
+     * Note: `CLEARED` is considered a manual state and will not be overridden by automatic calc.
+     */
+    public function getCalculatedStatusAttribute(): ContractStatus
+    {
+        $now = Carbon::now();
+
+        if (is_null($this->signed_at)) {
+            return ContractStatus::UNDER_ACCEPTANCE;
+        }
+
+        if (!is_null($this->expired_at) && $this->expired_at instanceof \DateTime && $this->expired_at->lt($now)) {
+            return ContractStatus::COMPLETED;
+        }
+
+        return ContractStatus::ACTIVE;
+    }
+
+    /**
+     * Recalculate the stored `status` column and persist if different.
+     * Will not override `CLEARED` unless $force is true.
+     *
+     * @param bool $force
+     * @return ContractStatus
+     */
+    public function recalculateStatus(bool $force = false): ContractStatus
+    {
+        $calculated = $this->calculated_status;
+
+        if (!$force && $this->status instanceof ContractStatus && $this->status === ContractStatus::CLEARED) {
+            return $this->status;
+        }
+
+        $currentValue = $this->status instanceof ContractStatus ? $this->status->value : $this->status;
+        if ($currentValue !== $calculated->value) {
+            Model::withoutEvents(function () use ($calculated) {
+                $this->status = $calculated;
+                $this->save();
+            });
+        }
+
+        return $calculated;
     }
 }

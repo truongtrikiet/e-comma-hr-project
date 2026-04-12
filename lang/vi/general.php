@@ -626,6 +626,7 @@ return [
         'canceled' => 'Đã hủy',
         'cleared' => 'Đã thanh lý',
         'pending' => 'Đang chờ xử lý',
+        'download_pdf' => 'Tải PDF',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

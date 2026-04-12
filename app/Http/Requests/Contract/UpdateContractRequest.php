@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Contract;
 
+use App\Acl\Acl;
 use App\Enum\ContractStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -13,7 +14,7 @@ class UpdateContractRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return checkPermission(Acl::PERMISSION_CONTRACT_EDIT);
     }
 
     /**
@@ -44,7 +45,7 @@ class UpdateContractRequest extends FormRequest
                 'after:signed_at',
             ],
             'status' => [
-                'required',
+                'nullable',
                 new Enum(ContractStatus::class),
             ],
             'attributes' => [
@@ -54,7 +55,15 @@ class UpdateContractRequest extends FormRequest
             // key = contract_type_attribute_id
             'attributes.*' => [
                 'nullable',
+            ],
+            'attributes.*.value' => [
+                'nullable',
                 'string',
+            ],
+            'attributes.*.contract_type_attribute_id' => [
+                'nullable',
+                'integer',
+                'exists:contract_type_attributes,id',
             ],
             'appendix_ids' => [
                 'nullable',

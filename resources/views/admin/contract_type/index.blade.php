@@ -90,6 +90,10 @@
                         "data": "contract_attributes",
                         "class": "text-center",
                         "render": function (data, type, full) {
+                            if (!Array.isArray(data) || data.length === 0) {
+                                return `<span class="text-muted">N/A</span>`;
+                            }
+
                             let contractAttributeBadges = ``;
                             let count = 0;
 
