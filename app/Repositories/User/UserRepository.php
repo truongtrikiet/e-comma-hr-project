@@ -13,6 +13,7 @@ use App\Enum\SalaryStatus;
 use App\Models\Department;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -149,5 +150,30 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                 $q->whereIn('name', [Acl::ROLE_STAFF]);
             });
         })->get();
+    }
+
+    /**
+     * Get users by school.
+     *
+     * @return Collection
+     */
+    public function getUsersBySchoolId(int $schoolId): Collection
+    {
+        $current = Auth::user();
+
+        $query = $this->model->newQuery()->with('roles');
+
+        if ($current && $current->roles()->where('name', Acl::ROLE_SUPER_ADMIN)->exists()) {
+            return $query->where('status', UserStatus::ACTIVE)
+                         ->latest()
+                         ->get();
+        }
+
+        return $query->where('school_id', $schoolId)
+                     ->whereDoesntHave('roles', function ($q) {
+                         $q->where('name', Acl::ROLE_SUPER_ADMIN);
+                     })
+                     ->latest()
+                     ->get();
     }
 }

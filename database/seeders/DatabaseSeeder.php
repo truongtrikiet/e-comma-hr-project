@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionSeeder::class);
         $this->call(UserProfileSeeder::class);
         $this->call(FurloughBalanceSeeder::class);
-        $this->call(UserUpdateNewRoleSeeder::class);
+        // $this->call(UserUpdateNewRoleSeeder::class);
         // $this->call(RoleSeeder::class);
     }
 }

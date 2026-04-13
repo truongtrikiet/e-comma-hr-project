@@ -129,7 +129,9 @@
                 }
 
                 function showSuccess(message) {
-                    if (window.Snackbar && typeof Snackbar.show === 'function') {
+                    if (window.SwalToast && typeof SwalToast === 'function') {
+                        SwalToast('success', message, '');
+                    } else if (window.Snackbar && typeof Snackbar.show === 'function') {
                         Snackbar.show({ text: message, textColor: '#ddf5f0', backgroundColor: '#00ab55', actionText: '{{ __('Bỏ qua') }}', actionTextColor: '#3b3f5c' });
                     } else {
                         alert(message);
@@ -137,7 +139,9 @@
                 }
 
                 function showError(message) {
-                    if (window.Snackbar && typeof Snackbar.show === 'function') {
+                    if (window.SwalToast && typeof SwalToast === 'function') {
+                        SwalToast('error', message, '');
+                    } else if (window.Snackbar && typeof Snackbar.show === 'function') {
                         Snackbar.show({ text: message, textColor: '#fbeced', backgroundColor: '#e7515a', actionText: '{{ __('Bỏ qua') }}', actionTextColor: '#3b3f5c' });
                     } else {
                         alert(message);
@@ -172,7 +176,13 @@
                     const dataTableId = $(this).data('datatable-id');
 
                     const confirmTitle = "{{ __('general.popup_message.confirm_delete') }}";
-                    const confirmText = "{{ __('Bạn sẽ không thể hoàn lại thao tác này!') }}";
+                    const confirmText = "{{ __('general.popup_message.complete_delete') }}";
+
+                    if (window.confirmAction && typeof confirmAction === 'function') {
+                        confirmAction({ title: confirmTitle, text: confirmText, confirmButtonText: "{{ __('general.common.complete') }}", cancelButtonText: "{{ __('general.common.cancel') }}" })
+                            .then(function (ok) { if (ok) performDelete(dataTableId, url); });
+                        return;
+                    }
 
                     if (window.Swal && typeof Swal.fire === 'function') {
                         Swal.fire({ title: confirmTitle, text: confirmText, icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: "{{ __('Xác nhận') }}", cancelButtonText: "{{ __('Hủy bỏ') }}", reverseButtons: true })

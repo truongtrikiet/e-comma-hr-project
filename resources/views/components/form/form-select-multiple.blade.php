@@ -16,6 +16,7 @@
     $classes = $classes ?? 'form-control input-default js-multi-select';
     $placeholderText = $placeholder ?? '';
     $enableTags = isset($tags) ? (bool) $tags : false;
+    $useSelect2 = isset($useSelect2) ? (bool) $useSelect2 : true;
 @endphp
 
 <div class="basic-form">
@@ -32,26 +33,30 @@
             id="{{ $id ?? ($name ?? 'multi-value-select') }}"
             multiple
             data-tags="{{ $enableTags ? 'true' : 'false' }}"
-            data-enhanced="true"
+            data-enhanced="{{ $useSelect2 ? 'select2' : 'false' }}"
             data-placeholder="{{ $placeholderText }}"
             {!! $attributes->merge(['class' => $classes . ($errors->has($oldName ?? $name) ? ' is-invalid' : '')]) !!}
         >
             {{-- Render provided options --}}
             @if(!empty($dataValues) && is_iterable($dataValues))
-                @foreach($dataValues as $option)
+                @foreach($dataValues as $key => $option)
                     @php
                         if (is_array($option) || is_object($option)) {
                             $optValue = data_get($option, $valueKey);
                             $optLabel = data_get($option, $labelKey);
                         } else {
-                            $optValue = $option;
+                            $optValue = $key;
                             $optLabel = $option;
                         }
 
-                        $selected = in_array((string)$optValue, array_map('strval', (array) $current), true);
+                        $isSelected = in_array(
+                            (string) $optValue,
+                            array_map('strval', (array) $current),
+                            true
+                        );
                     @endphp
 
-                    <option value="{{ $optValue }}" {{ $selected ? 'selected' : '' }}>
+                    <option value="{{ $optValue }}" {{ $isSelected ? 'selected' : '' }}>
                         {{ $optLabel }}
                     </option>
                 @endforeach
@@ -74,13 +79,18 @@
                 var placeholder = {!! json_encode($placeholderText) !!};
 
                 function initMultiSelect() {
+                    var $el = jQuery('#' + initId);
+                    if (!$el.length) return;
+
+                    var enhanced = $el.data('enhanced');
+                    if (!enhanced || enhanced === 'false') return;
+
                     if (window.jQuery && jQuery.fn && jQuery.fn.select2) {
-                        var $el = jQuery('#' + initId);
-                        if ($el.length && !$el.data('select2')) {
+                        if (!$el.data('select2')) {
                             $el.select2({
                                 tags: enableTags,
                                 placeholder: placeholder,
-                                // width: '100%'
+                                width: '100%'
                             });
                         }
                     }

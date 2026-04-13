@@ -57,4 +57,10 @@ interface UserRepositoryInterface extends RepositoryInterface
      */
     public function getStaffOnly(): Collection;
 
+    /**
+     * Get users by school.
+     *
+     * @return Collection
+     */
+    public function getUsersBySchoolId(int $schoolId): Collection;
 }

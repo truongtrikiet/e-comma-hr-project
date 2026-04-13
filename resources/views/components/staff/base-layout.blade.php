@@ -72,6 +72,10 @@
         @stack('footerFiles')
 
         @stack('scripts')
-        @vite(['resources/js/plugins-init/material-date-picker-init.js'])
+        @vite([
+            'resources/js/plugins-init/material-date-picker-init.js',
+            'resources/js/app.js'
+        ])
+        @include('components.sweetalert')
     </body>
 </html>

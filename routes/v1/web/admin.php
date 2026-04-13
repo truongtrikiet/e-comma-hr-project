@@ -17,4 +17,9 @@ Route::prefix('')->group(function () {
     include 'admin/furlough_policy.php';
     include 'admin/notification.php';
     include 'admin/school_working_calendar.php';
+    include 'admin/appendix_contract.php';
+    include 'admin/contract_attribute.php';
+    include 'admin/contract.php';
+    include 'admin/contract_type.php';
+    include 'admin/editor_upload.php';
 });

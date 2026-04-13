@@ -159,6 +159,52 @@ final class Acl
 
     const PERMISSION_SCHOOL_WORKING_CALENDAR_DELETE = 'Delete School Working Calendar';
 
+    const PERMISSION_CONTRACT_SETTINGS_EDIT = 'Edit Contract Settings';
+
+    const PERMISSION_CONTRACT_LIST = 'Contract List';
+
+    const PERMISSION_CONTRACT_ADD = 'Add Contract';
+
+    const PERMISSION_CONTRACT_EDIT = 'Edit Contract';
+
+    const PERMISSION_CONTRACT_DELETE = 'Delete Contract';
+
+    const PERMISSION_CONTRACT_DETAIL_PDF = 'Contract Detail PDF';
+ 
+    const PERMISSION_CONTRACT_TYPE_LIST = 'Contract Type List';
+
+    const PERMISSION_CONTRACT_TYPE_ADD = 'Add Contract Type';
+
+    const PERMISSION_CONTRACT_TYPE_EDIT = 'Edit Contract Type';
+
+    const PERMISSION_CONTRACT_TYPE_DELETE = 'Delete Contract Type';
+
+    const PERMISSION_APPENDIX_CONTRACT_LIST = 'Appendix Contract List';
+
+    const PERMISSION_APPENDIX_CONTRACT_ADD = 'Add Appendix Contract';
+
+    const PERMISSION_APPENDIX_CONTRACT_EDIT = 'Edit Appendix Contract';
+
+    const PERMISSION_APPENDIX_CONTRACT_DELETE = 'Delete Appendix Contract';
+
+    const PERMISSION_CONTRACT_ATTRIBUTE_LIST = 'Contract Attribute List';
+
+    const PERMISSION_CONTRACT_ATTRIBUTE_ADD = 'Add Contract Attribute';
+
+    const PERMISSION_CONTRACT_ATTRIBUTE_EDIT = 'Edit Contract Attribute';
+
+    const PERMISSION_CONTRACT_ATTRIBUTE_DELETE = 'Delete Contract Attribute';
+
+    const PERMISSION_CANDIDATE_MANAGE = 'Manage Candidates';
+
+    const PERMISSION_CANDIDATE_LIST = 'Candidate List';
+
+    const PERMISSION_CANDIDATE_ADD = 'Add Candidate';
+
+    const PERMISSION_CANDIDATE_EDIT = 'Edit Candidate';
+
+    const PERMISSION_CANDIDATE_DELETE = 'Delete Candidate';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

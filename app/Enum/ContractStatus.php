@@ -24,4 +24,32 @@ enum ContractStatus: int
             default => '',
         };
     }
+
+    /**
+     * Get the display name of a status based on its string value.
+     *
+     * @param string $value
+     * @return string|null
+     */
+    public static function getNameByValue(string $value): ?string
+    {
+        $case = self::from($value);
+        return match ($case) {
+            self::ACTIVE => __('general.common.active'),
+            self::UNDER_ACCEPTANCE => __('general.common.under_acceptance'),
+            self::CLEARED => __('general.common.cleared'),
+            self::COMPLETED => __('general.common.completed'),
+            default => null,
+        };
+    }
+
+    public static function options(): array
+    {
+        return array_map(function ($case) {
+            return [
+                'value' => $case->value,
+                'label' => self::getNameByValue($case->value),
+            ];
+        }, self::cases());
+    }
 }

@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('holiday:remind')->dailyAt('11:00');
         $schedule->command('furlough:accrue')->monthlyOn(1, '00:05');
+        $schedule->command('contracts:update-statuses')->daily();
         // $schedule->command('furlough:accrue')->everyMinute();
     }
 

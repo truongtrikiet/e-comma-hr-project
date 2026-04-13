@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
-            $table->foreignId('contract_type_id')->constrained()->onDelete('cascade');
-            $table->morphs('contractable');
-            $table->timestamp('signed_at')->nullable();
-            $table->timestamp('expired_at')->nullable();
-        });
+        // Schema::create('contracts', function (Blueprint $table) {
+        //     $table->foreignId('contract_type_id')->constrained()->onDelete('cascade');
+        //     $table->morphs('contractable');
+        //     $table->timestamp('signed_at')->nullable();
+        //     $table->timestamp('expired_at')->nullable();
+        // });
     }
 
     /**
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contracts');
+        // Schema::dropIfExists('contracts');
     }
 };

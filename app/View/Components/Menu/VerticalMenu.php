@@ -169,6 +169,30 @@ class VerticalMenu extends Component
                 ],
             ],
             [
+                'title' => __('general.common.contract'),
+                'icon' => 'icon icon-form',
+                'child' => [
+                    [
+                        'title' => __('general.menu.contract_attribute_management.title'),
+                        'url' => route('admin.contract_attribute.index'),
+                        'active' => Route::is(['admin.contract_attribute.*']),
+                        'show' => checkPermission(Acl::PERMISSION_CONTRACT_ATTRIBUTE_LIST),
+                    ],
+                    [
+                        'title' => __('general.menu.contract_type_management.title'),
+                        'url' => route('admin.contract_type.index'),
+                        'active' => Route::is(['admin.contract_type.*']),
+                        'show' => checkPermission(Acl::PERMISSION_CONTRACT_TYPE_LIST),
+                    ],
+                    [
+                        'title' => __('general.menu.contract_management.title'),
+                        'url' => route('admin.contract.index'),
+                        'active' => Route::is(['admin.contract.*']),
+                        'show' => checkPermission(Acl::PERMISSION_CONTRACT_LIST),
+                    ],
+                ],
+            ],
+            [
                 'title' => __('general.menu.setting_management.title'),
                 'icon' => 'icon icon-house-pricing',
                 'child' => [

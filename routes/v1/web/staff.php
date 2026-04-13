@@ -8,4 +8,5 @@ Route::prefix('')->group(function () {
     include 'staff/user.php';
     include 'staff/holiday_schedule.php';
     include 'staff/notification.php';
+    include 'staff/contract.php';
 });

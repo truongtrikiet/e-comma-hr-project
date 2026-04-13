@@ -95,3 +95,96 @@ if (!function_exists('customPriceFormat')) {
         return number_format($value, 0, ',', '.');
     }
 }
+
+if (!function_exists('customContentFormat')) {
+
+    /**
+     * Format price and limit content length
+     *
+     * @param mixed $value
+     * @return string
+     */
+    function customContentFormat($value): string
+    {
+        return mb_strimwidth(strip_tags($value), 0, 100, '...');
+    }
+}
+
+if (!function_exists('formatDateDMY')) {
+
+    /**
+     *
+     * @param string|\DateTime $date
+     * @return string
+     */
+    function formatDateDMY($date)
+    {
+        if (empty($date)) {
+            return '';
+        }
+
+        if (is_string($date)) {
+            $date = \Carbon\Carbon::parse($date);
+        }
+
+        return $date->format('d-m-Y');
+    }
+}
+
+if (!function_exists('extractImageUrls')) {
+    /**
+     * Extract all image URLs from HTML content.
+     *
+     * @param string $content The HTML content to scan for images.
+     * @return array An array of image URLs.
+     */
+    function extractImageUrls(string $content): array
+    {
+        preg_match_all('/<img[^>]+src="([^"]+)"/', $content, $matches);
+        return $matches[1] ?? [];
+    }
+
+    if (!function_exists('removeVietnameseAccents')) {
+        /**
+         * Removes Vietnamese accents from a string.
+         *
+         * @param string $str
+         * @return string
+         */
+        function removeVietnameseAccents($str): string
+        {
+            $accents = [
+                'a' => ['á', 'à', 'ả', 'ã', 'ạ', 'ă', 'ắ', 'ằ', 'ẳ', 'ẵ', 'ặ', 'â', 'ấ', 'ầ', 'ẩ', 'ẫ', 'ậ'],
+                'd' => ['đ'],
+                'e' => ['é', 'è', 'ẻ', 'ẽ', 'ẹ', 'ê', 'ế', 'ề', 'ể', 'ễ', 'ệ'],
+                'i' => ['í', 'ì', 'ỉ', 'ĩ', 'ị'],
+                'o' => ['ó', 'ò', 'ỏ', 'õ', 'ọ', 'ô', 'ố', 'ồ', 'ổ', 'ỗ', 'ộ', 'ơ', 'ớ', 'ờ', 'ở', 'ỡ', 'ợ'],
+                'u' => ['ú', 'ù', 'ủ', 'ũ', 'ụ', 'ư', 'ứ', 'ừ', 'ử', 'ữ', 'ự'],
+                'y' => ['ý', 'ỳ', 'ỷ', 'ỹ', 'ỵ']
+            ];
+
+            foreach ($accents as $key => $accentedChars) {
+                foreach ($accentedChars as $accent) {
+                    $str = str_replace($accent, $key, $str);
+                }
+            }
+
+            // Replace uppercase accented characters as well
+            return strtolower($str);
+        }
+    }
+
+    if (!function_exists('generateCode')) {
+        /**
+         * Generate code
+         *
+         * @param string $code
+         * @param int $id
+         * @return string
+         */
+        function generateCode(string $code, int $id): string
+        {
+            return $code . str_pad($id, 4, '0', STR_PAD_LEFT);
+        }
+    }
+}
