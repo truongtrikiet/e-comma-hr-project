@@ -51,14 +51,25 @@ class UserSeeder extends Seeder
             ]);
         });
 
+        $hr = User::withoutEvents(function () {
+            return User::create([
+                'name' => 'HR',
+                'email' => 'hr@ecomma.vn',
+                'password' => Hash::make('abcD@123'),
+            ]);
+        });
+
         $superAdminRole = Role::findByName(Acl::ROLE_SUPER_ADMIN);
         $adminRole = Role::findByName(Acl::ROLE_ADMIN);
         $staffRole = Role::findByName(Acl::ROLE_STAFF);
         $teacherRole = Role::findByName(Acl::ROLE_TEACHER);
+        $hrRole = Role::findByName(Acl::ROLE_HR);
+
 
         $superAdmin->syncRoles($superAdminRole);
         $admin->syncRoles($adminRole);
         $staff->syncRoles($staffRole);
         $teacher->syncRoles($teacherRole);
+        $hr->syncRoles($hrRole);
     }
 }

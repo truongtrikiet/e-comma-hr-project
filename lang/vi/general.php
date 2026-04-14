@@ -627,6 +627,7 @@ return [
         'cleared' => 'Đã thanh lý',
         'pending' => 'Đang chờ xử lý',
         'download_pdf' => 'Tải PDF',
+        'no_permissions_found' => 'Không tìm thấy quyền nào',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

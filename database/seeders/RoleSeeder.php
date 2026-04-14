@@ -1,4 +1,4 @@
-php<?php
+<?php
 
 namespace Database\Seeders;
 
@@ -17,6 +17,7 @@ class RoleSeeder extends Seeder
             'admin',
             'staff',
             'teacher',
+            'hr',
         ];
 
         foreach ($roles as $role) {

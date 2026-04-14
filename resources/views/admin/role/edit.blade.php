@@ -40,13 +40,19 @@
         <div class="row">
             <input type="hidden" name="id" value="{{$role->id}}">
 
-            <div class="form-check form-check-primary d-block new-control mb-3">
-                <input class="form-check-input chk-parent"
-                    type="checkbox"
-                    id="form-check-default"
-                    onclick="toggleAllCheckboxes(this)"
-                    >
-                <label class="form-check-label" for="form-check-default">{{ __('general.common.select_all') }}</label>
+            <div class="col-6 mb-3">
+                <div class="input-group">
+                    <input id="sRoleSearch" type="text" class="form-control" placeholder="Tìm quyền (nhấn Enter)" aria-label="Search permissions">
+                </div>
+
+                <div class="form-check form-check-primary d-block new-control mt-2 mb-3">
+                    <input class="form-check-input chk-parent"
+                        type="checkbox"
+                        id="form-check-default"
+                        onclick="toggleAllCheckboxes(this)"
+                        >
+                    <label class="form-check-label" for="form-check-default">{{ __('general.common.select_all') }}</label>
+                </div>
             </div>
 
             <x-form.form-multiple-checkbox
@@ -57,6 +63,10 @@
                 :label="__('general.common.have_permissions')"
                 :value="$role->permissions->pluck('name')->toArray()"
             />
+
+            <div id="permissionsEmpty" class="col-12 mt-2 mb-4 text-muted" style="display:none">
+                <span>{{ __('general.common.no_permissions_found')}}</span>
+            </div>
 
             <div class="col-lg-8">
                 <div class="mb-3">
@@ -69,35 +79,55 @@
     <x-slot:footerFiles>
         <script>
             $(document).ready(function() {
+                window.filterPermissions = function(term) {
+                    term = (term || '').toString().trim().toLowerCase();
+
+                    $('.form-check-label').each(function () {
+                        $(this).html($(this).text());
+                    });
+
+                    if (!term) {
+                        $('.form-check').show();
+                        return;
+                    }
+
+                    const regex = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+                    let found = false;
+
+                    $('.form-check').each(function() {
+                        const $label = $(this).find('.form-check-label');
+                        const text = $label.text().toLowerCase();
+
+                        if (text.includes(term)) {
+                            $label.html($label.text().replace(regex, '<span class="bg-warning">$1</span>'));
+                            $(this).show();
+                            found = true;
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    if (!found) {
+                        $('#permissionsEmpty').show();
+                    } else {
+                        $('#permissionsEmpty').hide();
+                    }
+                };
+
+                $('#sRoleSearch').on('input', function () {
+                    filterPermissions($(this).val());
+                });
+
                 $('#sRoleSearch').on('keypress', function (e) {
                     if (e.which === 13) {
                         e.preventDefault();
-
-                        const searchValue = $(this).val().toLowerCase();
-                        const regex = new RegExp('(' + searchValue + ')', 'gi');
-                        let found = false;
-
-                        $('.form-check-label').removeClass('bg-warning text-capitalize').each(function () {
-                            $(this).html($(this).text());
-                        });
-
-                        $('.form-check-label').filter(function() {
-                            return $(this).text().toLowerCase().includes(searchValue);
-                        }).each(function() {
-                            $(this).html(
-                                $(this).text().replace(regex, '<span class="bg-warning">$1</span>')
-                            );
-                            found = true;
-                        });
-
-                        if (found) {
-                            $('html, body').animate({
-                                scrollTop: $('.bg-warning:first').closest('.form-check').offset().top
-                            }, 400);
-                        } else {
-                            alert('Không tìm thấy quyền!');
-                        }
+                        filterPermissions($(this).val());
                     }
+                });
+
+                $('#clearRoleSearch').on('click', function () {
+                    $('#sRoleSearch').val('');
+                    filterPermissions('');
                 });
             });
             

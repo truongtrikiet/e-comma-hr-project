@@ -56,7 +56,8 @@ class VerticalMenu extends Component
                         'title' => __('Dashboard'),
                         'url' => route('staff.dashboard'),
                         'active' => Route::is(['staff.dashboard']),
-                        'show' => checkPermission(Acl::PERMISSION_VIEW_MENU_STAFF) || checkPermission(Acl::PERMISSION_VIEW_MENU_TEACHER),
+                        'show' => checkPermission(Acl::PERMISSION_VIEW_MENU_STAFF) 
+                            || checkPermission(Acl::PERMISSION_VIEW_MENU_TEACHER),
                     ],
                     [
                         'title' => __('general.menu.holiday_schedule_management.title'),

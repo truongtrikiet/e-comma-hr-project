@@ -28,6 +28,7 @@ class RolePermissionSeeder extends Seeder
         $adminRole = Role::findByName(Acl::ROLE_ADMIN);
         $staffRole = Role::findByName(Acl::ROLE_STAFF);
         $teacherRole = Role::findByName(Acl::ROLE_TEACHER);
+        $hrRole = Role::findByName(Acl::ROLE_HR);
 
         $superAdminRole->givePermissionTo(Acl::permissions());
         $adminRole->givePermissionTo(Acl::permissions([Acl::PERMISSION_PERMISSION_MANAGE]));
@@ -40,5 +41,10 @@ class RolePermissionSeeder extends Seeder
             Acl::PERMISSION_VIEW_MENU_TEACHER,
             Acl::PERMISSION_VIEW_MENU_DASHBOARD,
         ]);
+        $hrRole->givePermissionTo([
+            Acl::PERMISSION_VIEW_MENU_DASHBOARD,
+            Acl::PERMISSION_VIEW_MENU_HR,
+        ]);
+
     }
 }

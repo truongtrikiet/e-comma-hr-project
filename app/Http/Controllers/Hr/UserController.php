@@ -1,0 +1,185 @@
+<?php
+
+namespace App\Http\Controllers\Hr;
+
+use App\Acl\Acl;
+use App\Enum\EmployeeStatus;
+use App\Enum\GenderEnum;
+use App\Enum\UserStatus;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateProfileRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\User\UserResource;
+use App\Models\User;
+use App\Repositories\EmployeeType\EmployeeTypeRepositoryInterface;
+use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\School\SchoolRepositoryInterface;
+use App\Repositories\Subject\SubjectRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Services\RoleService;
+use App\Services\UserService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
+
+class UserController extends Controller
+{
+    public function __construct(
+        protected UserRepositoryInterface $userRepository,
+        protected UserService $userService,
+        protected RoleRepositoryInterface $roleRepository,
+        protected SchoolRepositoryInterface $schoolRepository,
+        protected RoleService $roleService,
+        protected SubjectRepositoryInterface $subjectRepository,
+        protected EmployeeTypeRepositoryInterface $employeeTypeRepository,
+    ) {
+        $this->middleware('permission:' . Acl::PERMISSION_USER_LIST)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_EDIT)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_DELETE)->only('destroy');
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $users = $this->userRepository->serverPaginationFiltering($request->all());
+
+            return UserResource::collection($users);
+        }
+
+        $schools = $this->schoolRepository->getSchoolActive();
+        $subjects = $this->subjectRepository->all();
+
+        return view('hr.user.index', compact('schools', 'subjects'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $roles = $this->roleService->getListExceptSuperAdmin();
+        $statuses = UserStatus::options();
+        $schools = $this->schoolRepository->getSchoolActive();
+        $subjects = $this->subjectRepository->all();
+        $genders = GenderEnum::options();
+        $employmentStatuses = EmployeeStatus::options();
+        $employeeTypes = $this->employeeTypeRepository->getActiveEmployeeTypes();
+
+        return view('hr.user.create', compact(
+            'roles', 
+            'statuses',
+            'schools',
+            'subjects',
+            'genders',
+            'employmentStatuses',
+            'employeeTypes'
+        ));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreUserRequest $request)
+    {
+        $this->userService->create($request->validated()) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.user.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.user.store'));
+
+        return to_route('hr.user.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user)
+    {
+        return view('hr.user.show', compact('user'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(User $user)
+    {
+        $roles = $this->roleService->getListExceptSuperAdmin();
+        $statuses = UserStatus::options();
+        $schools = $this->schoolRepository->getSchoolActive();
+        $subjects = $this->subjectRepository->all();
+        $genders = GenderEnum::options();
+        $employmentStatuses = EmployeeStatus::options();
+        $employeeTypes = $this->employeeTypeRepository->getActiveEmployeeTypes();
+
+        return view('hr.user.edit', compact(
+            'user', 
+            'roles',
+            'statuses', 
+            'schools',
+            'subjects',
+            'genders',
+            'employmentStatuses',
+            'employeeTypes'
+        ));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        $this->userService->update($user, $request->validated()) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.user.update'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.user.update'));
+
+        return to_route('hr.user.index');
+    }
+
+    /**
+     * Show the profile of the logged-in user.
+     */
+    public function profile()
+    {
+        $user = auth()->user();
+        $user->load(['userProfile', 'roles', 'school']);
+
+        return view('hr.user.user-profile.user-profile', compact('user'));
+    }
+
+    /**
+     * Update the profile of the logged-in user.
+     */
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        $this->userRepository->update(Auth::user(), $request->validated()) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.user.update'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.user.update'));
+
+        return redirect()->back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $user)
+    {
+        if ($this->userRepository->destroy($user))
+            return response()->json([
+                'message' => __('success.delete'),
+            ], Response::HTTP_OK);
+        return response()->json([
+            'message' => __('error.delete'),
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $this->userService->updateAvatar(Auth::user(), $request->file('avatar')) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.user.update_avatar'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.user.update_avatar'));
+
+        return redirect()->back();
+    }
+}

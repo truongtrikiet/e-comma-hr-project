@@ -20,6 +20,8 @@ final class Acl
     const ROLE_TEACHER = 'Teacher';
 
     const ROLE_STAFF = 'Staff';
+    
+    const ROLE_HR = 'HR';
 
     const ROLE_STUDENT = 'Student';
 
@@ -34,6 +36,8 @@ final class Acl
     const PERMISSION_VIEW_MENU_STAFF = 'View Staff Menu';
 
     const PERMISSION_VIEW_MENU_TEACHER = 'View Teacher Menu';
+
+    const PERMISSION_VIEW_MENU_HR = 'View HR Menu';
 
     const PERMISSION_PERMISSION_MANAGE = 'Manage Permissions';
 

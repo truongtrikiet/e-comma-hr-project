@@ -625,6 +625,7 @@ return [
         'cleared' => 'Cleared',
         'pending' => 'Pending',
         'download_pdf' => 'Download PDF',
+        'no_permissions_found' => 'No permissions found',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',
