@@ -17,6 +17,7 @@ class UserUpdateNewRoleSeeder extends Seeder
         $this->updateUserByRole('admin', Acl::ROLE_ADMIN);
         $this->updateUserByRole('staff', Acl::ROLE_STAFF);
         $this->updateUserByRole('teacher', Acl::ROLE_TEACHER);
+        $this->updateUserByRole('hr', Acl::ROLE_HR);
     }
 
     /**

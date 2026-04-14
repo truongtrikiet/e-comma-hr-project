@@ -6,6 +6,7 @@ use App\Acl\Acl;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Arr;
 
 /**
  * The repository for Role Model

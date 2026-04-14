@@ -30,6 +30,10 @@ class CheckUserRoleRedirect
             return to_route('staff.dashboard');
         }
 
+        if ($user->hasAnyRole([Acl::ROLE_HR]) && ! Route::is(['hr.*'])) {
+            return to_route('hr.dashboard');
+        }
+
         return $next($request);
     }
 }

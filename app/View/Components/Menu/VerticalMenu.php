@@ -57,7 +57,9 @@ class VerticalMenu extends Component
                         'title' => __('Dashboard'),
                         'url' => route('admin.dashboard'),
                         'active' => Route::is(['admin.dashboard']),
-                        'show' => checkPermission(Acl::PERMISSION_VIEW_MENU_SUPER_ADMIN) || checkPermission(Acl::PERMISSION_VIEW_MENU_ADMIN),
+                        'show' => checkPermission(Acl::PERMISSION_VIEW_MENU_SUPER_ADMIN) 
+                            || checkPermission(Acl::PERMISSION_VIEW_MENU_ADMIN)
+                            || checkPermission(Acl::PERMISSION_VIEW_MENU_HR),
                     ],
                     [
                         'title' => __('general.menu.school_management.school'),

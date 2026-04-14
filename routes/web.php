@@ -33,6 +33,10 @@ Route::group(['middleware' => 'web'], function () {
             if ($user->hasAnyRole([Acl::ROLE_STAFF, Acl::ROLE_TEACHER])) {
                 return redirect()->route('staff.dashboard');
             }
+
+            if ($user->hasAnyRole([Acl::ROLE_HR])) {
+                return redirect()->route('hr.dashboard');
+            }
             return response()->view('auth.blocked');
         })->name('auth.index');
 
@@ -51,6 +55,13 @@ Route::group(['middleware' => 'web'], function () {
         ->middleware(['check_user_role_redirect', 'auth', 'role:' . Acl::ROLE_STAFF. '|' . Acl::ROLE_TEACHER])
         ->group(function () {
             include 'v1/web/staff.php';
+        });
+
+    Route::domain(config('subdomain.hr') . '.' . config('subdomain.school') . '.' . config('app.url'))
+        ->scopeBindings()
+        ->middleware(['check_user_role_redirect', 'auth', 'role:' . Acl::ROLE_HR])
+        ->group(function () {
+            include 'v1/web/hr.php';
         });
 });
 
