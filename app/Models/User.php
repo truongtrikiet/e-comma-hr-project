@@ -189,4 +189,14 @@ class User extends Authenticatable implements HasMedia, Auditable
     {
         return $this->belongsTo(School::class);
     }
+
+    /**
+     * Define a one-to-one relationship with the Salary model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function salary()
+    {
+        return $this->hasOne(Salary::class);
+    }
 }

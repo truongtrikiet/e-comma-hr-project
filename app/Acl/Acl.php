@@ -209,6 +209,14 @@ final class Acl
 
     const PERMISSION_CANDIDATE_DELETE = 'Delete Candidate';
 
+    const PERMISSION_SALARY_LIST = 'Salary List';
+
+    const PERMISSION_SALARY_ADD = 'Add Salary';
+
+    const PERMISSION_SALARY_EDIT = 'Edit Salary';
+
+    const PERMISSION_SALARY_DELETE = 'Delete Salary';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

@@ -628,6 +628,11 @@ return [
         'pending' => 'Đang chờ xử lý',
         'download_pdf' => 'Tải PDF',
         'no_permissions_found' => 'Không tìm thấy quyền nào',
+        'gross_amount' => 'Số tiền lương cơ bản',
+        'net_amount' => 'Số tiền lương thực nhận',
+        'tax_percent' => 'Tỷ lệ thuế',
+        'tax_amount' => 'Số tiền thuế',
+        'approved' => 'Đã duyệt',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

@@ -32,6 +32,8 @@ use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\Salary\SalaryRepository;
+use App\Repositories\Salary\SalaryRepositoryInterface;
 use App\Repositories\School\SchoolRepository;
 use App\Repositories\School\SchoolRepositoryInterface;
 use App\Repositories\SchoolWorkingCalendar\SchoolWorkingCalendarRepository;
@@ -72,5 +74,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(ContractAttributeRepositoryInterface::class, ContractAttributeRepository::class);
         $this->app->singleton(ContractAttributeValueRepositoryInterface::class, ContractAttributeValueRepository::class);
         $this->app->singleton(AppendixContractRepositoryInterface::class, AppendixContractRepository::class);
+        $this->app->singleton(SalaryRepositoryInterface::class, SalaryRepository::class);
     }
 }

@@ -101,6 +101,12 @@ class VerticalMenu extends Component
                         'url' => route('admin.employee-type.index'),
                         'active' => Route::is(['admin.employee-type.*']),
                         'show' => checkPermissions([Acl::PERMISSION_EMPLOYEE_TYPE_LIST]),
+                    ],
+                    [
+                        'title' => __('general.menu.salary_management.manage_salary'),
+                        'url' => route('admin.salary.index'),
+                        'active' => Route::is(['admin.salary.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_SALARY_LIST]),
                     ]
                 ],
             ],
