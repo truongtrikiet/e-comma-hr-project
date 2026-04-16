@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Staff\Navbar;
+namespace App\View\Components\Hr\Navbar;
 
 use Illuminate\View\Component;
 
@@ -30,6 +30,6 @@ class StyleVerticalMenu extends Component
      */
     public function render()
     {
-        return view('components.staff.navbar.style-vertical-menu');
+        return view('components.hr.navbar.style-vertical-menu');
     }
 }

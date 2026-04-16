@@ -626,6 +626,11 @@ return [
         'pending' => 'Pending',
         'download_pdf' => 'Download PDF',
         'no_permissions_found' => 'No permissions found',
+        'gross_amount' => 'Gross Amount',
+        'net_amount' => 'Net Amount',
+        'tax_percent' => 'Tax Percent',
+        'tax_amount' => 'Tax Amount',
+        'approved' => 'Approved',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

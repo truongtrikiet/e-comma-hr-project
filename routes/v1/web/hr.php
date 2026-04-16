@@ -15,4 +15,5 @@ Route::prefix('')->group(function () {
     include 'hr/furlough_policy.php';
     include 'hr/furlough_policy_template.php';
     include 'hr/editor_upload.php';
+    include 'hr/salary.php';
 });

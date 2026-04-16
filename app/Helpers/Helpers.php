@@ -187,4 +187,22 @@ if (!function_exists('extractImageUrls')) {
             return $code . str_pad($id, 4, '0', STR_PAD_LEFT);
         }
     }
+
+    if (!function_exists('customPriceFormatCurrency')) {
+
+        /**
+         * Custom price format currency.
+         *
+         * @param $value
+         * @param string $currency
+         * @return string
+         */
+        function customPriceFormatCurrency($value, string $currency = 'đ'): string
+        {
+            if (empty($value)) {
+                return '0' . $currency;
+            }
+            return number_format($value, 0, '.', ',') . $currency;
+        }
+    }
 }
