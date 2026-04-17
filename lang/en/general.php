@@ -302,6 +302,12 @@ return [
             'create_school_working_calendar' => 'Create New School Working Calendar',
             'edit_school_working_calendar' => 'Edit School Working Calendar',
         ],
+        'ai_profile_management' => [
+            'title' => 'AI Profile',
+            'manage_ai_profile' => 'AI Profile Management',
+            'create_ai_profile' => 'Create New AI Profile',
+            'edit_ai_profile' => 'Edit AI Profile',
+        ],
     ],
 
     'dashboard' => [
@@ -631,6 +637,13 @@ return [
         'tax_percent' => 'Tax Percent',
         'tax_amount' => 'Tax Amount',
         'approved' => 'Approved',
+        'provider' => 'Provider',
+        'model' => 'Model',
+        'api_key' => 'API Key',
+        'endpoint' => 'Endpoint',
+        'call_api' => 'Call API',
+        'response' => 'Response',
+        'request' => 'Request',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',
