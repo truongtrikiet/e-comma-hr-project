@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\AIProfile\AIProfileRepository;
+use App\Repositories\AIProfile\AIProfileRepositoryInterface;
 use App\Repositories\AppendixContract\AppendixContractRepository;
 use App\Repositories\AppendixContract\AppendixContractRepositoryInterface;
 use App\Repositories\Contract\ContractRepository;
@@ -75,5 +77,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(ContractAttributeValueRepositoryInterface::class, ContractAttributeValueRepository::class);
         $this->app->singleton(AppendixContractRepositoryInterface::class, AppendixContractRepository::class);
         $this->app->singleton(SalaryRepositoryInterface::class, SalaryRepository::class);
+        $this->app->singleton(AIProfileRepositoryInterface::class, AIProfileRepository::class);
     }
 }

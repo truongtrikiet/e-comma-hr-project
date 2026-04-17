@@ -23,4 +23,5 @@ Route::prefix('')->group(function () {
     include 'admin/contract_type.php';
     include 'admin/editor_upload.php';
     include 'admin/salary.php';
+    include 'admin/ai_profile.php';
 });

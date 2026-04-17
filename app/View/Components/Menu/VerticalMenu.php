@@ -202,8 +202,14 @@ class VerticalMenu extends Component
             ],
             [
                 'title' => __('general.menu.setting_management.title'),
-                'icon' => 'icon icon-house-pricing',
+                'icon' => 'icon icon-preferences-circle',
                 'child' => [
+                    [
+                        'title' => __('general.menu.ai_profile_management.manage_ai_profile'),
+                        'url' => route('admin.ai_profile.index'),
+                        'active' => Route::is(['admin.ai_profile.*']),
+                        'show' => checkPermission(Acl::PERMISSION_AI_PROFILE_LIST),
+                    ],
                     [
                         'title' => __('general.menu.role_management.role'),
                         'url' => route('admin.role.index'),

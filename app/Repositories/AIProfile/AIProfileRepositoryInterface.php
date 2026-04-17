@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Repositories\Department;
+namespace App\Repositories\AIProfile;
 
 use App\Repositories\RepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
- * The repository interface for the Department Model
+ * The repository interface for the AIProfile Model
  */
-interface DepartmentRepositoryInterface extends RepositoryInterface
+interface AIProfileRepositoryInterface extends RepositoryInterface
 {
     /**
      * Paginating, ordering and searching through pages for server side index table for the Admin.

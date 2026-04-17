@@ -302,6 +302,12 @@ return [
             'create_school_working_calendar' => 'Thêm mới lịch làm việc của trường học',
             'edit_school_working_calendar' => 'Chỉnh sửa lịch làm việc của trường học',
         ],
+        'ai_profile_management' => [
+            'title' => 'Hồ sơ AI',
+            'manage_ai_profile' => 'Quản lý hồ sơ AI',
+            'create_ai_profile' => 'Thêm mới hồ sơ AI',
+            'edit_ai_profile' => 'Chỉnh sửa hồ sơ AI',
+        ],
     ],
 
     'dashboard' => [
@@ -633,6 +639,13 @@ return [
         'tax_percent' => 'Tỷ lệ thuế',
         'tax_amount' => 'Số tiền thuế',
         'approved' => 'Đã duyệt',
+        'provider' => 'Nhà cung cấp',
+        'model' => 'Mô hình',
+        'api_key' => 'API Key',
+        'endpoint' => 'Endpoint',
+        'call_api' => 'Gọi API',
+        'response' => 'Phản hồi',
+        'request' => 'Yêu cầu',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

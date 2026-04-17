@@ -217,6 +217,14 @@ final class Acl
 
     const PERMISSION_SALARY_DELETE = 'Delete Salary';
 
+    const PERMISSION_AI_PROFILE_LIST = 'AI Profile List';
+
+    const PERMISSION_AI_PROFILE_ADD = 'Add AI Profile';
+
+    const PERMISSION_AI_PROFILE_EDIT = 'Edit AI Profile';
+
+    const PERMISSION_AI_PROFILE_DELETE = 'Delete AI Profile';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */
