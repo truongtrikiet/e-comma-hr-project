@@ -6,6 +6,8 @@ use App\Repositories\AIProfile\AIProfileRepository;
 use App\Repositories\AIProfile\AIProfileRepositoryInterface;
 use App\Repositories\AppendixContract\AppendixContractRepository;
 use App\Repositories\AppendixContract\AppendixContractRepositoryInterface;
+use App\Repositories\CandidateScreening\CandidateScreeningRepository;
+use App\Repositories\CandidateScreening\CandidateScreeningRepositoryInterface;
 use App\Repositories\Contract\ContractRepository;
 use App\Repositories\Contract\ContractRepositoryInterface;
 use App\Repositories\ContractAttribute\ContractAttributeRepository;
@@ -78,5 +80,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(AppendixContractRepositoryInterface::class, AppendixContractRepository::class);
         $this->app->singleton(SalaryRepositoryInterface::class, SalaryRepository::class);
         $this->app->singleton(AIProfileRepositoryInterface::class, AIProfileRepository::class);
+        $this->app->singleton(CandidateScreeningRepositoryInterface::class, CandidateScreeningRepository::class);
     }
 }

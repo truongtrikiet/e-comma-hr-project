@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\FurloughRequestSubmitted;
 use Carbon\Carbon;
+use RuntimeException;
 
 class FurloughService
 {
@@ -141,6 +142,11 @@ class FurloughService
      */
     public function approved($furlough, $data)
     {
+        $policy = $this->getFurloughPolicy($furlough->user, $furlough->furlough_type_id);
+        if (! $policy) {
+            throw new RuntimeException('No valid furlough policy found');
+        }
+
         try {
             DB::beginTransaction();
 
@@ -242,7 +248,7 @@ class FurloughService
 
         try {
             $start = Carbon::parse($data['start_time'])->startOfDay();
-            $end   = Carbon::parse($data['end_time'])->startOfDay();
+            $end = Carbon::parse($data['end_time'])->startOfDay();
         } catch (\Throwable $e) {
             Log::warning('calculateNumberOfDays: invalid dates', $data);
             return 0.0;
@@ -298,15 +304,29 @@ class FurloughService
             'furlough_type_id' => $furlough->furlough_type_id,
         ])->lockForUpdate()->firstOrFail();
 
-        $number = (float) $furlough->number_of_days;
+        $days = (float) $furlough->number_of_days;
 
-        if ($number > ($balance->remaining_days ?? 0)) {
-            session()->flash(NOTIFICATION_ERROR, __('Not enough furlough balance to approve this request. Please contact admin for support.'));
-            return;
+        $carry = (float) $balance->carry_remaining_days;
+        $remaining = (float) $balance->remaining_days;
+
+        if ($days > ($carry + $remaining)) {
+            throw new RuntimeException('Not enough furlough balance');
         }
 
-        $balance->used_days = round(($balance->used_days ?? 0) + $number, 2);
-        $balance->remaining_days = round(($balance->remaining_days ?? 0) - $number, 2);
+        $fromCarry = min($carry, $days);
+        $balance->carry_remaining_days = round($carry - $fromCarry, 2);
+
+        $left = round($days - $fromCarry, 2);
+
+        if ($left > 0) {
+            $balance->remaining_days = round($remaining - $left, 2);
+        }
+
+        $balance->used_days = round(
+            ($balance->used_days ?? 0) + $days,
+            2
+        );
+
         $balance->save();
     }
 
@@ -320,15 +340,38 @@ class FurloughService
             'furlough_type_id' => $furlough->furlough_type_id,
         ])->lockForUpdate()->first();
 
-        if (!$balance) {
-            session()->flash(NOTIFICATION_ERROR, __('No furlough balance found to restore. Please contact admin for support.'));
-            return;
+        if (! $balance) {
+            throw new RuntimeException('No furlough balance found');
         }
 
-        $number = (float) $furlough->number_of_days;
+        $days = (float) $furlough->number_of_days;
+        $policy = $this->getFurloughPolicy($furlough->user, $furlough->furlough_type_id);
+        $maxDays = (float) ($policy->max_days ?? 0);
 
-        $balance->used_days = round(max(0, $balance->used_days - $number), 2);
-        $balance->remaining_days = round(($balance->remaining_days ?? 0) + $number, 2);
+        $restoreToRemaining = min(
+            $days,
+            max(0, $maxDays - $balance->remaining_days)
+        );
+
+        $balance->remaining_days = round(
+            $balance->remaining_days + $restoreToRemaining,
+            2
+        );
+
+        $left = round($days - $restoreToRemaining, 2);
+
+        if ($left > 0) {
+            $balance->carry_remaining_days = round(
+                ($balance->carry_remaining_days ?? 0) + $left,
+                2
+            );
+        }
+
+        $balance->used_days = round(
+            max(0, ($balance->used_days ?? 0) - $days),
+            2
+        );
+
         $balance->save();
     }
 }

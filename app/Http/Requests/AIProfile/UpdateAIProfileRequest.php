@@ -48,7 +48,6 @@ class UpdateAIProfileRequest extends FormRequest
             'api_key_encrypted' => [
                 'required',
                 'string',
-                'exists:ai_profiles,api_key_encrypted',
             ],
             'status' => [
                 'required',

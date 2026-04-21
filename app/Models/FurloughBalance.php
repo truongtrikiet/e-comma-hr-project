@@ -16,6 +16,7 @@ class FurloughBalance extends Model
         'total_days',
         'used_days',
         'remaining_days',
+        'carry_remaining_days',
         'last_accrual_at',
         'last_reset_at',
         'created_at',

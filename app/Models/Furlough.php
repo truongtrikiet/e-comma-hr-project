@@ -27,8 +27,10 @@ class Furlough extends Model
         'number_of_days',
         'use_balance',
         'furlough_balance_id',
+        'deduct_from_carry',
+        'deduct_from_remaining',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [
@@ -39,6 +41,8 @@ class Furlough extends Model
         'furlough_status' => FurloughStatus::class,
         'use_balance' => UseBalanceFurloughEnum::class,
         'number_of_days' => 'float',
+        'deduct_from_carry' => 'float',
+        'deduct_from_remaining' => 'float',
     ];
 
     /**

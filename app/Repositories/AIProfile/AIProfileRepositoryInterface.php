@@ -17,4 +17,9 @@ interface AIProfileRepositoryInterface extends RepositoryInterface
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function serverPaginationFiltering($searchParams): LengthAwarePaginator;
+
+    /**
+     * Get profile by school.
+     */
+    public function getAIProfileBySchool($schoolId);
 }

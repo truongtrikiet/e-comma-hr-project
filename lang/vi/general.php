@@ -308,6 +308,11 @@ return [
             'create_ai_profile' => 'Thêm mới hồ sơ AI',
             'edit_ai_profile' => 'Chỉnh sửa hồ sơ AI',
         ],
+        'candidate_screening_management' => [
+            'title' => 'Sàng lọc ứng viên',
+            'manage_candidate_screening' => 'Quản lý sàng lọc ứng viên',
+            'candidate_detail' => 'Chi tiết ứng viên',
+        ],
     ],
 
     'dashboard' => [
@@ -646,6 +651,19 @@ return [
         'call_api' => 'Gọi API',
         'response' => 'Phản hồi',
         'request' => 'Yêu cầu',
+        'non_suitable' => 'Không phù hợp',
+        'suitable' => 'Phù hợp',
+        'maybe_suitable' => 'Có thể phù hợp',
+        'candidate' => 'Ứng viên',
+        'employee' => 'Nhân viên',
+        'emailed_at' => 'Ngày gửi email',
+        'position_type' => 'Loại vị trí',
+        'ai_profile' => 'Hồ sơ AI',
+        'teacher' => 'Giáo viên',
+        'passed' => 'Hợp lệ',
+        'failed' => 'Không hợp lệ',
+        'email_pending' => 'Đang chờ gửi email',
+        'email_sent' => 'Đã gửi email',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
