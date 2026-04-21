@@ -93,7 +93,20 @@ class VerticalMenu extends Component
                         'url' => route('hr.salary.index'),
                         'active' => Route::is(['hr.salary.*']),
                         'show' => checkPermissions([Acl::PERMISSION_SALARY_LIST]),
-                    ]
+                    ],
+                ],
+            ],
+            [
+                'title' => __('general.menu.candidate_screening_management.title'),
+                'icon' => 'icon icon-users-mm',
+                'type' => 'dropdown',
+                'child' => [
+                    [
+                        'title' => __('general.menu.candidate_screening_management.manage_candidate_screening'),
+                        'url' => route('hr.candidate-screening.index'),
+                        'active' => Route::is(['hr.candidate-screening.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_CANDIDATE_SCREENING_LIST]),
+                    ],
                 ],
             ],
         ]);
@@ -142,28 +155,40 @@ class VerticalMenu extends Component
                     ],
                 ],
             ],
+            [
+                'title' => __('general.menu.setting_management.title'),
+                'icon' => 'icon icon-preferences-circle',
+                'child' => [
+                    [
+                        'title' => __('general.menu.ai_profile_management.manage_ai_profile'),
+                        'url' => route('hr.ai_profile.index'),
+                        'active' => Route::is(['hr.ai_profile.*']),
+                        'show' => checkPermission(Acl::PERMISSION_AI_PROFILE_LIST),
+                    ],
+                ],
+            ],
         ]);
     }
 
    private function buildMenuPurpose(): void
    {
        $this->menuItems = array_merge($this->menuItems, [
-           [
+            [
                'type' => 'label',
                'title' => __('general.common.purpose'),
-           ],
-           [
-               'title' => __('general.menu.furlough_management.title'),
-               'icon' => 'icon icon-window-add',
-               'child' => [
+            ],
+            [
+                'title' => __('general.menu.furlough_management.title'),
+                'icon' => 'icon icon-window-add',
+                'child' => [
                     [
                         'title' => __('general.menu.furlough_management.manage_furlough'),
                         'url' => route('hr.furlough.index'),
                         'active' => Route::is(['hr.furlough.*']),
                         'show' => checkPermission(Acl::PERMISSION_FURLOUGH_LIST),
                     ],
-               ],
-           ],
+                ],
+            ],
        ]);
    }
 

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
+use Smalot\PdfParser\Parser;
 
 class ResumeTextService
 {
@@ -20,7 +21,26 @@ class ResumeTextService
                 return file_get_contents($file->getRealPath());
 
             case 'pdf':
-                return (string) shell_exec('pdftotext ' . escapeshellarg($file->getRealPath()) . ' -');
+                $realPath = $file->getRealPath();
+
+                $pdftotext = trim((string) shell_exec('command -v pdftotext 2>/dev/null'));
+                if ($pdftotext) {
+                    $out = @shell_exec($pdftotext . ' ' . escapeshellarg($realPath) . ' - 2>/dev/null');
+                    return $out ? (string) $out : '';
+                }
+
+                if (class_exists(Parser::class)) {
+                    try {
+                        $parser = new Parser();
+                        $pdf = $parser->parseFile($realPath);
+                        $text = $pdf->getText();
+                        return $text ? (string) $text : '';
+                    } catch (\Throwable $e) {
+                        return '';
+                    }
+                }
+
+                return '';
 
             case 'docx':
                 $zip = new \ZipArchive();
