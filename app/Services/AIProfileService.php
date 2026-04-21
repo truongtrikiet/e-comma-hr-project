@@ -86,11 +86,16 @@ class AIProfileService
             $apiKey = $apiKey ?? config('ai.api_key');
 
             $payload = [
-                'model' => $model,
-                'provider' => $profileModel->provider ?? null,
-                'prompt' => 'Test connection from ' . config('app.name', 'application'),
-                'options' => [
-                    'max_tokens' => 10,
+                'contents' => [
+                    [
+                    'role' => 'user',
+                    'parts' => [
+                        ['text' => 'Test connection from ' . config('app.name', 'application')],
+                    ],
+                    ],
+                ],
+                'generationConfig' => [
+                    'max_output_tokens' => 10,
                     'temperature' => 0.0,
                 ],
             ];

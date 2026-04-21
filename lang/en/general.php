@@ -308,6 +308,11 @@ return [
             'create_ai_profile' => 'Create New AI Profile',
             'edit_ai_profile' => 'Edit AI Profile',
         ],
+        'candidate_screening_management' => [
+            'title' => 'Candidate Screening',
+            'manage_candidate_screening' => 'Manage Candidate Screening',
+            'candidate_detail' => 'Candidate Details',
+        ],
     ],
 
     'dashboard' => [
@@ -644,6 +649,19 @@ return [
         'call_api' => 'Call API',
         'response' => 'Response',
         'request' => 'Request',
+        'non_suitable' => 'Non-Suitable',
+        'suitable' => 'Suitable',
+        'maybe_suitable' => 'Maybe Suitable',
+        'candidate' => 'Candidate',
+        'employee' => 'Employee',
+        'emailed_at' => 'Emailed At',
+        'position_type' => 'Position Type',
+        'ai_profile' => 'AI Profile',
+        'teacher' => 'Teacher',
+        'passed' => 'Passed',
+        'failed' => 'Failed',
+        'email_pending' => 'Email Pending',
+        'email_sent' => 'Email Sent',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

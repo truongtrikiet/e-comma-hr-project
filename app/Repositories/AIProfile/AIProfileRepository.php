@@ -66,4 +66,15 @@ class AIProfileRepository extends BaseRepository implements AIProfileRepositoryI
 
         return $query->paginate($limit);
     }
+
+    /**
+     * Get profile by school.
+     */
+    public function getAIProfileBySchool($schoolId)
+    {
+        return $this->model
+            ->where('school_id', $schoolId)
+            ->where('status', ActiveStatus::ACTIVE->value)
+            ->get();
+    }
 }

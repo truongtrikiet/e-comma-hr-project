@@ -19,14 +19,14 @@ class AccrueFurloughBalance extends Command
      *
      * @var string
      */
-    protected $signature = 'furlough:accrue {--school_id= : Optional school id to limit processing}';
+    protected $signature = 'furlough:accrue';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Accrue furlough balances for users according to FurloughPolicy (monthly accrual and resets)';
+    protected $description = 'Accrue furlough balances by policy';
 
     /**
      * Execute the console command.
@@ -37,15 +37,18 @@ class AccrueFurloughBalance extends Command
 
         $now = Carbon::now();
         $policies = FurloughPolicy::query()
-            ->when($this->option('school_id'), fn ($q, $id) => $q->where('school_id', $id))
+            // ->when($this->option('school_id'), fn ($q, $id) => $q->where('school_id', $id))
             ->where('status', ActiveStatus::ACTIVE)
             ->get();
 
         foreach ($policies as $policy) {
-            $users = User::where('school_id', $policy->school_id)
-                ->whereHas('userProfile', fn ($q) =>
+            $users = User::query()
+                ->where('school_id', $policy->school_id)
+                ->where('status', ActiveStatus::ACTIVE)
+                ->whereHas('userProfile', function ($q) use ($policy) {
                     $q->where('employee_type_id', $policy->employee_type_id)
-                )->pluck('id');
+                    ->where('status', ActiveStatus::ACTIVE);
+                })->pluck('id');
 
             foreach ($users as $userId) {
                 try {
@@ -90,8 +93,11 @@ class AccrueFurloughBalance extends Command
     /**
      * Handle yearly reset logic for a user's furlough balance based on the policy.
      */
-    protected function handleYearlyReset(FurloughBalance $balance, FurloughPolicy $policy, Carbon $now): void
-    {
+    protected function handleYearlyReset(
+        FurloughBalance $balance,
+        FurloughPolicy $policy,
+        Carbon $now
+    ): void {
         if ($policy->reset_type !== ResetTypeEnum::YEARLY) {
             return;
         }
@@ -104,52 +110,42 @@ class AccrueFurloughBalance extends Command
             return;
         }
 
-        if ($policy->carry_forward) {
-            $remaining = max(0, (float) $balance->remaining_days);
-            $cap = $policy->max_days ? (float) $policy->max_days : null;
+        $balance->carry_remaining_days = round(
+            (float) $balance->remaining_days,
+            2
+        );
 
-            if ($cap !== null) {
-                $remaining = min($remaining, $cap);
-                $balance->total_days = $cap;
-            } else {
-                $balance->total_days = $remaining;
-            }
-
-            $balance->remaining_days = $remaining;
-            $balance->used_days = 0;
-        } else {
-            $cap = (float) ($policy->max_days ?? 0);
-            $balance->total_days = $cap;
-            $balance->used_days = 0;
-            $balance->remaining_days = $cap;
-        }
-
+        $balance->remaining_days = 0;
+        $balance->used_days = 0;
         $balance->last_reset_at = $now;
+
         $balance->save();
     }
 
     /**
      * Handle monthly accrual logic for a user's furlough balance based on the policy.
      */
-    protected function handleMonthlyAccrual(FurloughBalance $balance, FurloughPolicy $policy, Carbon $now): void
-    {
+    protected function handleMonthlyAccrual(
+        FurloughBalance $balance,
+        FurloughPolicy $policy,
+        Carbon $now
+    ): void {
         $accrual = (float) ($policy->accrual_per_month ?? 0);
-        if ($accrual <= 0) return;
+        if ($accrual <= 0) {
+            return;
+        }
 
         $monthStart = $now->copy()->startOfMonth();
         if ($balance->last_accrual_at && $balance->last_accrual_at >= $monthStart) {
             return;
         }
 
-        $cap = $policy->max_days ? (float) $policy->max_days : null;
+        $maxDays = (float) ($policy->max_days ?? 0);
 
-        $balance->total_days = $cap
-            ? min($cap, $balance->total_days + $accrual)
-            : $balance->total_days + $accrual;
-
-        $balance->remaining_days = $cap
-            ? min($cap - $balance->used_days, $balance->remaining_days + $accrual)
-            : $balance->remaining_days + $accrual;
+        $balance->remaining_days = min(
+            $maxDays,
+            round($balance->remaining_days + $accrual, 2)
+        );
 
         $balance->last_accrual_at = $now;
         $balance->save();

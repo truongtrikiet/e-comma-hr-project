@@ -225,6 +225,16 @@ final class Acl
 
     const PERMISSION_AI_PROFILE_DELETE = 'Delete AI Profile';
 
+    const PERMISSION_CANDIDATE_SCREENING_LIST = 'Candidate Screening List';
+
+    const PERMISSION_CANDIDATE_SCREENING_ADD = 'Add Candidate Screening';
+
+    const PERMISSION_CANDIDATE_SCREENING_EDIT = 'Edit Candidate Screening';
+
+    const PERMISSION_CANDIDATE_SCREENING_DELETE = 'Delete Candidate Screening';
+
+    const PERMISSION_CANDIDATE_SCREENING_VIEW = 'View Candidate Screening';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

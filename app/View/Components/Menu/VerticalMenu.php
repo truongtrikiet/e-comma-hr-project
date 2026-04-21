@@ -136,6 +136,19 @@ class VerticalMenu extends Component
                     ],
                 ],
             ],
+            [
+                'title' => __('general.menu.candidate_screening_management.title'),
+                'icon' => 'icon icon-users-mm',
+                'type' => 'dropdown',
+                'child' => [
+                    [
+                        'title' => __('general.menu.candidate_screening_management.manage_candidate_screening'),
+                        'url' => route('admin.candidate-screening.index'),
+                        'active' => Route::is(['admin.candidate-screening.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_CANDIDATE_SCREENING_LIST]),
+                    ],
+                ],
+            ],
         ]);
     }
 
