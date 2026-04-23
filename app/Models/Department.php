@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 class Department extends Model
@@ -23,6 +24,7 @@ class Department extends Model
         'updated_at',
         'parent_id',
         'school_id',
+        'head_user_id',
     ];
 
     protected $casts = [
@@ -77,5 +79,25 @@ class Department extends Model
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
+    }
+
+    /**
+     * Users that belong to this department.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'department_id', 'id');
+    }
+
+    /**
+     * Define a one-to-one relationship with the User model for the department head.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function head(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'head_user_id', 'id');
     }
 }

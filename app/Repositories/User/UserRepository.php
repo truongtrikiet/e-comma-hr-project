@@ -176,4 +176,37 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                      ->latest()
                      ->get();
     }
+
+    /**
+     * Get all users in school that are not assigned to any department.
+     *
+     * @return Collection
+     */
+    public function getAllUsersBySchoolId(int $schoolId): Collection
+    {
+        return $this->model
+            ->where('school_id', $schoolId)
+            ->whereNull('department_id')
+            ->latest()
+            ->get();
+    }
+
+    /**
+     * Get users available for assignment users without department or users.
+     */
+    public function getAvailableUsersBySchoolId(int $schoolId, ?int $departmentId = null): Collection
+    {
+        $query = $this->model->newQuery()->where('school_id', $schoolId);
+
+        if ($departmentId) {
+            $query->where(function($q) use ($departmentId) {
+                $q->whereNull('department_id')
+                  ->orWhere('department_id', $departmentId);
+            });
+        } else {
+            $query->whereNull('department_id');
+        }
+
+        return $query->latest()->get();
+    }
 }

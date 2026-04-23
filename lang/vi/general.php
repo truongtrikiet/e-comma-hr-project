@@ -664,6 +664,8 @@ return [
         'failed' => 'Không hợp lệ',
         'email_pending' => 'Đang chờ gửi email',
         'email_sent' => 'Đã gửi email',
+        'users' => 'Danh sách nhân viên',
+        'no_users_assigned' => 'Không có nhân viên nào',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

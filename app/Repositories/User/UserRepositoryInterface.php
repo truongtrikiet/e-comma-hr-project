@@ -63,4 +63,20 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @return Collection
      */
     public function getUsersBySchoolId(int $schoolId): Collection;
+
+    /**
+     * Get all users in school that are unassigned to any department.
+     *
+     * @return Collection
+     */
+    public function getAllUsersBySchoolId(int $schoolId): Collection;
+
+    /**
+     * Get users available for assignment users without department or users.
+     *
+     * @param int $schoolId
+     * @param int|null $departmentId
+     * @return Collection
+     */
+    public function getAvailableUsersBySchoolId(int $schoolId, ?int $departmentId = null): Collection;
 }

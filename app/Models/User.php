@@ -15,6 +15,7 @@ use OwenIt\Auditing\Auditable as AuditingTrait;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -63,6 +64,7 @@ class User extends Authenticatable implements HasMedia, Auditable
         'email_verified_at',
         'remember_token',
         'school_id',
+        'department_id',
     ];
 
     /**
@@ -198,5 +200,26 @@ class User extends Authenticatable implements HasMedia, Auditable
     public function salary()
     {
         return $this->hasOne(Salary::class);
+    }
+
+    /**
+     * Define a one-to-one relationship with the Department model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    /**
+     * If a user is the head of a department, this returns that Department.
+     * Inverse of Department::head() where Department stores `head_user_id`.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function headedDepartment(): HasOne
+    {
+        return $this->hasOne(Department::class, 'head_user_id', 'id');
     }
 }
