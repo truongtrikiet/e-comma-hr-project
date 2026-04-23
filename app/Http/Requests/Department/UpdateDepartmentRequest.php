@@ -54,6 +54,18 @@ class UpdateDepartmentRequest extends FormRequest
                 'integer',
                 'exists:schools,id'
             ],
+            'head_user_id' => [
+                'nullable',
+                'integer',
+            ],
+            'user_ids' => [
+                'nullable',
+                'array'
+            ],
+            'user_ids.*' => [
+                'integer',
+                'exists:users,id'
+            ],
         ];
     }
 }

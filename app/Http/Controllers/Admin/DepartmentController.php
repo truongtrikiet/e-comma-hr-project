@@ -6,12 +6,15 @@ use App\Acl\Acl;
 use App\Enum\DepartmentType;
 use App\Enum\SettingStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Department\AddUserToDepartmentRequest;
 use App\Http\Requests\Department\StoreDepartmentRequest;
 use App\Http\Requests\Department\UpdateDepartmentRequest;
 use App\Http\Resources\Department\DepartmentResource;
 use App\Models\Department;
+use App\Models\User;
 use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\School\SchoolRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\DepartmentService;
 use Illuminate\Http\Request;
 
@@ -21,6 +24,7 @@ class DepartmentController extends Controller
         protected DepartmentRepositoryInterface $departmentRepository,
         protected SchoolRepositoryInterface $schoolRepository,
         protected DepartmentService $departmentService,
+        protected UserRepositoryInterface $userRepository,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_LIST)->only(['index', 'show']);
         $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_ADD)->only(['create', 'store']);
@@ -50,12 +54,14 @@ class DepartmentController extends Controller
         $types = DepartmentType::options();
         $statuses = SettingStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
+        $users = $this->userRepository->getAllUsersBySchoolId(auth()->user()->school_id);
 
         return view('admin.department.create', compact(
             'departments', 
             'types', 
             'statuses',
-            'schools'
+            'schools',
+            'users'
         ));
     }
 
@@ -88,13 +94,15 @@ class DepartmentController extends Controller
         $types = DepartmentType::options();
         $statuses = SettingStatus::options();
         $schools = $this->schoolRepository->getSchoolActive();
+        $users = $this->userRepository->getAvailableUsersBySchoolId(auth()->user()->school_id, $department->id);
 
         return view('admin.department.edit', compact(
             'department', 
             'departments', 
             'types', 
             'statuses',
-            'schools'
+            'schools',
+            'users'
         ));
     }
 

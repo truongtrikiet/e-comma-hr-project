@@ -662,6 +662,8 @@ return [
         'failed' => 'Failed',
         'email_pending' => 'Email Pending',
         'email_sent' => 'Email Sent',
+        'users' => 'Users',
+        'no_users_assigned' => 'No users assigned',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',
