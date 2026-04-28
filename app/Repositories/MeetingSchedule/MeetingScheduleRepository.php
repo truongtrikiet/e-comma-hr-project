@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Repositories\Department;
+namespace App\Repositories\MeetingSchedule;
 
-use App\Models\Department;
+use App\Models\MeetingSchedule;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 /**
- * The repository for the Department Model
+ * The repository for the MeetingSchedule Model
  */
-class DepartmentRepository extends BaseRepository implements DepartmentRepositoryInterface
+class MeetingScheduleRepository extends BaseRepository implements MeetingScheduleRepositoryInterface
 {
     const PER_PAGE = 20;
 
@@ -23,14 +22,14 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
     /**
      * {@inheritdoc}
      */
-    public function __construct(Department $model)
+    public function __construct(MeetingSchedule $model)
     {
         $this->model = $model;
         parent::__construct($model);
     }
 
     /**
-     * Paginating, ordering and searching through pages for server side index table for the Admin.
+     * Paginating, ordering and searching through pages for server side index table.
      *
      * @param $searchParams
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -39,17 +38,22 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
     {
         $limit = Arr::get($searchParams, 'limit', self::PER_PAGE);
         $keyword = Arr::get($searchParams, 'search', '');
+        $school_id = Arr::get($searchParams, 'school_id', null);
         $status = Arr::get($searchParams, 'status', null);
 
-        $query = $this->model->query()->with(['school']);
+        $query = $this->model->query()->with(['school', 'targets']);
 
         if ($keyword) {
             if (is_array($keyword)) {
                 $keyword = $keyword['value'];
             }
             $query->where(function ($q) use ($keyword) {
-                $q->where('name', 'LIKE', '%' . $keyword . '%');
+                $q->where('title', 'LIKE', '%' . $keyword . '%');
             });
+        }
+
+        if (!is_null($school_id)) {
+            $query->where('school_id', $school_id);
         }
 
         if (!is_null($status)) {
@@ -59,13 +63,5 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
         $query->latest();
 
         return $query->paginate($limit);
-    }
-
-    /**
-     * Get all departments by school id.
-     */
-    public function getDepartmentsBySchoolId($schoolId)
-    {
-        return $this->model->where('school_id', $schoolId)->get();
     }
 }

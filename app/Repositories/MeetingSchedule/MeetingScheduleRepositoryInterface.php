@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Repositories\Subject;
+namespace App\Repositories\MeetingSchedule;
 
 use App\Repositories\RepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
- * The repository interface for the Subject Model
+ * The repository interface for the MeetingSchedule Model
  */
-interface SubjectRepositoryInterface extends RepositoryInterface
+interface MeetingScheduleRepositoryInterface extends RepositoryInterface
 {
     /**
      * Paginating, ordering and searching through pages for server side index table.

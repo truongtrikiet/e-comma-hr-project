@@ -175,6 +175,8 @@ return [
             'manage_meeting_schedule' => 'Meeting Schedule Management',
             'create_meeting_schedule' => 'Create New Meeting Schedule',
             'edit_meeting_schedule' => 'Edit Meeting Schedule',
+            'show_meeting_schedule' => 'Meeting Schedule Details',
+            'view_meeting_schedule' => 'View Meeting Schedule',
         ],
         'holiday_schedule_management' => [
             'title' => 'Holiday Schedule',
@@ -671,6 +673,12 @@ return [
         'users' => 'Users',
         'no_users_assigned' => 'No users assigned',
         'ends_at' => 'Ends At',
+        'meeting_target_type' => 'Meeting Target Type',
+        'meeting_target' => 'Meeting Target',
+        'upcoming' => 'Upcoming',
+        'ongoing' => 'Ongoing',
+        'completed' => 'Completed',
+        'meeting' => 'Meeting',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

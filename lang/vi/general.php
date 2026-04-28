@@ -175,6 +175,8 @@ return [
             'manage_meeting_schedule' => 'Quản lý lịch họp',
             'create_meeting_schedule' => 'Thêm mới lịch họp',
             'edit_meeting_schedule' => 'Chỉnh sửa lịch họp',
+            'show_meeting_schedule' => 'Chi tiết lịch họp',
+            'view_meeting_schedule' => 'Xem lịch họp',
         ],
         'holiday_schedule_management' => [
             'title' => 'Lịch nghỉ lễ',
@@ -673,6 +675,12 @@ return [
         'users' => 'Danh sách nhân viên',
         'no_users_assigned' => 'Không có nhân viên nào',
         'ends_at' => 'Kết thúc vào',
+        'meeting_target_type' => 'Đối tượng cuộc họp',
+        'meeting_target' => 'Đối tượng cuộc họp',
+        'upcoming' => 'Sắp diễn ra',
+        'ongoing' => 'Đang diễn ra',
+        'completed' => 'Đã hoàn thành',
+        'meeting' => 'Cuộc họp',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',
