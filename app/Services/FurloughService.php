@@ -80,14 +80,14 @@ class FurloughService
 
             $furlough = $this->furloughRepository->create($data);
 
-            $admins = User::query()
+            $hrRoles = User::query()
                 ->where('school_id', $furlough->school_id)
-                ->whereHas('roles', fn ($q) => $q->where('name', Acl::ROLE_ADMIN))
+                ->whereHas('roles', fn ($q) => $q->where('name', Acl::ROLE_HR))
                 ->where('id', '!=', $user->id)
                 ->get();
 
-            foreach ($admins as $admin) {
-                $admin->notify(
+            foreach ($hrRoles as $hr) {
+                $hr->notify(
                     new FurloughRequestSubmitted($furlough)
                 );
             }

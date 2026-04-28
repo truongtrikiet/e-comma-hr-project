@@ -35,7 +35,7 @@ class UpdateSalaryRequest extends FormRequest
             ],
             'gross_amount' => [
                 'required', 
-                'min:'.$this->tax_amount, 
+                'min:'.($this->tax_amount ?? 0), 
                 'numeric', 
                 new ValidAmount
             ],

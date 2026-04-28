@@ -36,15 +36,15 @@ class ContractService
                 ->findOrFail($data['user_id']);
 
             $contract = Contract::create([
-                'code'              => null,
-                'user_id'           => $user->id,
-                'school_id'         => $user->school_id,
-                'contractable_id'   => $user->id,
+                'code' => null,
+                'user_id' => $user->id,
+                'school_id' => $user->school_id,
+                'contractable_id' => $user->id,
                 'contractable_type' => User::class,
-                'contract_type_id'  => $data['contract_type_id'],
-                'status'            => ContractStatus::UNDER_ACCEPTANCE->value,
-                'signed_at'         => $data['signed_at'] ?? null,
-                'expired_at'        => $data['expired_at'] ?? null,
+                'contract_type_id' => $data['contract_type_id'],
+                'status' => ContractStatus::UNDER_ACCEPTANCE->value,
+                'signed_at' => $data['signed_at'] ?? null,
+                'expired_at' => $data['expired_at'] ?? null,
             ]);
 
             $contract->forceFill([

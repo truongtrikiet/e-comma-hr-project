@@ -38,6 +38,8 @@ use App\Repositories\Role\RoleRepository;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\Salary\SalaryRepository;
 use App\Repositories\Salary\SalaryRepositoryInterface;
+use App\Repositories\SalaryPropose\SalaryProposeRepository;
+use App\Repositories\SalaryPropose\SalaryProposeRepositoryInterface;
 use App\Repositories\School\SchoolRepository;
 use App\Repositories\School\SchoolRepositoryInterface;
 use App\Repositories\SchoolWorkingCalendar\SchoolWorkingCalendarRepository;
@@ -81,5 +83,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(SalaryRepositoryInterface::class, SalaryRepository::class);
         $this->app->singleton(AIProfileRepositoryInterface::class, AIProfileRepository::class);
         $this->app->singleton(CandidateScreeningRepositoryInterface::class, CandidateScreeningRepository::class);
+        $this->app->singleton(SalaryProposeRepositoryInterface::class, SalaryProposeRepository::class);
     }
 }

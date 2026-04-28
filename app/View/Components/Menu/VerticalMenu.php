@@ -253,6 +253,18 @@ class VerticalMenu extends Component
                     ],
                 ],
             ],
+            [
+                'title' => __('general.menu.salary_propose_management.title'),
+                'icon' => 'icon icon-power-level',
+                'child' => [
+                    [
+                        'title' => __('general.menu.salary_propose_management.manage_salary_propose'),
+                        'url' => route('admin.salary-propose.index'),
+                        'active' => Route::is(['admin.salary-propose.*']),
+                        'show' => checkPermission(Acl::PERMISSION_SALARY_PROPOSE_LIST),
+                    ],
+                ],
+            ],
         ]);
     }
 

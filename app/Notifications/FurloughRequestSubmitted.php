@@ -37,7 +37,7 @@ class FurloughRequestSubmitted extends Notification
             'furlough_request_id' => $this->furlough->id,
             'message' => 'New furlough request requires approval',
             'action_url' => route(
-                'admin.furlough.show',
+                'hr.furlough.show',
                 $this->furlough->id
             ),
         ];

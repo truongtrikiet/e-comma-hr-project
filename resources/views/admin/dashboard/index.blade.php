@@ -66,14 +66,6 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-2">Department Meetings (placeholder)</h5>
-                </div>
-                <div class="card-body p-4 text-center text-muted">
-                    <div class="large">Empty — meeting calendar will appear here in future.</div>
-                </div>
-            </div>
         </div>
 
         <!-- Right column: square month calendar -->
@@ -137,7 +129,7 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
+    <!-- <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0">{{ __('general.common.calendar') }}</h5>
@@ -156,6 +148,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 </x-base-layout>

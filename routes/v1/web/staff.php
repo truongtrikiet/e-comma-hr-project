@@ -9,4 +9,5 @@ Route::prefix('')->group(function () {
     include 'staff/holiday_schedule.php';
     include 'staff/notification.php';
     include 'staff/contract.php';
+    include 'staff/salary_propose.php';
 });

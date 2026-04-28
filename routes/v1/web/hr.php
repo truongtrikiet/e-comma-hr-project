@@ -18,4 +18,5 @@ Route::prefix('')->group(function () {
     include 'hr/salary.php';
     include 'hr/ai_profile.php';
     include 'hr/candidate_screening.php';
+    include 'hr/salary_propose.php';
 });

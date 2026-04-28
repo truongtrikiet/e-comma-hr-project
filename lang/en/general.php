@@ -313,6 +313,12 @@ return [
             'manage_candidate_screening' => 'Manage Candidate Screening',
             'candidate_detail' => 'Candidate Details',
         ],
+        'salary_propose_management' => [
+            'title' => 'Salary Proposals',
+            'manage_salary_propose' => 'Manage Salary Proposals',
+            'create_salary_propose' => 'Create New Salary Proposal',
+            'edit_salary_propose' => 'Edit Salary Proposal',
+        ],
     ],
 
     'dashboard' => [
@@ -664,6 +670,7 @@ return [
         'email_sent' => 'Email Sent',
         'users' => 'Users',
         'no_users_assigned' => 'No users assigned',
+        'ends_at' => 'Ends At',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

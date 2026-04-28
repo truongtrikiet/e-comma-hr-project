@@ -235,6 +235,18 @@ final class Acl
 
     const PERMISSION_CANDIDATE_SCREENING_VIEW = 'View Candidate Screening';
 
+    const PERMISSION_SALARY_PROPOSE_LIST = 'Salary Propose List';
+
+    const PERMISSION_SALARY_PROPOSE_ADD = 'Add Salary Propose';
+
+    const PERMISSION_SALARY_PROPOSE_EDIT = 'Edit Salary Propose';
+
+    const PERMISSION_SALARY_PROPOSE_DELETE = 'Delete Salary Propose';
+
+    const PERMISSION_SALARY_PROPOSE_VIEW = 'View Salary Propose';
+
+    const PERMISSION_SALARY_PROPOSE_APPROVE = 'Approve Salary Propose';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

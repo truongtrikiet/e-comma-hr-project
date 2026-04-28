@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Acl\Acl;
 
 /**
  * The repository for the Furlough Model
@@ -101,6 +102,11 @@ class FurloughRepository extends BaseRepository implements FurloughRepositoryInt
         if (!is_null($furlough_status)) {
             $query->where('furlough_status', $furlough_status);
         }
+
+        // $user = auth()->user();
+        // if ($user && ($user->roles()->where('name', Acl::ROLE_STAFF)->exists() || $user->roles()->where('name', Acl::ROLE_TEACHER)->exists())) {
+        //     $query->where('user_id', $user->id);
+        // }
 
         $query->latest();
 
