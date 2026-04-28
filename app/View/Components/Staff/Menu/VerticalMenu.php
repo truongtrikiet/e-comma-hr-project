@@ -90,43 +90,17 @@ class VerticalMenu extends Component
                     ],
                 ],
             ],
-            // [
-            //     'title' => __('general.menu.department_management.title'),
-            //     'icon' => 'icon icon-tag-content',
-            //     'type' => 'dropdown',
-            //     'child' => [
-            //         [
-            //             'title' => __('general.menu.department_management.department'),
-            //             'url' => route('admin.department.index'),
-            //             'active' => Route::is(['admin.department.*']),
-            //             'show' => checkPermissions([Acl::PERMISSION_DEPARTMENT_LIST]),
-            //         ],
-            //     ],
-            // ],
-            // [
-            //     'title' => __('general.menu.subject_management.title'),
-            //     'icon' => 'icon icon-book-open-2',
-            //     'type' => 'dropdown',
-            //     'child' => [
-            //         [
-            //             'title' => __('general.menu.subject_management.subject'),
-            //             'url' => route('admin.subject.index'),
-            //             'active' => Route::is(['admin.subject.*']),
-            //             'show' => checkPermissions([Acl::PERMISSION_SUBJECT_LIST]),
-            //         ],
-            //     ],
-            // ],
         ]);
     }
 
    private function buildMenuPurpose(): void
-   {
-       $this->menuItems = array_merge($this->menuItems, [
-           [
+    {
+        $this->menuItems = array_merge($this->menuItems, [
+            [
                'type' => 'label',
                'title' => __('general.common.purpose'),
-           ],
-           [
+            ],
+            [
                'title' => __('general.menu.furlough_management.title'),
                'icon' => 'icon icon-window-add',
                'child' => [
@@ -136,10 +110,22 @@ class VerticalMenu extends Component
                         'active' => Route::is(['staff.furlough.*']),
                         'show' => checkPermission(Acl::PERMISSION_FURLOUGH_LIST),
                     ],
-               ],
-           ],
-       ]);
-   }
+                ],
+            ],
+            [
+                'title' => __('general.menu.salary_propose_management.title'),
+                'icon' => 'icon icon-power-level',
+                'child' => [
+                    [
+                        'title' => __('general.menu.salary_propose_management.manage_salary_propose'),
+                        'url' => route('staff.salary-propose.index'),
+                        'active' => Route::is(['staff.salary-propose.*']),
+                        'show' => checkPermission(Acl::PERMISSION_SALARY_PROPOSE_LIST),
+                    ],
+                ],
+            ],
+        ]);
+    }
 
     private function setProperties(): void
     {

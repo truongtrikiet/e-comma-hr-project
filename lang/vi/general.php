@@ -313,6 +313,12 @@ return [
             'manage_candidate_screening' => 'Quản lý sàng lọc ứng viên',
             'candidate_detail' => 'Chi tiết ứng viên',
         ],
+        'salary_propose_management' => [
+            'title' => 'Đề xuất lương',
+            'manage_salary_propose' => 'Quản lý đề xuất lương',
+            'create_salary_propose' => 'Thêm mới đề xuất lương',
+            'edit_salary_propose' => 'Chỉnh sửa đề xuất lương',
+        ],
     ],
 
     'dashboard' => [
@@ -666,6 +672,7 @@ return [
         'email_sent' => 'Đã gửi email',
         'users' => 'Danh sách nhân viên',
         'no_users_assigned' => 'Không có nhân viên nào',
+        'ends_at' => 'Kết thúc vào',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

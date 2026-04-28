@@ -60,6 +60,7 @@ class SalaryRepository extends BaseRepository implements SalaryRepositoryInterfa
 
         return $query->paginate($limit);
     }
+    
     public function getCurrentSalary($userId)
     {
         $salary = $this->model->where('user_id', $userId)->latest()->first();

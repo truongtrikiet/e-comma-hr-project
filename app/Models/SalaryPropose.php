@@ -2,41 +2,37 @@
 
 namespace App\Models;
 
+use App\Enum\SalaryStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Enum\SalaryStatus;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Builder;
 
-class Salary extends Model
+class SalaryPropose extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    /**
-     * Summary of fillable
-     * @var array
-     */
     protected $fillable = [
         'user_id',
         'school_id',
-        'gross_amount',
-        'tax_percent',
-        'tax_amount',
-        'net_amount',
-        'approved_at',
+        'proposed_gross_amount',
+        'proposed_tax_percent',
+        'proposed_tax_amount',
+        'proposed_net_amount',
+        'reason',
         'effective_date',
         'status',
+        'is_applied',
+        'ends_at',
+        'created_at',
+        'updated_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'status' => SalaryStatus::class,
-        'approved_at' => 'datetime',
         'effective_date' => 'datetime',
+        'is_applied' => 'boolean',
+        'ends_at' => 'datetime',
     ];
 
     /**
