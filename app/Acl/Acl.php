@@ -247,6 +247,16 @@ final class Acl
 
     const PERMISSION_SALARY_PROPOSE_APPROVE = 'Approve Salary Propose';
 
+    const PERMISSION_MEETING_SCHEDULE_LIST = 'Meeting Schedule List';
+
+    const PERMISSION_MEETING_SCHEDULE_ADD = 'Add Meeting Schedule';
+
+    const PERMISSION_MEETING_SCHEDULE_EDIT = 'Edit Meeting Schedule';
+
+    const PERMISSION_MEETING_SCHEDULE_DELETE = 'Delete Meeting Schedule';
+
+    const PERMISSION_MEETING_SCHEDULE_VIEW = 'View Meeting Schedule';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */

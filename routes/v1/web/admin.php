@@ -26,4 +26,5 @@ Route::prefix('')->group(function () {
     include 'admin/ai_profile.php';
     include 'admin/candidate_screening.php';
     include 'admin/salary_propose.php';
+    include 'admin/meeting_schedule.php';
 });

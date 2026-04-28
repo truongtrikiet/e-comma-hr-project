@@ -77,4 +77,22 @@ class DepartmentService
             return $e->getMessage();
         }
     }
+
+    /**
+     * Assign users to a department.
+     *
+     * @param  mixed $department
+     * @param  array $data
+     * @return void
+     */
+    public function addUser($department, $data)
+    {
+        if (is_array($data) && array_key_exists('user_ids', $data)) {
+            $ids = is_array($data['user_ids']) ? array_values($data['user_ids']) : [$data['user_ids']];
+
+            if (count($ids) > 0) {
+                User::whereIn('id', $ids)->update(['department_id' => $department->id]);
+            }
+        }
+    }
 }

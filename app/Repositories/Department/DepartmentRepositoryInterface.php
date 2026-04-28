@@ -17,4 +17,9 @@ interface DepartmentRepositoryInterface extends RepositoryInterface
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function serverPaginationFiltering($searchParams): LengthAwarePaginator;
+
+    /**
+     * Get all departments by school id.
+     */
+    public function getDepartmentsBySchoolId($schoolId);
 }

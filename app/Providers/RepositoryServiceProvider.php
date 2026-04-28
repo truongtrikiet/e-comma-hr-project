@@ -32,6 +32,10 @@ use App\Repositories\FurloughType\FurloughTypeRepository;
 use App\Repositories\FurloughType\FurloughTypeRepositoryInterface;
 use App\Repositories\HolidaySchedule\HolidayScheduleRepository;
 use App\Repositories\HolidaySchedule\HolidayScheduleRepositoryInterface;
+use App\Repositories\MeetingSchedule\MeetingScheduleRepository;
+use App\Repositories\MeetingSchedule\MeetingScheduleRepositoryInterface;
+use App\Repositories\MeetingScheduleTarget\MeetingScheduleTargetRepository;
+use App\Repositories\MeetingScheduleTarget\MeetingScheduleTargetRepositoryInterface;
 use App\Repositories\Permission\PermissionRepository;
 use App\Repositories\Permission\PermissionRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
@@ -84,5 +88,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(AIProfileRepositoryInterface::class, AIProfileRepository::class);
         $this->app->singleton(CandidateScreeningRepositoryInterface::class, CandidateScreeningRepository::class);
         $this->app->singleton(SalaryProposeRepositoryInterface::class, SalaryProposeRepository::class);
+        $this->app->singleton(MeetingScheduleRepositoryInterface::class, MeetingScheduleRepository::class);
+        $this->app->singleton(MeetingScheduleTargetRepositoryInterface::class, MeetingScheduleTargetRepository::class);
     }
 }
