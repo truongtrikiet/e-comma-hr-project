@@ -7,3 +7,5 @@ Route::resource('candidate-screening', CandidateScreeningController::class)->nam
 Route::post('candidate-screening/scan', [CandidateScreeningController::class, 'scan'])->name('hr.candidate-screening.scan');
 Route::post('candidate-screening/delete-by-status', [CandidateScreeningController::class, 'deleteAllByStatus'])
 	->name('hr.candidate-screening.delete-by-status');
+Route::post('candidate-screening/{candidateScreening}/send-result-email', [CandidateScreeningController::class, 'sendResultEmail'])
+	->name('hr.candidate-screening.send-result-email');

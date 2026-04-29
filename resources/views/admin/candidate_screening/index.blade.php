@@ -116,9 +116,15 @@
                             let urlShow = `{{ route('admin.candidate-screening.show', ':id') }}`.replace(':id', data);
                             let urlEdit = `{{ route('admin.candidate-screening.edit', ':id') }}`.replace(':id', data);
                             let urlDestroy = `{{ route('admin.candidate-screening.destroy', ':id') }}`.replace(':id', data);
+                            let urlSend = `{{ route('admin.candidate-screening.send-result-email', ':id') }}`.replace(':id', data);
 
                             return `
                                 <ul class="table-controls d-flex justify-content-center">
+                                    <x-table.actions.send-action
+                                        :permission="Acl::PERMISSION_CANDIDATE_SCREENING_VIEW"
+                                        :url="'${urlSend}'"
+                                        :dataTableId="'sCandidateScreeningsTable'"
+                                    />
                                     <x-table.actions.show-action
                                         :permission="Acl::PERMISSION_CANDIDATE_SCREENING_VIEW"
                                         :url="'${urlShow}'"
@@ -249,6 +255,47 @@
                         {{ __('general.common.cancel') }}
                     </button>
                     <button type="button" id="candidate-delete-confirm" class="btn btn-danger">{{ __('Delete') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="interviewEmailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Send Interview Invitation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="interviewEmailForm">
+                        <input type="hidden" id="interviewSendUrl">
+
+                        <div class="mb-3">
+                            <label class="form-label">Interview Time</label>
+                            <input type="datetime-local" class="form-control" id="interviewTime" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Interview Location</label>
+                            <input type="text" class="form-control" id="interviewLocation" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Note (optional)</label>
+                            <textarea class="form-control" id="interviewNote" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirmSendInterviewEmail">
+                        Send Email
+                    </button>
                 </div>
             </div>
         </div>
@@ -394,6 +441,95 @@
                     deleteConfirmBtn.textContent = '{{ __('Delete') }}';
                 }
             });
+
+            // Send interview email logic
+            let activeButton = null;
+            let activeDatatableId = null;
+            let activeModal = null;
+
+            document.addEventListener('click', function (ev) {
+                const btn = ev.target.closest('.bs-tooltip.send');
+                if (!btn) return;
+
+                ev.preventDefault();
+
+                activeButton = btn;
+                activeDatatableId = btn.getAttribute('data-datatable-id');
+
+                const url = btn.getAttribute('data-url');
+                document.getElementById('interviewSendUrl').value = url;
+
+                document.getElementById('interviewEmailForm').reset();
+
+                const modalEl = document.getElementById('interviewEmailModal');
+                const modal = new bootstrap.Modal(modalEl);
+                activeModal = modal;
+                modalEl.addEventListener('hidden.bs.modal', function () {
+                    activeModal = null;
+                }, { once: true });
+
+                modal.show();
+            });
+
+            // Confirm send
+            document.getElementById('confirmSendInterviewEmail')
+                .addEventListener('click', async function () {
+
+                    const url = document.getElementById('interviewSendUrl').value;
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                    const interviewTime = document.getElementById('interviewTime').value;
+                    const interviewLocation = document.getElementById('interviewLocation').value;
+                    const interviewNote = document.getElementById('interviewNote').value;
+
+                    if (!interviewTime || !interviewLocation) {
+                        alert('Please fill interview time and location');
+                        return;
+                    }
+
+                    this.disabled = true;
+
+                    try {
+                        const res = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                interview_time: interviewTime,
+                                interview_location: interviewLocation,
+                                interview_note: interviewNote,
+                            }),
+                        });
+
+                        const data = await res.json();
+
+                        if (!res.ok || !data.success) {
+                            throw new Error(data.message || 'Send failed');
+                        }
+
+                        if (activeModal && typeof activeModal.hide === 'function') {
+                            activeModal.hide();
+                            activeModal = null;
+                        } else if (bootstrap.Modal && typeof bootstrap.Modal.getInstance === 'function') {
+                            const inst = bootstrap.Modal.getInstance(document.getElementById('interviewEmailModal'));
+                            inst && inst.hide();
+                        }
+
+                        if (window.LaravelDataTables && window.LaravelDataTables[activeDatatableId]) {
+                            window.LaravelDataTables[activeDatatableId].ajax.reload();
+                        }
+
+                        alert(data.message || 'Email sent successfully');
+
+                    } catch (err) {
+                        alert(err.message || err);
+                    } finally {
+                        this.disabled = false;
+                    }
+                });
         });
     </script>
 

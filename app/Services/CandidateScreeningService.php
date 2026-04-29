@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 use Throwable;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CandidateScreeningResultMail;
+use Carbon\Carbon;
 
 class CandidateScreeningService
 {
@@ -174,5 +177,30 @@ class CandidateScreeningService
     public function deleteAllByStatus($status)
     {
         return CandidateScreening::where('status', $status)->delete();
+    }
+
+    /**
+     * Send candidate screening result to email.
+     */
+    public function sendResultEmail(CandidateScreening $candidateScreening, array $interviewData)
+    {
+        if (!$candidateScreening->candidate_email) {
+            throw new \Exception('Candidate email not found.');
+        }
+
+        $interview = [];
+        if (!empty($interviewData['interview_time'])) {
+            try {
+                $interview['time'] = Carbon::parse($interviewData['interview_time'])->format('Y-m-d H:i');
+            } catch (\Throwable $e) {
+                $interview['time'] = (string) ($interviewData['interview_time']);
+            }
+        }
+
+        $interview['location'] = $interviewData['interview_location'] ?? null;
+        $interview['note'] = $interviewData['interview_note'] ?? null;
+
+        Mail::to($candidateScreening->candidate_email)
+            ->send(new CandidateScreeningResultMail($candidateScreening, $interview));
     }
 }

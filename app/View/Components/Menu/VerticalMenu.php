@@ -237,6 +237,18 @@ class VerticalMenu extends Component
                     ],
                 ],
             ],
+            [
+                'title' => __('general.menu.mail_management.title'),
+                'icon' => 'icon icon-email-84',
+                'child' => [
+                    [
+                        'title' => __('general.menu.mail_management.manage_mail'),
+                        'url' => route('admin.mail.index'),
+                        'active' => Route::is(['admin.mail.*']),
+                        'show' => checkPermission(Acl::PERMISSION_MAIL_MANAGE),
+                    ],
+                ],
+            ],
         ]);
     }
 
