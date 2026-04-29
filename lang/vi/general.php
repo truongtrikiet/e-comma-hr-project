@@ -321,6 +321,11 @@ return [
             'create_salary_propose' => 'Thêm mới đề xuất lương',
             'edit_salary_propose' => 'Chỉnh sửa đề xuất lương',
         ],
+        'mail_management' => [
+            'title' => 'Email',
+            'manage_mail' => 'Quản lý email',
+            'create_mail' => 'Gửi email',
+        ],
     ],
 
     'dashboard' => [

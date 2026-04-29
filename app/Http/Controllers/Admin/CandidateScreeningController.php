@@ -186,4 +186,20 @@ class CandidateScreeningController extends Controller
             'deleted_count' => $deletedCount,
         ]);
     }
+
+    /**
+     * Send candidate screening result to email.
+     */
+    public function sendResultEmail(Request $request, CandidateScreening $candidateScreening)
+    {
+        $data = $request->validate([
+            'interview_time' => 'required|string',
+            'interview_location' => 'required|string',
+            'interview_note' => 'nullable|string',
+        ]);
+
+        $this->candidateScreeningService->sendResultEmail($candidateScreening, $data);
+
+        return response()->json(['success' => true, 'message' => 'Email sent successfully']);
+    }
 }

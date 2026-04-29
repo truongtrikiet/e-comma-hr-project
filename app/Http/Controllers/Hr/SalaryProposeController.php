@@ -10,11 +10,15 @@ use App\Http\Resources\Salary\SalaryProposeResource;
 use App\Models\SalaryPropose;
 use App\Repositories\SalaryPropose\SalaryProposeRepositoryInterface;
 use App\Acl\Acl;
+use App\Services\SalaryProposeService;
+use App\Repositories\User\UserRepositoryInterface;
 
 class SalaryProposeController extends Controller
 {
     public function __construct(
         protected SalaryProposeRepositoryInterface $salaryProposeRepository,
+        protected SalaryProposeService $salaryProposeService,
+        protected UserRepositoryInterface $userRepository,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_SALARY_PROPOSE_LIST)->only('index');
         $this->middleware('permission:' . Acl::PERMISSION_SALARY_PROPOSE_ADD)->only(['create', 'store']);
@@ -43,7 +47,9 @@ class SalaryProposeController extends Controller
      */
     public function create()
     {
-        return view('hr.salary_propose.create');
+        $users = $this->userRepository->getUsersBySchoolId(auth()->user()->school_id);
+
+        return view('hr.salary_propose.create', compact('users'));
     }
 
     /**
@@ -71,7 +77,9 @@ class SalaryProposeController extends Controller
      */
     public function edit(SalaryPropose $salaryPropose)
     {
-        return view('hr.salary_propose.edit', compact('salaryPropose'));
+        $users = $this->userRepository->getUsersBySchoolId(auth()->user()->school_id);
+
+        return view('hr.salary_propose.edit', compact('salaryPropose', 'users'));
     }
 
     /**
@@ -103,7 +111,7 @@ class SalaryProposeController extends Controller
      */
     public function approved(SalaryPropose $salaryPropose, Request $request)
     {
-        $this->salaryProposeRepository->approved($salaryPropose, $request->all()) ?
+        $this->salaryProposeService->approved($salaryPropose, $request->all()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.approved')) 
             : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.approved'));
 

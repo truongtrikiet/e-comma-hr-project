@@ -257,6 +257,8 @@ final class Acl
 
     const PERMISSION_MEETING_SCHEDULE_VIEW = 'View Meeting Schedule';
 
+    const PERMISSION_MAIL_MANAGE = 'Manage Mail';
+
     /**
      * @param  array  $exclusives Exclude some permissions from the list
      */
