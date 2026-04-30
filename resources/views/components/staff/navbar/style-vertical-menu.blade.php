@@ -4,7 +4,7 @@
     ***********************************-->
     <div class="nav-header">
         <a href="{{ route('auth.index') }}" class="brand-logo">
-            <img class="logo-abbr" src="{{ asset('images/acomma-logo/logo-3.png') }}" alt="">
+            <img class="logo-abbr" src="{{ asset('images/acomma-logo/logo-4.png') }}" alt="">
             <span class="brand-title" style="color: white; font-size: 16px; font-weight: bold;">E-Comma</span>
         </a>
 

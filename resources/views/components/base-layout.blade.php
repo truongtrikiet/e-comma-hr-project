@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name') }} | {{ $pageTitle }}</title>
-        <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/acomma-logo/logo-3.png') }}"/>
+        <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/acomma-logo/logo-4.png') }}"/>
         <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.theme.default.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/owl-carousel/css/owl.theme.default.min.css') }}">
