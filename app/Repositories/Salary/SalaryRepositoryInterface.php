@@ -19,6 +19,14 @@ interface SalaryRepositoryInterface extends RepositoryInterface
     public function serverPaginationFilteringForAdmin(array $searchParams): LengthAwarePaginator;
 
     /**
+     * Paginating, ordering and searching through pages for server side index table by self.
+     *
+     * @param $searchParams
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function serverPaginationFilteringByStaff($searchParams): LengthAwarePaginator;
+
+    /**
      * Summary of getCurrentSalary
      * @param mixed $userId
      * @return void

@@ -12,6 +12,7 @@ use App\Http\Resources\Salary\SalaryResource;
 use App\Http\Requests\Salary\UpdateSalaryRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Salary\SalaryRepositoryInterface;
+use App\Repositories\School\SchoolRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 
 class SalaryController extends Controller
@@ -20,6 +21,7 @@ class SalaryController extends Controller
         protected SalaryRepositoryInterface $salaryRepository,
         protected UserRepositoryInterface $userRepository,
         protected SalaryService $salaryService,
+        protected SchoolRepositoryInterface $schoolRepository,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_SALARY_LIST)->only('index');
         $this->middleware('permission:' . Acl::PERMISSION_SALARY_ADD)->only(['create', 'store']);
@@ -37,7 +39,9 @@ class SalaryController extends Controller
             
             return SalaryResource::collection($salary);
         }
-        return view('hr.salary.index');
+        $schools = $this->schoolRepository->getSchoolActive();
+
+        return view('hr.salary.index', compact('schools'));
     }
 
     /**
@@ -97,8 +101,12 @@ class SalaryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Salary $salary)
     {
-        //
+        $this->salaryRepository->destroy($salary) ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.salary.delete'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.salary.delete'));
+
+        return to_route('staff.salary.index');
     }
 }

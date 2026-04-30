@@ -51,6 +51,8 @@
                     :isRequired="true"
                     :selected="$salary->user_id"
                 />
+                <input type="hidden" name="school_id" value="{{ auth()->user()->school_id }}">
+
                 <x-form.form-input
                     :id="'gross_amount_formatted'"
                     :label="__('general.common.gross_amount')"
@@ -111,6 +113,16 @@
                     :isRequired="true"
                     :type="'date'"
                     :value="optional($salary->effective_date)->format('Y-m-d')"
+                />
+
+                <x-form.form-input
+                    :id="'ends_at'"
+                    :label="__('general.common.ends_at')"
+                    :name="'ends_at'"
+                    :placeholder="__('general.common.ends_at')"
+                    :isRequired="true"
+                    :type="'date'"
+                    :value="optional($salary->ends_at)->format('Y-m-d')"
                 />
 
                 <x-form.form-select

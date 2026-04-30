@@ -3,6 +3,8 @@
 return [
     'toggle_status' => 'Toggle status successfully.',
     'delete' => 'Delete selection successfully.',
+    'store' => 'Add new successfully.',
+    'update' => 'Update successfully.',
     'appendix_contract' => [
         'store' => 'Add new contract appendix successfully.',
         'update' => 'Update contract appendix successfully.',
@@ -125,6 +127,7 @@ return [
         'store' => 'Add new furlough successfully.',
         'update' => 'Update furlough successfully.',
         'delete' => 'Delete furlough successfully.',
+        'apply' => 'Apply furlough successfully.',
     ],
     'document_type' => [
         'store' => 'Add new document type successfully.',
@@ -156,5 +159,16 @@ return [
         'store' => 'Add new school working calendar successfully.',
         'update' => 'Update school working calendar successfully.',
         'delete' => 'Delete school working calendar successfully.',
+    ],
+    'meeting-schedule' => [
+        'store' => 'Add new meeting schedule successfully.',
+        'update' => 'Update meeting schedule successfully.',
+        'delete' => 'Delete meeting schedule successfully.',
+    ],
+    'salary-propose' => [
+        'apply' => 'Apply salary proposal successfully.',
+        'store' => 'Add new salary proposal successfully.',
+        'update' => 'Update salary proposal successfully.',
+        'delete' => 'Delete salary proposal successfully.',
     ],
 ];

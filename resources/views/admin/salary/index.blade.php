@@ -24,6 +24,14 @@
         ]"
     />
 
+    <x-custom.stat-box :id="'salary-management-filter'" :custom-col="'col-lg-12'">
+        <x-slot:boxTitle>
+            {{ __('general.filter.title') }}
+        </x-slot:boxTitle>
+
+        @include('admin.salary.filters.index')
+    </x-custom.stat-box>
+
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
             {{ __('general.menu.salary_management.manage_salary') }}
@@ -60,6 +68,7 @@
                     <th style="width:15%">{{ __('general.common.gross_amount') }}</th>
                     <th style="width:15%">{{ __('general.common.approved_at') }}</th>
                     <th style="width:15%">{{ __('general.common.effective_date') }}</th>
+                    <th style="width:15%">{{ __('general.common.ends_at') }}</th>
                     <th style="width:15%">{{ __('general.common.status') }}</th>
                     <th style="width:10%">{{ __('general.common.action') }}</th>
                 </tr>
@@ -75,6 +84,11 @@
                         drawDT = d.draw;
                         d.limit = d.length;
                         d.page = d.start / d.length + 1;
+                        d.user_id = $('#sUserSelect').val() || searchParams.get('user_id');
+                        d.school_id = $('#sSchoolSelect').val() || searchParams.get('school_id');
+                        d.status = $('#sSalaryStatus').val() || searchParams.get('status');
+                        d.effective_date = $('#sEffectiveDate').val() || searchParams.get('effective_date');
+                        d.ends_at = $('#sEndsAt').val() || searchParams.get('ends_at');
                     },
                     "dataSrc": function(res) {
                         res.draw = drawDT;
@@ -103,6 +117,9 @@
                         "data": "gross_amount",
                         "orderable": false,
                         "class": "text-center",
+                        "render" : function(data, type, full) {
+                            return `<span class="badge badge-light">${data}</span>`;
+                        }
                     },
                     {
                         "data": "approved_at",
@@ -111,6 +128,11 @@
                     },
                     {
                         "data": "effective_date",
+                        "orderable": false,
+                        "class": "text-center",
+                    },
+                    {
+                        "data": "ends_at",
                         "orderable": false,
                         "class": "text-center",
                     },

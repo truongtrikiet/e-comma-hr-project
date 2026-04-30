@@ -65,6 +65,12 @@ class VerticalMenu extends Component
                         'active' => Route::is(['staff.holiday-schedule.*']),
                         'show' => checkPermission(Acl::PERMISSION_HOLIDAY_SCHEDULE_LIST),
                     ],
+                    [
+                        'title' => __('general.menu.meeting_schedule_management.manage_meeting_schedule'),
+                        'url' => route('staff.meeting-schedule.index'),
+                        'active' => Route::is(['staff.meeting-schedule.*']),
+                        'show' => checkPermission(Acl::PERMISSION_MEETING_SCHEDULE_LIST),
+                    ],
                 ],
             ],
         ]);
@@ -87,6 +93,12 @@ class VerticalMenu extends Component
                         'url' => route('staff.user.index'),
                         'active' => Route::is(['staff.user.*']),
                         'show' => checkPermissions([Acl::PERMISSION_USER_LIST]),
+                    ],
+                    [
+                        'title' => __('general.menu.salary_management.manage_salary'),
+                        'url' => route('staff.salary.index'),
+                        'active' => Route::is(['staff.salary.*']),
+                        'show' => checkPermissions([Acl::PERMISSION_SALARY_LIST]),
                     ],
                 ],
             ],

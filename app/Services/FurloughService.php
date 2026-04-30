@@ -42,6 +42,7 @@ class FurloughService
 
             $data['user_id']   = $user->id;
             $data['school_id'] = $user->school_id ?? session('school_id');
+            $data['furlough_balance_id'] = null;
 
             $policy = $this->getFurloughPolicy(
                 $user,
@@ -54,6 +55,11 @@ class FurloughService
             }
 
             $numberOfDays = $this->calculateNumberOfDays($data);
+
+            if ($numberOfDays <= 0) {
+                session()->flash(NOTIFICATION_ERROR, __('The calculated number of days is zero. Please check start/end dates or duration type.'));
+                return false;
+            }
 
             $useBalance = $data['use_balance'] ?? null;
 
@@ -68,10 +74,16 @@ class FurloughService
                     return false;
                 }
 
-                if ($balance->remaining_days < $numberOfDays) {
-                    session()->flash(NOTIFICATION_ERROR, __('You do not have enough furlough balance. Please adjust the number of days or choose to not use balance.'));
+                $carry = (float) ($balance->carry_remaining_days ?? 0);
+                $remaining = (float) ($balance->remaining_days ?? 0);
+                $available = round($carry + $remaining, 2);
+
+                if ($numberOfDays > $available) {
+                    session()->flash(NOTIFICATION_ERROR, __('You do not have enough furlough balance. Requested :req, available :avail', ['req' => $numberOfDays, 'avail' => $available]));
                     return false;
                 }
+
+                $data['furlough_balance_id'] = $balance->id;
             }
 
             $data['number_of_days'] = $numberOfDays;
@@ -232,7 +244,7 @@ class FurloughService
         return FurloughBalance::where([
             'user_id' => $userId,
             'furlough_type_id' => $furloughTypeId,
-        ])->firstOrFail();
+        ])->first();
     }
 
     /**
@@ -268,28 +280,39 @@ class FurloughService
                 ->first();
 
             if ($calendar && is_array($calendar->working_days)) {
-                $workingDays = $calendar->working_days;
+                $workingDays = array_map('intval', $calendar->working_days);
+                Log::info('calculateNumberOfDays: using school calendar working_days', [
+                    'school_id' => $schoolId,
+                    'working_days' => $workingDays,
+                    'calendar_id' => $calendar->id,
+                ]);
             }
         }
 
         $days = 0;
         $current = $start->copy();
 
-        while ($current->lte($end)) {
+            while ($current->lte($end)) {
 
-            if (is_array($workingDays)) {
-                $dayEnumVal = DayEnumHelper::fromCarbon($current);
-                $isWorking = in_array($dayEnumVal, $workingDays, true);
-            } else {
-                $isWorking = $current->isWeekday();
+                if (is_array($workingDays)) {
+                    $dayEnumVal = DayEnumHelper::fromCarbon($current);
+                    $isWorking = in_array($dayEnumVal, $workingDays, true);
+                } else {
+                    $isWorking = $current->isWeekday();
+                }
+
+                Log::debug('calculateNumberOfDays: checking day', [
+                    'date' => $current->toDateString(),
+                    'day_enum' => isset($dayEnumVal) ? $dayEnumVal : null,
+                    'is_working' => $isWorking,
+                ]);
+
+                if ($isWorking) {
+                    $days++;
+                }
+
+                $current->addDay();
             }
-
-            if ($isWorking) {
-                $days++;
-            }
-
-            $current->addDay();
-        }
 
         return (float) $days;
     }
@@ -308,6 +331,16 @@ class FurloughService
 
         $carry = (float) $balance->carry_remaining_days;
         $remaining = (float) $balance->remaining_days;
+
+        Log::info('Deducting furlough balance start', [
+            'furlough_id' => $furlough->id,
+            'user_id' => $furlough->user_id,
+            'furlough_type_id' => $furlough->furlough_type_id,
+            'days' => $days,
+            'carry_before' => $carry,
+            'remaining_before' => $remaining,
+            'used_before' => $balance->used_days ?? 0,
+        ]);
 
         if ($days > ($carry + $remaining)) {
             throw new RuntimeException('Not enough furlough balance');
@@ -328,6 +361,14 @@ class FurloughService
         );
 
         $balance->save();
+
+        Log::info('Deducting furlough balance end', [
+            'furlough_id' => $furlough->id,
+            'user_id' => $furlough->user_id,
+            'carry_after' => $balance->carry_remaining_days,
+            'remaining_after' => $balance->remaining_days,
+            'used_after' => $balance->used_days,
+        ]);
     }
 
     /**
@@ -345,6 +386,15 @@ class FurloughService
         }
 
         $days = (float) $furlough->number_of_days;
+        Log::info('Restoring furlough balance start', [
+            'furlough_id' => $furlough->id,
+            'user_id' => $furlough->user_id,
+            'furlough_type_id' => $furlough->furlough_type_id,
+            'days' => $days,
+            'carry_before' => $balance->carry_remaining_days ?? 0,
+            'remaining_before' => $balance->remaining_days ?? 0,
+            'used_before' => $balance->used_days ?? 0,
+        ]);
         $policy = $this->getFurloughPolicy($furlough->user, $furlough->furlough_type_id);
         $maxDays = (float) ($policy->max_days ?? 0);
 
@@ -373,5 +423,13 @@ class FurloughService
         );
 
         $balance->save();
+
+        Log::info('Restoring furlough balance end', [
+            'furlough_id' => $furlough->id,
+            'user_id' => $furlough->user_id,
+            'carry_after' => $balance->carry_remaining_days ?? 0,
+            'remaining_after' => $balance->remaining_days ?? 0,
+            'used_after' => $balance->used_days ?? 0,
+        ]);
     }
 }

@@ -14,6 +14,14 @@
         ]"
     />
 
+    <x-custom.stat-box :id="'salary-management-filter'" :custom-col="'col-lg-12'">
+        <x-slot:boxTitle>
+            {{ __('general.filter.title') }}
+        </x-slot:boxTitle>
+
+        @include('admin.contract.filters.index')
+    </x-custom.stat-box>
+
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
             {{ __('general.menu.contract_management.contract') }}
@@ -61,6 +69,10 @@
                             drawDT = d.draw;
                             d.limit = d.length;
                             d.page = d.start / d.length + 1;
+                            d.school_id = $('#sSchoolSelect').val() || searchParams.get('school_id');
+                            d.status = $('#sContractStatus').val() || searchParams.get('status');
+                            d.signed_at = $('#sSignedAt').val() || searchParams.get('signed_at');
+                            d.expired_at = $('#sExpiredAt').val() || searchParams.get('expired_at');
                         },
                         "dataSrc": function(res) {
                             res.draw = drawDT;
@@ -85,10 +97,12 @@
                     {
                         "data": "contract_type_name",
                         "orderable": false,
+                        "class": "text-center",
                     },
                     {
                         "data": "contractable_name",
                         "orderable": false,
+                        "class": "text-center",
                     },
                     {
                         "data": "status_name",
@@ -99,13 +113,13 @@
                     },
                     {
                         "data": "signed_at",
-                        "class": "text-end",
+                        "class": "text-center",
                         "orderable": false,
                     },
                     {
                         "data":"expired_at",
                         "orderable": false,
-                        "class": "text-end",
+                        "class": "text-center",
                     },
                     {
                         "data": "id",

@@ -3,6 +3,8 @@
 return [
     'toggle_status' => 'Thay đổi trạng thái thất bại.',
     'delete' => 'Xóa lựa chọn thất bại.',
+    'store' => 'Thêm mới thất bại.',
+    'update' => 'Chỉnh sửa thất bại.',
     'appendix_contract' => [
         'store' => 'Thêm mới phụ lục hợp đồng thất bại.',
         'update' => 'Chỉnh sửa phụ lục hợp đồng thất bại.',
@@ -156,5 +158,16 @@ return [
         'store' => 'Thêm mới lịch làm việc của trường học thất bại.',
         'update' => 'Chỉnh sửa lịch làm việc của trường học thất bại.',
         'delete' => 'Xóa lịch làm việc của trường học thất bại.',
+    ],
+    'meeting-schedule' => [
+        'store' => 'Thêm mới lịch họp thất bại.',
+        'update' => 'Chỉnh sửa lịch họp thất bại.',
+        'delete' => 'Xóa lịch họp thất bại.',
+    ],
+    'salary-propose' => [
+        'apply' => 'Áp dụng đề xuất lương thất bại.',
+        'store' => 'Thêm mới đề xuất lương thất bại.',
+        'update' => 'Chỉnh sửa đề xuất lương thất bại.',
+        'delete' => 'Xóa đề xuất lương thất bại.',
     ],
 ];

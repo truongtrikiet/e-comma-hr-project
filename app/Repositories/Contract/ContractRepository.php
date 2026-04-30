@@ -45,6 +45,8 @@ class ContractRepository extends BaseRepository implements ContractRepositoryInt
         $keyword = Arr::get($searchParams, 'search', '');
         $schoolId = Arr::get($searchParams, 'school_id', null);
         $status = Arr::get($searchParams, 'status', null);
+        $signed_at = Arr::get($searchParams, 'signed_at', null);
+        $expired_at = Arr::get($searchParams, 'expired_at', null);
 
         $query = $this->model->query()->with(['contractable', 'contractType', 'school']);
 
@@ -63,6 +65,14 @@ class ContractRepository extends BaseRepository implements ContractRepositoryInt
 
         if (!is_null($status)) {
             $query->where('status', $status);
+        }
+
+        if (!is_null($signed_at)) {
+            $query->where('signed_at', '>=', $signed_at);
+        }
+
+        if (!is_null($expired_at)) {
+            $query->where('expired_at', '<=', $expired_at);
         }
 
         $query->latest();

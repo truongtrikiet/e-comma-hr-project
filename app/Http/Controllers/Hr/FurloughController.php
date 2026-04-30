@@ -36,7 +36,7 @@ class FurloughController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $furloughs = $this->furloughRepository->serverPaginationFilteringByStaff($request->all());
+            $furloughs = $this->furloughRepository->serverPaginationFiltering($request->all());
 
             return FurloughResource::collection($furloughs);
         }
@@ -63,8 +63,8 @@ class FurloughController extends Controller
     public function store(StoreFurloughRequest $request)
     {
         $this->furloughService->create($request->validated()) ? 
-            session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.furlough.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.furlough.store'));
 
         return to_route('hr.furlough.index');
     }
@@ -75,6 +75,18 @@ class FurloughController extends Controller
     public function show(Furlough $furlough)
     {
         return view('hr.furlough.show', compact('furlough'));
+    }
+
+    /**
+     * Approved furlough request.
+     */
+    public function approved(ApprovedFurloughRequest $request, Furlough $furlough)
+    {
+        $this->furloughService->approved($furlough, $request->validated()) ? 
+            session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.apply'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.furlough.apply'));
+
+        return to_route('hr.furlough.index');
     }
 
     /**

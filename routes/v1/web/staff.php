@@ -10,4 +10,6 @@ Route::prefix('')->group(function () {
     include 'staff/notification.php';
     include 'staff/contract.php';
     include 'staff/salary_propose.php';
+    include 'staff/salary.php';
+    include 'staff/meeting_schedule.php';
 });

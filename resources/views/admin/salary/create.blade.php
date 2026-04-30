@@ -107,6 +107,15 @@
                     :isRequired="true"
                     :type="'date'"
                 />
+
+                <x-form.form-input
+                    :id="'ends_at'"
+                    :label="__('general.common.ends_at')"
+                    :name="'ends_at'"
+                    :placeholder="__('general.common.ends_at')"
+                    :isRequired="true"
+                    :type="'date'"
+                />
             </div>
 
             <div class="col-lg-8">

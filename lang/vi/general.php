@@ -324,7 +324,7 @@ return [
         'mail_management' => [
             'title' => 'Email',
             'manage_mail' => 'Quản lý email',
-            'create_mail' => 'Gửi email',
+            'send_mail' => 'Gửi email',
         ],
     ],
 
@@ -686,6 +686,10 @@ return [
         'ongoing' => 'Đang diễn ra',
         'completed' => 'Đã hoàn thành',
         'meeting' => 'Cuộc họp',
+        'expired' => 'Đã hết hạn',
+        'is_applied' => 'Được áp dụng',
+        'is_applied_no' => 'Chưa được áp dụng',
+        'is_applied_yes' => 'Đã được áp dụng',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

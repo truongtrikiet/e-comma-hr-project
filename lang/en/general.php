@@ -321,6 +321,11 @@ return [
             'create_salary_propose' => 'Create New Salary Proposal',
             'edit_salary_propose' => 'Edit Salary Proposal',
         ],
+        'mail_management' => [
+            'title' => 'Email',
+            'manage_mail' => 'Manage Email',
+            'send_mail' => 'Send Email',
+        ],
     ],
 
     'dashboard' => [
@@ -679,6 +684,10 @@ return [
         'ongoing' => 'Ongoing',
         'completed' => 'Completed',
         'meeting' => 'Meeting',
+        'expired' => 'Expired',
+        'is_applied' => 'Is Applied',
+        'is_applied_no' => 'Not Applied',
+        'is_applied_yes' => 'Applied',
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',

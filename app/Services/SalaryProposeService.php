@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Acl\Acl;
 use App\Notifications\SalaryProposeApproved;
 use App\Notifications\SalaryProposeReviewed;
+use App\Models\Salary;
+use App\Enum\SalaryStatus;
 use Illuminate\Support\Facades\Log;
 
 class SalaryProposeService
