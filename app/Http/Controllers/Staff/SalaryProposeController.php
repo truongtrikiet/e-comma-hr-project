@@ -28,7 +28,7 @@ class SalaryProposeController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $salaryProposes = $this->salaryProposeRepository->serverPaginationFiltering($request->all());
+            $salaryProposes = $this->salaryProposeRepository->serverPaginationFilteringByStaff($request->all());
 
             return SalaryProposeResource::collection($salaryProposes);
         }
@@ -50,8 +50,8 @@ class SalaryProposeController extends Controller
     public function store(StoreSalaryProposeRequest $request)
     {
         $this->salaryProposeRepository->create($request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.create')) 
-            : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.store')) 
+            : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.store'));
 
         return to_route('staff.salary-propose.index');
     }

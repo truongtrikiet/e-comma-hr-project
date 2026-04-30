@@ -19,7 +19,7 @@ class AccrueFurloughBalance extends Command
      *
      * @var string
      */
-    protected $signature = 'furlough:accrue';
+    protected $signature = 'furlough:accrue {--school_id= : Filter by school id}';
 
     /**
      * The console command description.
@@ -37,7 +37,7 @@ class AccrueFurloughBalance extends Command
 
         $now = Carbon::now();
         $policies = FurloughPolicy::query()
-            // ->when($this->option('school_id'), fn ($q, $id) => $q->where('school_id', $id))
+            ->when($this->option('school_id'), fn ($q, $id) => $q->where('school_id', $id))
             ->where('status', ActiveStatus::ACTIVE)
             ->get();
 

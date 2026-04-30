@@ -63,8 +63,8 @@ class FurloughController extends Controller
     public function store(StoreFurloughRequest $request)
     {
         $this->furloughService->create($request->validated()) ? 
-            session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.furlough.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.furlough.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.furlough.store'));
 
         return to_route('staff.furlough.index');
     }

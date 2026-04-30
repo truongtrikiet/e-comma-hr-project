@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\ExpiredSalaryStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Enum\SalaryStatus;
@@ -25,6 +26,7 @@ class Salary extends Model
         'net_amount',
         'approved_at',
         'effective_date',
+        'ends_at',
         'status',
     ];
 
@@ -34,10 +36,52 @@ class Salary extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'status' => SalaryStatus::class,
+        'status' => ExpiredSalaryStatus::class,
         'approved_at' => 'datetime',
         'effective_date' => 'datetime',
+        'ends_at' => 'datetime',
     ];
+
+    /**
+     * Whether this salary is currently active (based on effective_date and ends_at)
+     */
+    public function getIsActiveAttribute(): bool
+    {
+        $now = now();
+
+        if ($this->status?->value !== ExpiredSalaryStatus::ACTIVE->value) {
+            return false;
+        }
+
+        if ($this->effective_date && $this->effective_date->greaterThan($now)) {
+            return false;
+        }
+
+        if ($this->ends_at && $this->ends_at->lessThan($now)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Whether this salary has expired (ends_at before now)
+     */
+    public function getIsExpiredAttribute(): bool
+    {
+        return $this->ends_at ? $this->ends_at->isPast() : false;
+    }
+
+    /**
+     * Human readable period for the salary (e.g. "2026-04-01 — 2026-06-30" or "2026-04-01 — Present")
+     */
+    public function getPeriodAttribute(): string
+    {
+        $from = $this->effective_date?->format('Y-m-d') ?? 'N/A';
+        $to = $this->ends_at?->format('Y-m-d') ?? __('general.common.present');
+
+        return sprintf('%s — %s', $from, $to);
+    }
 
     /**
      * Apply global scope to restrict by session school when not on system main

@@ -113,6 +113,16 @@
                     :value="optional($salary->effective_date)->format('Y-m-d')"
                 />
 
+                <x-form.form-input
+                    :id="'ends_at'"
+                    :label="__('general.common.ends_at')"
+                    :name="'ends_at'"
+                    :placeholder="__('general.common.ends_at')"
+                    :isRequired="true"
+                    :type="'date'"
+                    :value="optional($salary->ends_at)->format('Y-m-d')"
+                />
+
                 <x-form.form-select
                     :id="''"
                     :label="__('general.common.status')"

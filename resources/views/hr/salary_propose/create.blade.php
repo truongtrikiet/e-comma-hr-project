@@ -55,6 +55,8 @@
                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                 @endif
 
+                <input type="hidden" name="school_id" value="{{ auth()->user()->school_id ?? '' }}">
+
                 <x-form.form-input
                     :id="'proposed_gross_amount_formatted'"
                     :label="__('general.common.gross_amount')"

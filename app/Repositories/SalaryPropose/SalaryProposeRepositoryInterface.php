@@ -17,4 +17,12 @@ interface SalaryProposeRepositoryInterface extends RepositoryInterface
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function serverPaginationFiltering($searchParams): LengthAwarePaginator;
+
+    /**
+     * Paginating, ordering and searching through pages for server side index table by self.
+     *
+     * @param $searchParams
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function serverPaginationFilteringByStaff($searchParams): LengthAwarePaginator;
 }

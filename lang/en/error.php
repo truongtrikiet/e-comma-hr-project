@@ -3,6 +3,8 @@
 return [
     'toggle_status' => 'Change status failed.',
     'delete' => 'Delete selection failed.',
+    'store' => 'Add new failed.',
+    'update' => 'Update failed.',
     'appendix_contract' => [
         'store' => 'Add new contract appendix failed.',
         'update' => 'Update contract appendix failed.',
@@ -156,5 +158,16 @@ return [
         'store' => 'Add new school working calendar failed.',
         'update' => 'Update school working calendar failed.',
         'delete' => 'Delete school working calendar failed.',
+    ],
+    'meeting-schedule' => [
+        'store' => 'Add new meeting schedule failed.',
+        'update' => 'Update meeting schedule failed.',
+        'delete' => 'Delete meeting schedule failed.',
+    ],
+    'salary-propose' => [
+        'apply' => 'Apply salary proposal failed.',
+        'store' => 'Add new salary proposal failed.',
+        'update' => 'Update salary proposal failed.',
+        'delete' => 'Delete salary proposal failed.',
     ],
 ];

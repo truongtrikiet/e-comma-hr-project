@@ -49,6 +49,7 @@
                     :placeholder="__('general.common.choose')"
                     :isRequired="true"
                 />
+                <input type="hidden" name="school_id" value="{{ auth()->user()->school_id }}">
                 
                 <x-form.form-input
                     :id="'gross_amount_formatted'"
@@ -104,6 +105,15 @@
                     :label="__('general.common.effective_date')"
                     :name="'effective_date'"
                     :placeholder="__('general.common.effective_date')"
+                    :isRequired="true"
+                    :type="'date'"
+                />
+
+                <x-form.form-input
+                    :id="'ends_at'"
+                    :label="__('general.common.ends_at')"
+                    :name="'ends_at'"
+                    :placeholder="__('general.common.ends_at')"
                     :isRequired="true"
                     :type="'date'"
                 />

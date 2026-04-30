@@ -3,6 +3,8 @@
 return [
     'toggle_status' => 'Thay đổi trạng thái thành công.',
     'delete' => 'Xóa lựa chọn thành công.',
+    'store' => 'Thêm mới thành công.',
+    'update' => 'Chỉnh sửa thành công.',
     'appendix_contract' => [
         'store' => 'Thêm mới phụ lục hợp đồng thành công.',
         'update' => 'Chỉnh sửa phụ lục hợp đồng thành công.',
@@ -125,6 +127,7 @@ return [
         'store' => 'Thêm mới nghỉ phép thành công.',
         'update' => 'Chỉnh sửa nghỉ phép thành công.',
         'delete' => 'Xóa nghỉ phép thành công.',
+        'apply' => 'Duyệt nghỉ phép thành công.',
     ],
     'document_type' => [
         'store' => 'Thêm mới loại tài liệu thành công.',
@@ -156,5 +159,16 @@ return [
         'store' => 'Thêm mới lịch làm việc của trường học thành công.',
         'update' => 'Chỉnh sửa lịch làm việc của trường học thành công.',
         'delete' => 'Xóa lịch làm việc của trường học thành công.',
+    ],
+    'meeting-schedule' => [
+        'store' => 'Thêm mới lịch họp thành công.',
+        'update' => 'Chỉnh sửa lịch họp thành công.',
+        'delete' => 'Xóa lịch họp thành công.',
+    ],
+    'salary-propose' => [
+        'apply' => 'Áp dụng đề xuất lương thành công.',
+        'store' => 'Thêm mới đề xuất lương thành công.',
+        'update' => 'Chỉnh sửa đề xuất lương thành công.',
+        'delete' => 'Xóa đề xuất lương thành công.',
     ],
 ];

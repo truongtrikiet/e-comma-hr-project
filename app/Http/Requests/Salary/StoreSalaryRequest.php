@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Salary;
 
 use App\Acl\Acl;
-use App\Enum\SalaryStatus;
 use App\Rules\AlphaSpaces;
 use App\Rules\ValidAmount;
 use Illuminate\Validation\Rules\Enum;
@@ -34,6 +33,10 @@ class StoreSalaryRequest extends FormRequest
                 'integer',
                 'exists:users,id',
             ],
+            'school_id' => [
+                'required',
+                'integer',
+            ],
             'gross_amount' => [
                 'required', 
                 'min:'.($this->tax_amount ?? 0), 
@@ -60,6 +63,11 @@ class StoreSalaryRequest extends FormRequest
             ],
             'effective_date' => [
                 'required'
+            ],
+            'ends_at' => [
+                'required',
+                'date',
+                'after_or_equal:effective_date',
             ],
         ];
     }

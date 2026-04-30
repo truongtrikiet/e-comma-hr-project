@@ -66,8 +66,8 @@ class MeetingScheduleController extends Controller
     public function store(StoreMeetingScheduleRequest $request)
     {
         $this->meetingScheduleService->create($request->validated()) ? 
-            session()->flash(NOTIFICATION_SUCCESS, __('success.meeting-schedule.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.meeting-schedule.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.meeting-schedule.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.meeting-schedule.store'));
 
         return to_route('admin.meeting-schedule.index');
     }

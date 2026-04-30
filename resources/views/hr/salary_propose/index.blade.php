@@ -24,6 +24,14 @@
         ]"
     />
 
+    <x-custom.stat-box :id="'salary-propose-management-filter'" :custom-col="'col-lg-12'">
+        <x-slot:boxTitle>
+            {{ __('general.filter.title') }}
+        </x-slot:boxTitle>
+
+        @include('hr.salary_propose.filters.index')
+    </x-custom.stat-box>
+
     <div class="align-items-center justify-content-between mb-3">
         <x-slot:boxTitle>
             {{ __('general.menu.salary_propose_management.manage_salary_propose') }}
@@ -75,6 +83,11 @@
                         drawDT = d.draw;
                         d.limit = d.length;
                         d.page = d.start / d.length + 1;
+                        d.user_id = $('#sUserSelect').val() || searchParams.get('user_id');
+                        d.school_id = $('#sSchoolSelect').val() || searchParams.get('school_id');
+                        d.status = $('#sSalaryProposeStatus').val() || searchParams.get('status');
+                        d.effective_date = $('#sEffectiveDate').val() || searchParams.get('effective_date');
+                        d.ends_at = $('#sEndsAt').val() || searchParams.get('ends_at');
                     },
                     "dataSrc": function(res) {
                         res.draw = drawDT;

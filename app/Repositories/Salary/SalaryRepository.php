@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Salary;
 
+use App\Enum\ExpiredSalaryStatus;
 use App\Enum\SalaryStatus;
 use App\Models\Salary;
 use Illuminate\Support\Arr;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\BaseRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
+use App\Acl\Acl;
 
 /**
  * The repository for the Salary Model
@@ -41,6 +43,11 @@ class SalaryRepository extends BaseRepository implements SalaryRepositoryInterfa
     {
         $limit = Arr::get($searchParams, 'limit', self::PER_PAGE);
         $keyword = Arr::get($searchParams, 'search', '');
+        $user_id = Arr::get($searchParams, 'user_id', null);
+        $school_id = Arr::get($searchParams, 'school_id', null);
+        $status = Arr::get($searchParams, 'status', null);
+        $effective_date = Arr::get($searchParams, 'effective_date', null);
+        $ends_at = Arr::get($searchParams, 'ends_at', null);
 
         $query = $this->model->query()->with('user');
 
@@ -49,22 +56,56 @@ class SalaryRepository extends BaseRepository implements SalaryRepositoryInterfa
                 $keyword = $keyword['value'];
             }
 
-            $query->whereAny(['gross_amount', 'approved_at', 'effective_date', 'tax_percent', 'id'], 'LIKE', '%' . $keyword . '%')
-                ->orWhereHas('user', function ($q) use ($keyword) {
-                    $q->where('name', 'LIKE', '%' . $keyword . '%')
-                        ->orWhere('email', 'LIKE', '%' . $keyword . '%');
+            $query->where(function ($q) use ($keyword) {
+                $q->whereAny(['gross_amount', 'approved_at', 'effective_date', 'tax_percent', 'id'], 'LIKE', '%' . $keyword . '%')
+                    ->orWhereHas('user', function ($uq) use ($keyword) {
+                        $uq->where('name', 'LIKE', '%' . $keyword . '%')
+                           ->orWhere('email', 'LIKE', '%' . $keyword . '%');
+                    });
             });
+        }
+
+        if (! is_null($user_id)) {
+            $query->where('user_id', $user_id);
+        }
+
+        if (! is_null($school_id)) {
+            $query->where('school_id', $school_id);
+        }
+
+        if (! is_null($status)) {
+            $query->where('status', $status);
+        }
+
+        if (!is_null($effective_date)) {
+            $query->where('effective_date', '>=', $effective_date);
+        }
+
+        if (!is_null($ends_at)) {
+            $query->where('ends_at', '<=', $ends_at);
         }
 
         $query->latest();
 
         return $query->paginate($limit);
     }
+
+    /**
+     * Paginating, ordering and searching through pages for server side index table by self.
+     *
+     * @param $searchParams
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function serverPaginationFilteringByStaff($searchParams): LengthAwarePaginator
+    {
+        $searchParams['user_id'] = auth()->id();
+        return $this->serverPaginationFilteringForAdmin($searchParams);
+    }
     
     public function getCurrentSalary($userId)
     {
         $salary = $this->model->where('user_id', $userId)->latest()->first();
-        return $salary ? $salary->amount : 0;
+        return $salary ? $salary->gross_amount : 0;
     }
 
     /**
@@ -74,9 +115,8 @@ class SalaryRepository extends BaseRepository implements SalaryRepositoryInterfa
     {
         try {
             DB::beginTransaction();
+            $data['status'] = ExpiredSalaryStatus::ACTIVE->value;
 
-            $data['status'] = SalaryStatus::APPROVED->value;
-            
             $salary = $this->model->create($data);
 
             DB::commit();

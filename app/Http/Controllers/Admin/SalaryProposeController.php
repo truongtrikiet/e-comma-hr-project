@@ -58,8 +58,8 @@ class SalaryProposeController extends Controller
     public function store(StoreSalaryProposeRequest $request)
     {
         $this->salaryProposeService->create($request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.create')) 
-            : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.store')) 
+            : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.store'));
 
         return to_route('admin.salary-propose.index');
     }
@@ -112,8 +112,8 @@ class SalaryProposeController extends Controller
     public function approved(SalaryPropose $salaryPropose, Request $request)
     {
         $this->salaryProposeService->approved($salaryPropose, $request->all()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.approved')) 
-            : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.approved'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.apply')) 
+            : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.apply'));
 
         return to_route('admin.salary-propose.show', $salaryPropose);
     }

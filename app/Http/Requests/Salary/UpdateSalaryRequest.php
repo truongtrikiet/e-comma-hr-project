@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Salary;
 
 use App\Acl\Acl;
+use App\Enum\ExpiredSalaryStatus;
 use App\Enum\SalaryStatus;
 use App\Rules\ValidAmount;
 use Illuminate\Validation\Rules\Enum;
@@ -33,6 +34,10 @@ class UpdateSalaryRequest extends FormRequest
                 'integer',
                 'exists:users,id',
             ],
+            'school_id' => [
+                'required',
+                'integer',
+            ],
             'gross_amount' => [
                 'required', 
                 'min:'.($this->tax_amount ?? 0), 
@@ -60,9 +65,14 @@ class UpdateSalaryRequest extends FormRequest
             'effective_date' => [
                 'nullable'
             ],
+            'ends_at' => [
+                'nullable',
+                'date',
+                'after_or_equal:effective_date',
+            ],
             'status' => [
                 'required',
-                new Enum(SalaryStatus::class),
+                new Enum(ExpiredSalaryStatus::class),
             ],
         ];
     }
