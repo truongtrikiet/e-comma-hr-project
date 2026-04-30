@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('images/acomma-logo/logo-3.png') }}"/>
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('images/acomma-logo/logo-4.png') }}"/>
     <title>{{ config('app.name') }} | {{ 'Reset Password' }}</title>
 
     <!-- ================= Favicon ================== -->

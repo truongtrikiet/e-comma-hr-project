@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{{ config('app.name') }} | {{ 'Login' }}</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('images/acomma-logo/logo-3.png') }}"/>
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('images/acomma-logo/logo-4.png') }}"/>
     @php use App\Models\Setting; @endphp
 
     @vite([
