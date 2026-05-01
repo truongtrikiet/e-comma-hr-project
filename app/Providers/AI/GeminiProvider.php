@@ -14,7 +14,6 @@ class GeminiProvider implements AIProviderInterface
         try {
             $apiKey = decrypt($aiProfile->api_key_encrypted);
         } catch (\Throwable $e) {
-            // fall back to raw value
             $apiKey = $aiProfile->api_key_encrypted;
         }
 
@@ -31,6 +30,7 @@ class GeminiProvider implements AIProviderInterface
             ],
             'generationConfig' => [
                 'temperature' => 0.0,
+                'maxOutputTokens' => config('ai.max_output_tokens', 4096),
             ],
         ];
 
@@ -57,7 +57,24 @@ class GeminiProvider implements AIProviderInterface
             ];
         }
 
-        return $this->parseResponse($response->json());
+        $json = $response->json();
+
+        $finishReason = data_get($json, 'candidates.0.finishReason');
+        if ($finishReason === 'MAX_TOKENS') {
+            Log::warning('[GEMINI TRUNCATED]', [
+                'profile_id' => $aiProfile->id,
+                'model' => $aiProfile->model,
+                'finishReason' => $finishReason,
+            ]);
+
+            return [
+                'is_suitable' => false,
+                'reason' => 'Gemini response truncated (MAX_TOKENS). Try increasing maxOutputTokens or shorten the prompt.',
+                'raw' => $json,
+            ];
+        }
+
+        return $this->parseResponse($json);
     }
 
     protected function parseResponse(array|string $response): array

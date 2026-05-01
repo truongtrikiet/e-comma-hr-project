@@ -4,6 +4,7 @@ return [
     'timeout' => env('AI_TIMEOUT', 60),
     'threshold' => env('AI_THRESHOLD', 95),
     'threshold_name' => env('AI_THRESHOLD_NAME', 90),
+    'max_output_tokens' => env('AI_MAX_OUTPUT_TOKENS', 4096),
     'prompts' => [
         'cv_screening' => <<<PROMPT
             You are an AI assistant integrated into a recruitment screening system
