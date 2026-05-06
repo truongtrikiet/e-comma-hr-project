@@ -83,8 +83,8 @@ class ContractController extends Controller
     public function store(StoreContractRequest $request)
     {
         $this->contractService->create($request->validated()) ? 
-            session()->flash(NOTIFICATION_SUCCESS, __('success.contract.create')) 
-            : session()->flash(NOTIFICATION_ERROR, __('error.contract.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.contract.store')) 
+            : session()->flash(NOTIFICATION_ERROR, __('error.contract.store'));
 
         return to_route('admin.contract.index');
     }

@@ -53,8 +53,8 @@ class SchoolController extends Controller
     public function store(StoreSchoolRequest $request)
     {
         $this->schoolRepository->create($request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.school.create')) 
-            : session()->flash(NOTIFICATION_ERROR, __('error.school.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.school.store')) 
+            : session()->flash(NOTIFICATION_ERROR, __('error.school.store'));
 
         return to_route('admin.school.index');
     }

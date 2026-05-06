@@ -14,10 +14,11 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('holiday:remind')->dailyAt('11:00');
         $schedule->command('furlough:accrue')->monthlyOn(1, '00:05');
-        $schedule->command('contracts:update-statuses')->daily();
-        // $schedule->command('furlough:accrue')->everyMinute()->withoutOverlapping();
+        // $schedule->command('contracts:update-statuses')->dailyAt('00:00');
         $schedule->command('meeting:remind')->everyMinute();
         $schedule->command('salary_proposes:apply')->daily();
+        $schedule->command('expired-salary:update')->dailyAt('00:00');
+        $schedule->command('expired-contract:update')->dailyAt('00:00');
     }
 
     /**

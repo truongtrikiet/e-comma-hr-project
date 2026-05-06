@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\MeetingSchedule;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -9,11 +10,10 @@ class MeetingScheduleReminder extends Notification
 {
     use Queueable;
 
-    protected $meeting;
-
-    public function __construct($meeting)
-    {
-        $this->meeting = $meeting;
+    public function __construct(
+        protected MeetingSchedule $meetingSchedule,
+    ) {
+        //
     }
 
     public function via(object $notifiable): array
@@ -24,12 +24,12 @@ class MeetingScheduleReminder extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'meeting_id' => $this->meeting->id,
+            'meeting_id' => $this->meetingSchedule->id,
             'message' => sprintf('Meeting "%s" starts at %s — starting soon (15 minutes)',
-                $this->meeting->title,
-                $this->meeting->start_time?->format('Y-m-d H:i:s') ?? '-'
+                $this->meetingSchedule->title,
+                $this->meetingSchedule->start_time?->format('Y-m-d H:i:s') ?? '-'
             ),
-            'action_url' => route('admin.meeting-schedule.show', $this->meeting->id),
+            'action_url' => route('staff.meeting-schedule.show', $this->meetingSchedule->id),
         ];
     }
 }

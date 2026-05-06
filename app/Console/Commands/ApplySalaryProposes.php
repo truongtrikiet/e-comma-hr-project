@@ -67,7 +67,6 @@ class ApplySalaryProposes extends Command
                     }
                 }
 
-                // compute tax if not provided on propose: inherit from current salary or 0
                 $taxPercent = $propose->proposed_tax_percent;
                 if (is_null($taxPercent)) {
                     $taxPercent = Salary::where('user_id', $propose->user_id)

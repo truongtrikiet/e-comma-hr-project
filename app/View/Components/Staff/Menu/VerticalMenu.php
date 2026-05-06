@@ -38,6 +38,7 @@ class VerticalMenu extends Component
         $this->buildMenuDashboard();
         $this->buildMainMenu();
         $this->buildMenuPurpose();
+        $this->buildSystemSetting();
     }
 
     private function buildMenuDashboard(): void
@@ -99,6 +100,28 @@ class VerticalMenu extends Component
                         'url' => route('staff.salary.index'),
                         'active' => Route::is(['staff.salary.*']),
                         'show' => checkPermissions([Acl::PERMISSION_SALARY_LIST]),
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    private function buildSystemSetting(): void
+    {
+        $this->menuItems = array_merge($this->menuItems, [
+            [
+                'type' => 'label',
+                'title' => __('general.common.setting'),
+            ],
+            [
+                'title' => __('general.common.contract'),
+                'icon' => 'icon icon-form',
+                'child' => [
+                    [
+                        'title' => __('general.menu.contract_management.title'),
+                        'url' => route('staff.contract.index'),
+                        'active' => Route::is(['staff.contract.*']),
+                        'show' => checkPermission(Acl::PERMISSION_CONTRACT_LIST),
                     ],
                 ],
             ],

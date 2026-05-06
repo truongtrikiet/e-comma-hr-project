@@ -137,6 +137,27 @@
                 const duration = document.getElementById('sDurationType');
                 const halfDayWrapper = document.getElementById('sHalfDaySession').closest('.form-group');
 
+                const startInput = document.getElementById('sStartTime');
+                const endInput = document.getElementById('sEndTime');
+                const startWrapper = startInput.closest('.form-group');
+                const endWrapper = endInput.closest('.form-group');
+
+                function toggleStartEnd() {
+                    if (duration.value === '2' || duration.value === 2) {
+                        startWrapper.style.display = 'none';
+                        endWrapper.style.display = 'none';
+                        startInput.value = '';
+                        endInput.value = '';
+                        startInput.removeAttribute('required');
+                        endInput.removeAttribute('required');
+                    } else {
+                        startWrapper.style.display = '';
+                        endWrapper.style.display = '';
+                        startInput.setAttribute('required', 'required');
+                        endInput.setAttribute('required', 'required');
+                    }
+                }
+
                 function toggleHalfDay() {
                     if (duration.value == 1 || duration.value === "") {
                         halfDayWrapper.style.display = 'none';
@@ -145,9 +166,13 @@
                     }
                 }
 
-                duration.addEventListener('change', toggleHalfDay);
+                duration.addEventListener('change', function () {
+                    toggleHalfDay();
+                    toggleStartEnd();
+                });
 
                 toggleHalfDay();
+                toggleStartEnd();
             });
         </script>
         

@@ -65,8 +65,8 @@ class AIProfileController extends Controller
     public function store(StoreAIProfileRequest $request)
     {
         $this->aIProfileService->create($request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.ai-profile.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.ai-profile.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.ai-profile.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.ai-profile.store'));
 
         return to_route('hr.ai_profile.index');
     }

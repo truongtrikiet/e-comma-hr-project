@@ -52,8 +52,8 @@ class FurloughTypeController extends Controller
     public function store(StoreFurloughTypeRequest $request)
     {
         $this->furloughTypeRepository->create($request->validated()) ? 
-            session()->flash(NOTIFICATION_SUCCESS, __('success.furlough_type.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.furlough_type.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.furlough_type.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.furlough_type.store'));
 
         return to_route('admin.furlough-type.index');
     }

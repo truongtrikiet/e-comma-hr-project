@@ -128,17 +128,17 @@
                         "orderable": false,
                         "render": function (data, type, full) {
                             let urlEdit = `{{ route('staff.salary-propose.edit', ':id') }}`.replace(':id', data);
-                            <!-- let urlShow = `{{ route('staff.salary-propose.show', ':id') }}`.replace(':id', data); -->
+                            let urlShow = `{{ route('staff.salary-propose.show', ':id') }}`.replace(':id', data);
                             let urlDestroy = `{{ route('staff.salary-propose.destroy', ':id') }}`.replace(':id', data);
 
                             return `
                                 <ul class="table-controls d-flex justify-content-center">
-                                    <!-- @can(Acl::PERMISSION_SALARY_PROPOSE_APPROVE)
+                                    @can(Acl::PERMISSION_SALARY_PROPOSE_VIEW)
                                         <x-table.actions.show-action
-                                            :permission="Acl::PERMISSION_SALARY_PROPOSE_APPROVE"
+                                            :permission="Acl::PERMISSION_SALARY_PROPOSE_VIEW"
                                             :url="'${urlShow}'"
                                         />
-                                    @endcan -->
+                                    @endcan
                                     <x-table.actions.edit-action
                                         :permission="Acl::PERMISSION_SALARY_PROPOSE_EDIT"
                                         :url="'${urlEdit}'"

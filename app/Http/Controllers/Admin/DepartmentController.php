@@ -71,8 +71,8 @@ class DepartmentController extends Controller
     public function store(StoreDepartmentRequest $request)
     {
         $this->departmentService->create($request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.department.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.department.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.department.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.department.store'));
 
         return to_route('admin.department.index');
     }

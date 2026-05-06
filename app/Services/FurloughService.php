@@ -9,6 +9,7 @@ use App\Enum\DurationType;
 use App\Enum\FurloughStatus;
 use App\Enum\UseBalanceFurloughEnum;
 use App\Helpers\DayEnumHelper;
+use App\Models\Furlough;
 use App\Models\FurloughBalance;
 use App\Models\FurloughPolicy;
 use App\Models\SchoolWorkingCalendar;
@@ -57,7 +58,7 @@ class FurloughService
             $numberOfDays = $this->calculateNumberOfDays($data);
 
             if ($numberOfDays <= 0) {
-                session()->flash(NOTIFICATION_ERROR, __('The calculated number of days is zero. Please check start/end dates or duration type.'));
+                // session()->flash(NOTIFICATION_ERROR, __('The calculated number of days is zero. Please check start/end dates or duration type.'));
                 return false;
             }
 
@@ -70,7 +71,7 @@ class FurloughService
                 );
 
                 if (!$balance) {
-                    session()->flash(NOTIFICATION_ERROR, __('No furlough balance found for this furlough type. Please contact admin for support.'));
+                    // session()->flash(NOTIFICATION_ERROR, __('No furlough balance found for this furlough type. Please contact admin for support.'));
                     return false;
                 }
 
@@ -79,7 +80,7 @@ class FurloughService
                 $available = round($carry + $remaining, 2);
 
                 if ($numberOfDays > $available) {
-                    session()->flash(NOTIFICATION_ERROR, __('You do not have enough furlough balance. Requested :req, available :avail', ['req' => $numberOfDays, 'avail' => $available]));
+                    // session()->flash(NOTIFICATION_ERROR, __('You do not have enough furlough balance. Requested :req, available :avail', ['req' => $numberOfDays, 'avail' => $available]));
                     return false;
                 }
 
@@ -87,6 +88,33 @@ class FurloughService
             }
 
             $data['number_of_days'] = $numberOfDays;
+
+            $durationType = DurationType::tryFrom($data['duration_type'] ?? null);
+            if ($durationType === DurationType::HALF_DAY) {
+                $data['start_time'] = $data['start_time'] ?? null;
+                $data['end_time'] = $data['end_time'] ?? null;
+            } else if ($durationType === DurationType::FULL_DAY) {
+                $hasOverlap = Furlough::query()
+                    ->where('user_id', $user->id)
+                    ->where('school_id', $data['school_id'])
+                    ->whereIn('furlough_status', [
+                        FurloughStatus::APPROVED,
+                    ])
+                    ->where(function ($q) use ($data) {
+                        $q->whereDate('start_time', '<=', $data['end_time'])
+                        ->whereDate('end_time', '>=', $data['start_time']);
+                    })
+                    ->exists();
+
+                if ($hasOverlap) {
+                    // session()->flash(
+                    //     NOTIFICATION_ERROR,
+                    //     __('You already have a furlough request that overlaps with the selected dates.')
+                    // );
+                    return false;
+                }
+            }
+
             $data['use_balance'] = $useBalance;
             $data['furlough_status'] = FurloughStatus::PENDING;
 
@@ -107,9 +135,12 @@ class FurloughService
             DB::commit();
 
             return $furlough;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Error creating furlough: ' . $e->getMessage());
+            Log::error('Error creating furlough', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             throw $e;
         }
     }
@@ -142,7 +173,7 @@ class FurloughService
             DB::commit();
 
             return $furlough;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Error updating furlough: ' . $e->getMessage());
             throw $e;
@@ -177,6 +208,28 @@ class FurloughService
             $useBalance = $furlough->use_balance instanceof UseBalanceFurloughEnum
                 ? ($furlough->use_balance === UseBalanceFurloughEnum::USE)
                 : (UseBalanceFurloughEnum::tryFrom($furlough->use_balance) === UseBalanceFurloughEnum::USE);
+
+            if ((float) ($furlough->number_of_days ?? 0) <= 0) {
+                $recalc = $this->calculateNumberOfDays([
+                    'start_time' => $furlough->start_time instanceof \DateTimeInterface ? $furlough->start_time->toDateTimeString() : $furlough->start_time,
+                    'end_time' => $furlough->end_time instanceof \DateTimeInterface ? $furlough->end_time->toDateTimeString() : $furlough->end_time,
+                    'duration_type' => $furlough->duration_type instanceof \BackedEnum ? $furlough->duration_type->value : $furlough->duration_type,
+                    'school_id' => $furlough->school_id ?? session('school_id'),
+                ]);
+
+                Log::warning('FurloughService::approved recalculated days', [
+                    'furlough_id' => $furlough->id,
+                    'old_number_of_days' => $furlough->number_of_days,
+                    'recalculated' => $recalc,
+                ]);
+
+                if ($recalc <= 0) {
+                    throw new RuntimeException('Cannot approve furlough with 0 calculated days. Please verify start/end dates or duration.');
+                }
+
+                $furlough->number_of_days = $recalc;
+                $furlough->save();
+            }
 
             if ($useBalance) {
                 switch (true) {
@@ -259,8 +312,20 @@ class FurloughService
         }
 
         try {
-            $start = Carbon::parse($data['start_time'])->startOfDay();
-            $end = Carbon::parse($data['end_time'])->startOfDay();
+            $rawStart = Carbon::parse($data['start_time']);
+            $rawEnd = Carbon::parse($data['end_time']);
+
+            $start = $rawStart->startOfDay();
+            $end = $rawEnd->startOfDay();
+
+            // If UI convention sends an exclusive end at midnight (00:00:00 of next day), treat it as previous day
+            if ($rawEnd->format('H:i:s') === '00:00:00' && $end->gt($start)) {
+                $end = $end->subDay();
+                Log::debug('calculateNumberOfDays: adjusted end (midnight exclusive) by -1 day', [
+                    'original_end' => $rawEnd->toDateTimeString(),
+                    'adjusted_end' => $end->toDateString(),
+                ]);
+            }
         } catch (\Throwable $e) {
             Log::warning('calculateNumberOfDays: invalid dates', $data);
             return 0.0;

@@ -28,6 +28,8 @@ class SalaryProposeService
         try {
             DB::beginTransaction();
 
+            $user = auth()->user();
+
             if (empty($data['user_id'])) {
                 $data['user_id'] = auth()->id();
             }
@@ -37,7 +39,7 @@ class SalaryProposeService
             $hrRoles = User::query()
                 ->where('school_id', $salaryPropose->school_id)
                 ->whereHas('roles', fn ($q) => $q->where('name', Acl::ROLE_HR))
-                ->where('id', '!=', auth()->id())
+                ->where('id', '!=', $user->id)
                 ->get();
 
             foreach ($hrRoles as $hr) {

@@ -55,7 +55,15 @@ class ContractRepository extends BaseRepository implements ContractRepositoryInt
                 $keyword = $keyword['value'];
             }
             $query->where(function ($q) use ($keyword) {
-                $q->where('code', 'LIKE', '%' . $keyword . '%');
+                $q->where('code', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('signed_at', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('expired_at', 'LIKE', '%' . $keyword . '%')
+                    ->orWhereHas('contractType', function ($q) use ($keyword) {
+                        $q->where('name', 'LIKE', '%' . $keyword . '%');
+                    })
+                    ->orWhereHas('contractable', function ($q) use ($keyword) {
+                        $q->where('name', 'LIKE', '%' . $keyword . '%');
+                    });
             });
         }
 
