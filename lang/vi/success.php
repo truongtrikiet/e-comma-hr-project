@@ -40,6 +40,7 @@ return [
     ],
     'contract' => [
         'store' => 'Thêm mới hợp đồng thành công.',
+        'update' => 'Chỉnh sửa hợp đồng thành công.',
         'update_status' => 'Chỉnh sửa trạng thái hợp đồng thành công.',
     ],
     'password' => [

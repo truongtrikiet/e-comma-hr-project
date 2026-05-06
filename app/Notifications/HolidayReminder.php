@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\HolidaySchedule;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -9,11 +10,10 @@ class HolidayReminder extends Notification
 {
     use Queueable;
 
-    protected $holiday;
-
-    public function __construct($holiday)
-    {
-        $this->holiday = $holiday;
+    public function __construct(
+        protected HolidaySchedule $holidaySchedule,
+    ) {
+        //
     }
 
     public function via(object $notifiable): array
@@ -24,11 +24,11 @@ class HolidayReminder extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'holiday_id' => $this->holiday->id,
+            'holiday_id' => $this->holidaySchedule->id,
             'message' => sprintf('Tomorrow is holiday: %s (from %s to %s)',
-                $this->holiday->localeName->get(),
-                $this->holiday->start_date->format('Y-m-d'),
-                $this->holiday->end_date->format('Y-m-d')
+                $this->holidaySchedule->localeName->get(),
+                $this->holidaySchedule->start_date->format('Y-m-d'),
+                $this->holidaySchedule->end_date->format('Y-m-d')
             ),
             'action_url' => route('admin.holiday-schedule.index'),
         ];

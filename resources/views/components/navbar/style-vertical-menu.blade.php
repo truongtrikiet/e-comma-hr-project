@@ -27,6 +27,10 @@
             padding: 2px 5px; 
             border-radius: 10px; 
         }
+        .notification-link { display: flex; align-items: center; text-decoration: none; color: inherit; padding: .5rem .75rem; }
+        .notification-link .media-body { flex: 1; }
+        .notification-link .notify-time { margin-left: .5rem; white-space: nowrap; }
+        .notification-link:hover { background: rgba(0,0,0,0.03); }
     </style>
 
     <!--**********************************
@@ -90,21 +94,19 @@
                                             $badge = $data['badge'] ?? 'primary';
                                         @endphp
 
-                                        <li class="media dropdown-item">
+                                        <a href="{{ route($notifRoutePrefix . '.read', $notification->id) }}" class="media dropdown-item notification-link" data-url="{{ route($notifRoutePrefix . '.read', $notification->id) }}" data-action-url="{{ $data['action_url'] ?? '' }}" data-notification-id="{{ $notification->id }}">
                                             <span class="{{ $badge }}">
                                                 <i class="ti-bell"></i>
                                             </span>
 
                                             <div class="media-body">
-                                                <a href="{{ route($notifRoutePrefix . '.read', $notification->id) }}">
-                                                    <p>{{ $data['message'] ?? 'New notification' }}</p>
-                                                </a>
+                                                <p>{{ $data['message'] ?? 'New notification' }}</p>
                                             </div>
 
                                             <span class="notify-time">
                                                 {{ $notification->created_at->diffForHumans() }}
                                             </span>
-                                        </li>
+                                        </a>
                                     @empty
                                         <li class="dropdown-item text-center text-muted">
                                             No notifications
@@ -220,6 +222,30 @@
                         alert('Failed to clear notifications');
                     }
                 }).catch(() => alert('Failed to clear notifications'));
+            });
+
+            document.addEventListener('click', function (ev) {
+                const a = ev.target.closest && ev.target.closest('.notification-link');
+                if (!a) return;
+                const href = a.getAttribute('href') || a.dataset.url || '';
+                const actionUrl = a.dataset.actionUrl || '';
+                const id = a.dataset.notificationId || a.dataset.notificationid || '';
+
+                ev.preventDefault();
+                ev.stopPropagation();
+
+                if (href && href !== '#') {
+                    window.location.href = href;
+                    return;
+                }
+                if (actionUrl) {
+                    window.location.href = actionUrl;
+                    return;
+                }
+                if (id) {
+                    window.location.href = '/notifications/' + id;
+                    return;
+                }
             });
         });
     </script>

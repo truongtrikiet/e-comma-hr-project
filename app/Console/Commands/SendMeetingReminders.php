@@ -2,8 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Enum\MeetingScheduleStatus;
+use App\Enum\MeetingTargetType;
 use Illuminate\Console\Command;
 use App\Models\MeetingSchedule;
+use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\MeetingScheduleReminder;
 
@@ -30,7 +33,7 @@ class SendMeetingReminders extends Command
         $windowEnd = $target->copy()->endOfMinute();
 
         $meetings = MeetingSchedule::whereBetween('start_time', [$windowStart, $windowEnd])
-            ->where('status', '!=', \App\Enum\MeetingScheduleStatus::CANCELLED->value)
+            ->where('status', '!=', MeetingScheduleStatus::CANCELLED->value)
             ->get();
 
         if ($meetings->isEmpty()) {
@@ -47,16 +50,16 @@ class SendMeetingReminders extends Command
                     $id = $t->target_id;
 
                     switch ((int) $type) {
-                        case \App\Enum\MeetingTargetType::USER->value:
-                            $u = \App\Models\User::find($id);
-                            if ($u) $recipients->push($u);
+                        case MeetingTargetType::USER->value:
+                            $user = User::find($id);
+                            if ($user) $recipients->push($user);
                             break;
-                        case \App\Enum\MeetingTargetType::DEPARTMENT->value:
-                            $users = \App\Models\User::where('department_id', $id)->get();
+                        case MeetingTargetType::DEPARTMENT->value:
+                            $users = User::where('department_id', $id)->get();
                             $recipients = $recipients->merge($users);
                             break;
-                        case \App\Enum\MeetingTargetType::SCHOOL->value:
-                            $users = \App\Models\User::where('school_id', $meeting->school_id)->get();
+                        case MeetingTargetType::SCHOOL->value:
+                            $users = User::where('school_id', $meeting->school_id)->get();
                             $recipients = $recipients->merge($users);
                             break;
                     }

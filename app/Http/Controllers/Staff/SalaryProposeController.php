@@ -10,11 +10,14 @@ use App\Http\Resources\Salary\SalaryProposeResource;
 use App\Models\SalaryPropose;
 use App\Repositories\SalaryPropose\SalaryProposeRepositoryInterface;
 use App\Acl\Acl;
+use App\Enum\SalaryStatus;
+use App\Services\SalaryProposeService;
 
 class SalaryProposeController extends Controller
 {
     public function __construct(
         protected SalaryProposeRepositoryInterface $salaryProposeRepository,
+        protected SalaryProposeService $salaryProposeService,
     ) {
         $this->middleware('permission:' . Acl::PERMISSION_SALARY_PROPOSE_LIST)->only('index');
         $this->middleware('permission:' . Acl::PERMISSION_SALARY_PROPOSE_ADD)->only(['create', 'store']);
@@ -49,7 +52,7 @@ class SalaryProposeController extends Controller
      */
     public function store(StoreSalaryProposeRequest $request)
     {
-        $this->salaryProposeRepository->create($request->validated()) ?
+        $this->salaryProposeService->create($request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.store')) 
             : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.store'));
 
@@ -61,7 +64,9 @@ class SalaryProposeController extends Controller
      */
     public function show(SalaryPropose $salaryPropose)
     {
-        //
+        $statuses = SalaryStatus::options();
+
+        return view('staff.salary_propose.show', compact('salaryPropose', 'statuses'));
     }
 
     /**
@@ -77,7 +82,7 @@ class SalaryProposeController extends Controller
      */
     public function update(UpdateSalaryProposeRequest $request, SalaryPropose $salaryPropose)
     {
-        $this->salaryProposeRepository->update($salaryPropose, $request->validated()) ?
+        $this->salaryProposeService->update($salaryPropose, $request->validated()) ?
             session()->flash(NOTIFICATION_SUCCESS, __('success.salary-propose.update')) 
             : session()->flash(NOTIFICATION_ERROR, __('error.salary-propose.update'));
 

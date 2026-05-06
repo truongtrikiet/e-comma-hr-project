@@ -60,8 +60,8 @@ class SalaryController extends Controller
     public function store(StoreSalaryRequest $request)
     {
         $this->salaryRepository->create($request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.salary.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.salary.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.salary.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.salary.store'));
 
         return to_route('admin.salary.index');
     }

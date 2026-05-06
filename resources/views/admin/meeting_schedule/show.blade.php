@@ -36,38 +36,40 @@
                                 {{ $meetingSchedule->description ?? '-' }}
                             </div>
 
-                            <div class="mb-2">
-                                <label><h6>{{ __('general.common.meeting_target') }}:</h6></label>
-                                @if($meetingSchedule->targets && $meetingSchedule->targets->isNotEmpty())
-                                    <ul>
-                                        @foreach($meetingSchedule->targets as $t)
-                                            @php
-                                                $type = $t->target_type?->value ?? $t->target_type;
-                                            @endphp
-                                            <li>
-                                                <strong>{{ \App\Enum\MeetingTargetType::getNameByValue($type) }}:</strong>
-                                                @switch($type)
-                                                    @case(\App\Enum\MeetingTargetType::USER->value)
-                                                        @php $u = \App\Models\User::find($t->target_id); @endphp
-                                                        {{ $u?->name ?? ('#' . $t->target_id) }}
-                                                        @break
-                                                    @case(\App\Enum\MeetingTargetType::DEPARTMENT->value)
-                                                        @php $d = \App\Models\Department::find($t->target_id); @endphp
-                                                        {{ $d?->name ?? ('#' . $t->target_id) }}
-                                                        @break
-                                                    @case(\App\Enum\MeetingTargetType::SCHOOL->value)
-                                                        @php $s = \App\Models\School::find($t->target_id); @endphp
-                                                        {{ $s?->name ?? ('#' . $t->target_id) }}
-                                                        @break
-                                                    @default
-                                                        {{ $t->target_id }}
-                                                @endswitch
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    -
-                                @endif
+                            <div class="mb-2 d-flex align-items-start">
+                                <label class="me-3"><h6>{{ __('general.common.meeting_target') }}:</h6></label>
+                                <div class="flex-grow-1">
+                                    @if($meetingSchedule->targets && $meetingSchedule->targets->isNotEmpty())
+                                        <div class="d-flex flex-wrap align-items-center">
+                                            @foreach($meetingSchedule->targets as $t)
+                                                @php
+                                                    $type = $t->target_type?->value ?? $t->target_type;
+                                                    $label = \App\Enum\MeetingTargetType::getNameByValue($type) ?: '-';
+                                                    switch ($type) {
+                                                        case \App\Enum\MeetingTargetType::USER->value:
+                                                            $display = optional(\App\Models\User::find($t->target_id))->name ?? ('#' . $t->target_id);
+                                                            break;
+                                                        case \App\Enum\MeetingTargetType::DEPARTMENT->value:
+                                                            $display = optional(\App\Models\Department::find($t->target_id))->name ?? ('#' . $t->target_id);
+                                                            break;
+                                                        case \App\Enum\MeetingTargetType::SCHOOL->value:
+                                                            $display = optional(\App\Models\School::find($t->target_id))->name ?? ('#' . $t->target_id);
+                                                            break;
+                                                        default:
+                                                            $display = $t->target_id;
+                                                    }
+                                                @endphp
+
+                                                <div class="me-4 mb-1">
+                                                    <label class="text-muted mb-0">{{ $label }}:</label>
+                                                    <div class="d-inline">{{ $display }}</div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        -
+                                    @endif
+                                </div>
                             </div>
 
                             <div class="mb-2">

@@ -20,6 +20,10 @@
 
     <style>
         .notification-count { position: absolute; top: -6px; right: -6px; font-size: 10px; padding: 2px 5px; border-radius: 10px; }
+        .notification-link { display: flex; align-items: center; text-decoration: none; color: inherit; padding: .5rem .75rem; }
+        .notification-link .media-body { flex: 1; }
+        .notification-link .notify-time { margin-left: .5rem; white-space: nowrap; }
+        .notification-link:hover { background: rgba(0,0,0,0.03); }
     </style>
 
     <!--**********************************
@@ -71,20 +75,18 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="list-unstyled">
                                     @forelse($notifications as $note)
-                                        <li class="media dropdown-item">
+                                        <a href="{{ $note->data['url'] ?? '#' }}" class="media dropdown-item notification-link" data-url="{{ $note->data['url'] ?? '' }}" data-action-url="{{ $note->data['action_url'] ?? '' }}" data-notification-id="{{ $note->id }}">
                                             <span class="primary"><i class="ti-bell"></i></span>
                                             <div class="media-body">
-                                                <a href="{{ $note->data['url'] ?? '#' }}">
-                                                    <p>{!! 
-                                                        \Illuminate\Support\Str::limit(
-                                                            $note->data['message'] ?? ($note->data['title'] ?? null) ?? ($note->data ?? json_encode($note->data)),
-                                                            120
-                                                        )
-                                                    !!}</p>
-                                                </a>
+                                                <p>{!! 
+                                                    \Illuminate\Support\Str::limit(
+                                                        $note->data['message'] ?? ($note->data['title'] ?? null) ?? ($note->data ?? json_encode($note->data)),
+                                                        120
+                                                    )
+                                                !!}</p>
                                             </div>
                                             <span class="notify-time">{{ optional($note->created_at)->diffForHumans() }}</span>
-                                        </li>
+                                        </a>
                                     @empty
                                         <li class="dropdown-item text-center">No notifications</li>
                                     @endforelse
@@ -197,6 +199,30 @@
                         alert('Failed to clear notifications');
                     }
                 }).catch(() => alert('Failed to clear notifications'));
+            });
+
+            document.addEventListener('click', function (ev) {
+                const a = ev.target.closest && ev.target.closest('.notification-link');
+                if (!a) return;
+                const href = a.getAttribute('href') || a.dataset.url || '';
+                const actionUrl = a.dataset.actionUrl || '';
+                const id = a.dataset.notificationId || a.dataset.notificationid || '';
+
+                ev.preventDefault();
+                ev.stopPropagation();
+
+                if (href && href !== '#') {
+                    window.location.href = href;
+                    return;
+                }
+                if (actionUrl) {
+                    window.location.href = actionUrl;
+                    return;
+                }
+                if (id) {
+                    window.location.href = '/notifications/' + id;
+                    return;
+                }
             });
         });
     </script>

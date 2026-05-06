@@ -60,8 +60,8 @@ class ContractTypeController extends Controller
     public function store(StoreContractTypeRequest $request)
     {
         $this->contractTypeService->create($request->validated()) ?
-            session()->flash(NOTIFICATION_SUCCESS, __('success.contract-type.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.contract-type.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.contract-type.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.contract-type.store'));
 
         return to_route('hr.contract_type.index');
     }

@@ -31,19 +31,19 @@ class SalaryProposeReviewed extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+    // public function toMail(object $notifiable): MailMessage
+    // {
+    //     return (new MailMessage)
+    //                 ->line('The introduction to the notification.')
+    //                 ->action('Notification Action', url('/'))
+    //                 ->line('Thank you for using our application!');
+    // }
 
     /**
      * Get the array representation of the notification.
@@ -68,7 +68,7 @@ class SalaryProposeReviewed extends Notification
             'status_label' => SalaryStatus::getNameByValue($status->value),
 
             'action_url' => route(
-                'staff.salary-propose.edit',
+                'staff.salary-propose.show',
                 $this->salaryPropose->id
             ),
 

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\SalaryPropose;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +12,13 @@ class SalaryProposeApproved extends Notification
 {
     use Queueable;
 
-    protected $salaryPropose;
     /**
      * Create a new notification instance.
      */
     public function __construct(
-        $salaryPropose
+        protected SalaryPropose $salaryPropose,
     ) {
-        $this->salaryPropose = $salaryPropose;
+        //
     }
 
     /**
@@ -28,19 +28,19 @@ class SalaryProposeApproved extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database', 'mail'];
+        return ['database'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+    // public function toMail(object $notifiable): MailMessage
+    // {
+    //     return (new MailMessage)
+    //                 ->line('The introduction to the notification.')
+    //                 ->action('Notification Action', url('/'))
+    //                 ->line('Thank you for using our application!');
+    // }
 
     /**
      * Get the array representation of the notification.
@@ -56,9 +56,11 @@ class SalaryProposeApproved extends Notification
 
     public function toDatabase($notifiable): array
     {
+        $user = $this->salaryPropose->user;
+
         return [
             'salary_propose_id' => $this->salaryPropose->id,
-            'message' => 'Your salary propose has been approved',
+            'message' => "{$user->name} has submitted a salary proposal.",
             'action_url' => route(
                 'hr.salary-propose.show',
                 $this->salaryPropose->id

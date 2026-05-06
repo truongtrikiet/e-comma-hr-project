@@ -52,8 +52,8 @@ class EmployeeTypeController extends Controller
     public function store(StoreEmployeeTypeRequest $request)
     {
         $this->employeeTypeRepository->create($request->validated()) ? 
-            session()->flash(NOTIFICATION_SUCCESS, __('success.employee_type.create'))
-            : session()->flash(NOTIFICATION_ERROR, __('error.employee_type.create'));
+            session()->flash(NOTIFICATION_SUCCESS, __('success.employee_type.store'))
+            : session()->flash(NOTIFICATION_ERROR, __('error.employee_type.store'));
 
         return to_route('admin.employee-type.index');
     }

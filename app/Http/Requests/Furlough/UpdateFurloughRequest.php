@@ -53,11 +53,11 @@ class UpdateFurloughRequest extends FormRequest
                 new Enum(UseBalanceFurloughEnum::class),
             ],
             'start_time' => [
-                'required',
+                'nullable',
                 'date',
             ],
             'end_time' => [
-                'required',
+                'nullable',
                 'date',
                 'after:start_time',
             ],

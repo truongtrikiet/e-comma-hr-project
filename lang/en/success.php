@@ -40,6 +40,7 @@ return [
     ],
     'contract' => [
         'store' => 'Add new contract successfully.',
+        'update' => 'Update contract successfully.',
         'update_status' => 'Update contract status successfully.',
     ],
     'password' => [

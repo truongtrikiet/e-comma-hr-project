@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Furlough;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +12,13 @@ class FurloughRequestSubmitted extends Notification
 {
     use Queueable;
 
-    protected $furlough;
     /**
      * Create a new notification instance.
      */
     public function __construct(
-        $furlough
+        protected Furlough $furlough,
     ) {
-        $this->furlough = $furlough;
+        //
     }
 
     /**
@@ -33,9 +33,11 @@ class FurloughRequestSubmitted extends Notification
 
     public function toDatabase($notifiable)
     {
+        $user = $this->furlough->user;
+
         return [
             'furlough_request_id' => $this->furlough->id,
-            'message' => 'New furlough request requires approval',
+            'message' => $user->name . ' has submitted a furlough request.',
             'action_url' => route(
                 'hr.furlough.show',
                 $this->furlough->id

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff;
 use App\Acl\Acl;
 use App\Models\Contract;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\ContractService;
 use App\Http\Controllers\Controller;
@@ -32,8 +33,8 @@ class ContractController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $contract = $this->contractRepository->serverPaginationFilteringForStaff($request->all());
-            return ContractResource::collection($contract);
+            $contracts = $this->contractRepository->serverPaginationFilteringForStaff($request->all());
+            return ContractResource::collection($contracts);
         }
         return view('staff.contract.index');
     }
@@ -65,15 +66,23 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
-    public function showDetail(Request $request, Contract $contract)
+    public function showDetailPdf(Request $request, Contract $contract)
     {
-        $appendixContracts = $this->contractRepository->getAppendixContractInArrayForContract($contract, json_decode($request->appendixContracts));
+        $appendixContracts = $this->contractRepository->getAppendixContractInArrayForContract(
+            $contract,
+            json_decode($request->appendixContracts, true) ?: []
+        );
+
+        if (! $contract->contractType) {
+            return response()->json(['message' => 'Contract type not found.'], Response::HTTP_NOT_FOUND);
+        }
+
         $contractTypeContent = $this->contractService->generateContractContent($contract);
         $contractHeader  = $this->settingRepository->findByKey(SettingKey::CONTRACT_HEADER['key']);
         $contractWatermark  = $this->settingRepository->findByKey(SettingKey::CONTRACT_WATERMARK['key']);
 
         $pdf = PDF::loadView(
-            'staff.contract.show-detail',
+            'admin.contract.show-detail',
             compact(
                 'contract',
                 'contractTypeContent',

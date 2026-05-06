@@ -177,12 +177,40 @@
                     }
                 }
 
-                durationEl.addEventListener('change', toggleHalfDay);
 
-                const observer = new MutationObserver(toggleHalfDay);
+                const startInput = document.getElementById('sStartTime');
+                const endInput = document.getElementById('sEndTime');
+                const startWrapper = startInput ? (startInput.closest('.form-group') || startInput.parentElement) : null;
+                const endWrapper = endInput ? (endInput.closest('.form-group') || endInput.parentElement) : null;
+
+                function toggleStartEnd() {
+                    const val = getDurationValue();
+                    if (val === '2') {
+                        if (startWrapper) startWrapper.style.display = 'none';
+                        if (endWrapper) endWrapper.style.display = 'none';
+                        if (startInput) { startInput.value = ''; startInput.removeAttribute('required'); }
+                        if (endInput) { endInput.value = ''; endInput.removeAttribute('required'); }
+                    } else {
+                        if (startWrapper) startWrapper.style.display = '';
+                        if (endWrapper) endWrapper.style.display = '';
+                        if (startInput) startInput.setAttribute('required', 'required');
+                        if (endInput) endInput.setAttribute('required', 'required');
+                    }
+                }
+
+                durationEl.addEventListener('change', function () {
+                    toggleHalfDay();
+                    toggleStartEnd();
+                });
+
+                const observer = new MutationObserver(function () {
+                    toggleHalfDay();
+                    toggleStartEnd();
+                });
                 observer.observe(durationEl, { attributes: true, attributeFilter: ['value', 'data-value'] });
 
                 toggleHalfDay();
+                toggleStartEnd();
             });
         </script>
         
