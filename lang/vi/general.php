@@ -691,6 +691,7 @@ return [
         'is_applied_no' => 'Chưa được áp dụng',
         'is_applied_yes' => 'Đã được áp dụng',
         'calling' => 'Đang gọi API...',
+        'filter' => 'Bộ lọc',
     ],
     'selected_item' => [
         'delete' => 'Xóa phần tử được chọn',

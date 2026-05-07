@@ -689,6 +689,7 @@ return [
         'is_applied_no' => 'Not Applied',
         'is_applied_yes' => 'Applied',
         'calling' => 'Calling API...',
+        'filter' => 'Filter'
     ],
     'selected_item' => [
         'delete' => 'Delete Selected',
