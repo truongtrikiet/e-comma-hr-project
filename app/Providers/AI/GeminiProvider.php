@@ -31,12 +31,14 @@ class GeminiProvider implements AIProviderInterface
             'generationConfig' => [
                 'temperature' => 0.0,
                 'maxOutputTokens' => config('ai.max_output_tokens', 4096),
+                'responseMimeType' => 'application/json',
             ],
         ];
 
         Log::info('[GEMINI REQUEST]', [
             'profile_id' => $aiProfile->id,
-            'url' => $url,
+            'endpoint' => rtrim($aiProfile->endpoint, '/'),
+            'model' => $aiProfile->model,
             'payload_preview' => mb_substr(json_encode($payload), 0, 1000),
         ]);
 
@@ -99,18 +101,53 @@ class GeminiProvider implements AIProviderInterface
             'preview' => mb_substr($text, 0, 500),
         ]);
 
-        $decoded = json_decode($text, true);
+        $jsonText = $this->extractJsonText($text);
+        $decoded = json_decode($jsonText, true);
 
         if (! is_array($decoded)) {
-            Log::warning('[GEMINI PARSE] invalid JSON', ['error' => json_last_error_msg(), 'raw' => $text]);
+            $jsonError = json_last_error_msg();
+
+            Log::warning('[GEMINI PARSE] invalid JSON', [
+                'error' => $jsonError,
+                'raw' => $text,
+                'cleaned_preview' => mb_substr($jsonText, 0, 500),
+            ]);
 
             return [
                 'is_suitable' => false,
-                'reason' => 'Invalid JSON from Gemini: ' . json_last_error_msg(),
+                'reason' => 'Invalid JSON from Gemini: ' . $jsonError,
                 'raw' => $text,
             ];
         }
 
         return $decoded;
+    }
+
+    private function extractJsonText(string $text): string
+    {
+        $text = trim($text);
+
+        if (preg_match('/^```(?:json)?\s*(.*?)\s*```$/is', $text, $matches)) {
+            $text = trim($matches[1]);
+        }
+
+        if (str_starts_with($text, '{') || str_starts_with($text, '[')) {
+            return $text;
+        }
+
+        $objectStart = strpos($text, '{');
+        $arrayStart = strpos($text, '[');
+
+        $starts = array_filter([$objectStart, $arrayStart], fn ($position) => $position !== false);
+        if (empty($starts)) {
+            return $text;
+        }
+
+        $start = min($starts);
+        $end = strrpos($text, str_starts_with(substr($text, $start), '{') ? '}' : ']');
+
+        return $end === false
+            ? $text
+            : trim(substr($text, $start, $end - $start + 1));
     }
 }

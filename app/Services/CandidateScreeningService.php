@@ -37,15 +37,22 @@ class CandidateScreeningService
         ];
         $errors = [];
 
-        foreach ($files as $file) {
+        $batch = [];
+        $batchSize = (int) config('ai.batch_size', 10);
+
+        if (count($files) > $batchSize) {
+            foreach (array_slice($files, $batchSize) as $file) {
+                $errors[] = [
+                    'file' => method_exists($file, 'getClientOriginalName') ? $file->getClientOriginalName() : null,
+                    'message' => "Maximum {$batchSize} CVs can be scanned in one batch.",
+                    'code' => null,
+                ];
+            }
+        }
+
+        foreach (array_slice($files, 0, $batchSize) as $index => $file) {
             try {
-                $this->processOneFile(
-                    file: $file,
-                    schoolId: $schoolId,
-                    profile: $profile,
-                    positionType: $positionType,
-                    stats: $stats
-                );
+                $batch[] = $this->prepareResumeForBatch($file, $index);
             } catch (Throwable $e) {
                 $fname = method_exists($file, 'getClientOriginalName') ? $file->getClientOriginalName() : null;
                 Log::error('[AI SCAN] file failed', [
@@ -61,73 +68,138 @@ class CandidateScreeningService
             }
         }
 
-        return array_merge($stats, ['errors' => $errors]);
-    }
+        if (empty($batch)) {
+            return array_merge($stats, ['errors' => $errors]);
+        }
 
-    private function processOneFile(
-        $file,
-        int $schoolId,
-        AIProfile $profile,
-        string $positionType,
-        array &$stats
-    ): void {
-        DB::transaction(function () use (
-            $file,
-            $schoolId,
-            $profile,
-            $positionType,
-            &$stats
-        ) {
-            Log::info('[AI SCAN] start file', [
-                'file' => $file->getClientOriginalName(),
-            ]);
-
-            $path = $file->store('resumes', 'public');
-            $resumeText = $this->resumeTextService->extract($file);
-
-            if (trim($resumeText) === '') {
-                throw new RuntimeException('Resume text is empty');
-            }
-
-            $aiResult = $this->aiService->scanResume(
+        try {
+            $aiResult = $this->aiService->scanResumes(
                 profile: $profile,
-                resumeText: $resumeText,
+                resumes: array_map(fn (array $item): array => [
+                    'cv_id' => $item['cv_id'],
+                    'cv_text' => $item['resume_text'],
+                ], $batch),
                 positionType: $positionType
             );
 
-            if (isset($aiResult['raw']) && is_string($aiResult['raw'])) {
-                $decodedRaw = json_decode($aiResult['raw'], true);
-                if (json_last_error() === JSON_ERROR_NONE && isset($decodedRaw['error'])) {
-                    $err = $decodedRaw['error'];
-                    $message = $err['message'] ?? json_encode($err);
-                    $code = $err['code'] ?? 0;
-                    throw new RuntimeException(sprintf('Provider error %s: %s', $code, $message), (int)$code);
-                }
+            $this->throwIfProviderError($aiResult);
+
+            if (!isset($aiResult['results']) || !is_array($aiResult['results'])) {
+                throw new RuntimeException($aiResult['reason'] ?? 'AI batch result missing results');
             }
 
+            $resultsByCvId = collect($aiResult['results'])->keyBy('cv_id');
+
+            foreach ($batch as $item) {
+                try {
+                    $result = $resultsByCvId->get($item['cv_id']);
+
+                    if (!is_array($result)) {
+                        throw new RuntimeException('AI result missing for ' . $item['cv_id']);
+                    }
+
+                    $this->createScreeningRecord(
+                        item: $item,
+                        schoolId: $schoolId,
+                        profile: $profile,
+                        positionType: $positionType,
+                        aiResult: $result,
+                        stats: $stats
+                    );
+                } catch (Throwable $e) {
+                    Log::error('[AI SCAN] result failed', [
+                        'file' => $item['file_name'],
+                        'cv_id' => $item['cv_id'],
+                        'error' => $e->getMessage(),
+                    ]);
+
+                    $errors[] = [
+                        'file' => $item['file_name'],
+                        'message' => $e->getMessage(),
+                        'code' => $e->getCode() ?: null,
+                    ];
+                }
+            }
+        } catch (Throwable $e) {
+            Log::error('[AI SCAN] batch failed', [
+                'file_count' => count($batch),
+                'error' => $e->getMessage(),
+            ]);
+
+            foreach ($batch as $item) {
+                $errors[] = [
+                    'file' => $item['file_name'],
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode() ?: null,
+                ];
+            }
+        }
+
+        return array_merge($stats, ['errors' => $errors]);
+    }
+
+    private function prepareResumeForBatch($file, int $index): array
+    {
+        Log::info('[AI SCAN] prepare file', [
+            'file' => $file->getClientOriginalName(),
+        ]);
+
+        $path = $file->store('resumes', 'public');
+        $resumeText = $this->resumeTextService->extract($file);
+
+        if (trim($resumeText) === '') {
+            throw new RuntimeException('Resume text is empty');
+        }
+
+        return [
+            'cv_id' => 'cv_' . ($index + 1),
+            'file_name' => $file->getClientOriginalName(),
+            'resume_file_path' => $path,
+            'resume_text' => $resumeText,
+        ];
+    }
+
+    private function createScreeningRecord(
+        array $item,
+        int $schoolId,
+        AIProfile $profile,
+        string $positionType,
+        array $aiResult,
+        array &$stats
+    ): void {
+        DB::transaction(function () use (
+            $item,
+            $schoolId,
+            $profile,
+            $positionType,
+            $aiResult,
+            &$stats
+        ) {
             Log::info('[AI SCAN] AI result', [
-                'file' => $file->getClientOriginalName(),
+                'file' => $item['file_name'],
+                'cv_id' => $item['cv_id'],
                 'keys' => array_keys($aiResult),
             ]);
 
             $isSuitable = $this->normalizeIsSuitable($aiResult);
-                $candidate = data_get($aiResult, 'candidate', []);
-                $candidateName = data_get($candidate, 'name');
-                $candidateEmail = data_get($candidate, 'email');
-                $candidatePhone = data_get($candidate, 'phone') ?? data_get($candidate, 'phone_number');
+            $candidate = data_get($aiResult, 'candidate', []);
+            $candidateName = data_get($candidate, 'name');
+            $candidateEmail = data_get($candidate, 'email');
+            $candidatePhone = data_get($candidate, 'phone') ?? data_get($candidate, 'phone_number');
 
-                if (empty($candidateName) && empty($candidateEmail) && empty($candidatePhone)) {
-                    Log::warning('[AI SCAN] candidate info missing or empty', [
-                        'file' => $file->getClientOriginalName(),
-                        'ai_keys' => array_keys($aiResult),
-                    ]);
-                }
+            if (empty($candidateName) && empty($candidateEmail) && empty($candidatePhone)) {
+                Log::warning('[AI SCAN] candidate info missing or empty', [
+                    'file' => $item['file_name'],
+                    'cv_id' => $item['cv_id'],
+                    'ai_keys' => array_keys($aiResult),
+                ]);
+            }
 
             $record = CandidateScreening::create([
                 'school_id' => $schoolId,
                 'ai_profile_id' => $profile->id,
                 'position_type' => $positionType,
-                'resume_file_path' => $path,
+                'resume_file_path' => $item['resume_file_path'],
                 'candidate_name' => $candidateName,
                 'candidate_email' => $candidateEmail,
                 'candidate_phone_number' => $candidatePhone,
@@ -142,12 +214,33 @@ class CandidateScreeningService
 
             Log::info('[AI SCAN] created', [
                 'id' => $record->id,
+                'file' => $item['file_name'],
+                'cv_id' => $item['cv_id'],
                 'is_suitable' => $isSuitable,
             ]);
 
             $stats['created']++;
             $isSuitable ? $stats['passed']++ : $stats['failed']++;
         });
+    }
+
+    private function throwIfProviderError(array $aiResult): void
+    {
+        if (isset($aiResult['raw']) && is_string($aiResult['raw'])) {
+            $decodedRaw = json_decode($aiResult['raw'], true);
+
+            if (json_last_error() === JSON_ERROR_NONE && isset($decodedRaw['error'])) {
+                $err = $decodedRaw['error'];
+                $message = $err['message'] ?? json_encode($err);
+                $code = $err['code'] ?? 0;
+
+                throw new RuntimeException(sprintf('Provider error %s: %s', $code, $message), (int) $code);
+            }
+        }
+
+        if (isset($aiResult['reason']) && !isset($aiResult['results'])) {
+            throw new RuntimeException((string) $aiResult['reason']);
+        }
     }
 
     private function normalizeIsSuitable(array $aiResult): bool

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\CandidateScreening;
 
+use App\Enum\PositionTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ScanCandidateResumeRequest extends FormRequest
 {
@@ -29,12 +31,14 @@ class ScanCandidateResumeRequest extends FormRequest
             ],
             'position_type' => [
                 'required',
-                'string'
+                'string',
+                Rule::in(PositionTypeEnum::values()),
             ],
             'files' => [
                 'required',
                 'array',
-                'min:1'
+                'min:1',
+                'max:' . config('ai.batch_size', 10),
             ],
             'files.*' => [
                 'file',

@@ -5,153 +5,106 @@ return [
     'threshold' => env('AI_THRESHOLD', 95),
     'threshold_name' => env('AI_THRESHOLD_NAME', 90),
     'max_output_tokens' => env('AI_MAX_OUTPUT_TOKENS', 4096),
+    'batch_size' => env('AI_BATCH_SIZE', 10),
     'prompts' => [
         'cv_screening' => <<<PROMPT
-            You are an AI assistant integrated into a recruitment screening system
-            for Vietnamese educational institutions (schools, colleges, training centers).
-
-            Your task is to analyze a candidate CV and return structured recruitment insights
-            to support HR screening.
-
-            You DO NOT make final hiring decisions.
-            You ONLY provide professional analysis based strictly on the CV content provided.
-
-            ========================
-            INPUT DATA
-            ========================
+            Analyze one CV for a Vietnamese education recruitment system.
 
             Position type: {{position_type}}
-
-            CV content:
+            CV:
             {{cv_text}}
 
-            ========================
-            GENERAL RULES (STRICT)
-            ========================
-
-            - Use ONLY the information explicitly present in the CV.
-            - Do NOT invent, assume, or infer missing information.
-            - If a field is not clearly stated, return null.
-            - Use professional, neutral HR language.
-            - Be conservative but practical in suitability judgment.
-            - Do NOT include markdown.
-            - Do NOT include explanations outside JSON.
-            - Output MUST be valid JSON ONLY.
-
-            ========================
-            POSITION TYPES
-            ========================
-
-            - "teacher": teaching staff (primary / secondary / high school)
-            - "staff": administrative or non-teaching staff
-
-            ========================
-            CANDIDATE INFORMATION EXTRACTION
-            ========================
-
-            Extract the following ONLY if explicitly stated in the CV:
-
-            - candidate name
-            - email address
-            - phone number
-
             Rules:
-            - If not clearly found → return null
-            - Do NOT guess or reconstruct personal information
+            - Use only explicit CV content. Do not guess missing data.
+            - If unclear or absent, use null or [].
+            - "teacher" means teaching roles. Consider teaching experience, subjects, education background, school exposure.
+            - "staff" means non-teaching roles. Consider administration, HR, finance, IT, admissions, support, school operations, and transferable skills.
+            - Set is_suitable=false if the CV is too short or unclear.
+            - Return valid JSON only, no markdown.
 
-            ========================
-            SUITABILITY LOGIC
-            ========================
-
-            The candidate can be considered "suitable" if:
-
-            - Their experience or background is RELEVANT to the given position type
-            - There is NO clear evidence that they are unsuitable
-
-            If the CV is too short or unclear:
-            - Set is_suitable = false
-            - Explain clearly why in notes_for_hr
-
-            ========================
-            POSITION-SPECIFIC GUIDELINES
-            ========================
-
-            WHEN position_type = "teacher":
-
-            Consider:
-            - Teaching experience (any level)
-            - Subjects taught (if stated)
-            - Education background related to teaching
-            - School or academic environment exposure
-
-            WHEN position_type = "staff":
-
-            Consider:
-            - Experience relevant to school operations
-            - Administrative, HR, finance, IT, admissions, or support roles
-            - Transferable skills applicable to a school environment
-
-            ========================
-            OUTPUT FORMAT (STRICT)
-            ========================
-
-            Return ONLY the JSON object below.
-            All keys MUST exist.
-            If unknown, use null or empty arrays.
-
+            Use this JSON shape and replace type labels with real values:
             {
-            "position_type": "{{position_type}}",
-
-            "candidate": {
+              "position_type": "{{position_type}}",
+              "candidate": {
                 "name": "string | null",
                 "email": "string | null",
                 "phone_number": "string | null"
-            },
-
-            "is_suitable": true | false,
-
-            "recommended_roles": [
+              },
+              "is_suitable": true | false,
+              "recommended_roles": [
                 {
-                "role": "string",
-                "confidence": "high | medium | low",
-                "evidence": [
-                    "string"
-                ]
+                  "role": "string",
+                  "confidence": "high | medium | low",
+                  "evidence": ["string"]
                 }
-            ],
-
-            "experience_summary": {
+              ],
+              "experience_summary": {
                 "total_years": number | null,
-                "relevant_experience": [
-                "string"
-                ]
-            },
-
-            "promotion_potential": {
+                "relevant_experience": ["string"]
+              },
+              "promotion_potential": {
                 "is_potential_candidate": true | false | null,
-                "positive_factors": [
-                "string"
-                ],
-                "missing_or_unclear_factors": [
-                "string"
-                ]
-            },
-
-            "notes_for_hr": [
-                "string"
-            ],
-
-            "final_summary": "string"
+                "positive_factors": ["string"],
+                "missing_or_unclear_factors": ["string"]
+              },
+              "notes_for_hr": ["string"],
+              "final_summary": "string"
             }
+        PROMPT,
+        'cv_screening_batch' => <<<PROMPT
+            Analyze up to 10 CVs for a Vietnamese education recruitment system.
 
-            ========================
-            IMPORTANT FINAL CONSTRAINT
-            ========================
+            Position type for all CVs: {{position_type}}
+            CV batch JSON:
+            {{cv_batch_json}}
 
-            - ALWAYS return valid JSON.
-            - NEVER omit any key.
-            - NEVER add extra text.
-            - If information is insufficient, still return the full JSON structure with nulls or empty arrays.
+            Each input item has:
+            - cv_id: stable id that MUST be copied into the matching result
+            - cv_text: extracted CV text
+
+            Rules:
+            - Return exactly one result for every input cv_id, in the same order.
+            - Analyze each CV independently. Never mix information between CVs.
+            - Use only explicit CV content. Do not guess missing data.
+            - If unclear or absent, use null or [].
+            - "teacher" means teaching roles. Consider teaching experience, subjects, education background, school exposure.
+            - "staff" means non-teaching roles. Consider administration, HR, finance, IT, admissions, support, school operations, and transferable skills.
+            - Set is_suitable=false if a CV is too short or unclear, and explain briefly in notes_for_hr.
+            - Return valid JSON only, no markdown.
+
+            Use this JSON shape and replace type labels with real values:
+            {
+              "position_type": "{{position_type}}",
+              "results": [
+                {
+                  "cv_id": "string",
+                  "candidate": {
+                    "name": "string | null",
+                    "email": "string | null",
+                    "phone_number": "string | null"
+                  },
+                  "is_suitable": true | false,
+                  "recommended_roles": [
+                    {
+                      "role": "string",
+                      "confidence": "high | medium | low",
+                      "evidence": ["string"]
+                    }
+                  ],
+                  "experience_summary": {
+                    "total_years": number | null,
+                    "relevant_experience": ["string"]
+                  },
+                  "promotion_potential": {
+                    "is_potential_candidate": true | false | null,
+                    "positive_factors": ["string"],
+                    "missing_or_unclear_factors": ["string"]
+                  },
+                  "notes_for_hr": ["string"],
+                  "final_summary": "string"
+                }
+              ]
+            }
         PROMPT
     ],
 ];
